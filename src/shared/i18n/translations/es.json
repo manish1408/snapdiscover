@@ -1,0 +1,142 @@
+{
+  "auth": {
+    "sign_up": "Crear cuenta",
+    "sign_in": "Iniciar sesión",
+    "create_account": {
+      "title": "Crea tu cuenta",
+      "already_account": "¿Ya tienes una cuenta?"
+    },
+    "login": {
+      "title": "Ingresa a tu cuenta",
+      "forgot_password": "Olvide la contraseña"
+    },
+    "forgot_password": {
+      "title": "Olvide mi contraseña",
+      "description": "Por favor, introduzca la dirección de correo electrónico asociada a su cuenta."
+    },
+    "otp_code": {
+      "title": "Ingresa el codigo otp",
+      "description": "Se ha enviado un código de 4 dígitos a"
+    }
+  },
+  "home": {
+    "special_offers": "Ofertas especiales",
+    "most_popular": "Populares",
+    "favorites": {
+      "title": "Favoritos",
+      "empty_title": "Sin favoritos",
+      "empty_description": "Todavía no tienes una lista de plantas favoritas"
+    }
+  },
+  "list_plant": {
+    "title": "Plantas disponibles"
+  },
+  "cart": {
+    "title": "Mi carrito",
+    "remove_cart": "Eliminar del carrito"
+  },
+  "checkout": {
+    "title": "Pago",
+    "new_address": "Agregar dirección",
+    "confirm_address": "Confirmar dirección",
+    "amount": "Cantidad",
+    "shipping": "Envio",
+    "total": "Total",
+    "select_shipping": "Seleccionar envio"
+  },
+  "orders": {
+    "title": "Ordenes",
+    "progress": "En proceso",
+    "success": "Completados",
+    "canceled": "Cancelados",
+    "track_order": "Seguimiento"
+  },
+  "tracking": {
+    "title": "Seguimiento",
+    "estimate_delivery": "Entrega estimada",
+    "shipment": "Envió",
+    "packet_delivery": "Paquete en entrega"
+  },
+  "general": {
+    "typing_name": "Escribe tu nombre",
+    "typing_password": "Escribe tu contraseña",
+    "continue": "Siguiente",
+    "help": "Ayuda",
+    "email": "Correo electronico",
+    "password": "Contraseña",
+    "full_name": "Nombre completo",
+    "home": "Inicio",
+    "remember": "Recuerdame",
+    "submit": "Enviar",
+    "reset:": "Reiniciar",
+    "search": "Buscar",
+    "notifications": "Notificaciones",
+    "plant": "Plantas",
+    "sort": "Ordenar",
+    "description": "Descripción",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "buy_now": "Comprar ahora",
+    "cancel": "Cancelar",
+    "yes_remove": "Si remover",
+    "address": "Dirección",
+    "change": "Cambiar",
+    "chose_shipping": "Elegir Envio",
+    "shipping_type": "Escoger metodo de envio",
+    "chose_payment_method": "Escoger metodo de pago",
+    "method_type": "Escoger medoto de pago",
+    "language": "Lenguaje",
+    "login": "Iniciar sesión",
+    "sign_up": "Crear cuenta",
+    "welcome_message": "Empecemos a crecer: ¡comience su viaje vegetal con nuestra aplicación!",
+    "buy": "Comprar"
+  },
+  "newPayment": {
+    "title": "Nuevo método de pago",
+    "cardHolderName": "Titular de la tarjeta",
+    "expiryDate": "Fecha de expiracion",
+    "cardNumber": "No. de la tarjeta",
+    "cardName": "Nombre de la tarjeta",
+    "cvv": "CVV",
+    "button": "Añadir nuevo método"
+  },
+  "payments": {
+    "button": "Agregar metodo de pago",
+    "title": "Medios de Pago",
+    "paymentBox": {
+      "button": "Cambiar"
+    }
+  },
+  "vouchers": {
+    "title": "Vouchers",
+    "button": "Nuevo Cupón",
+    "couponBox": {
+      "couponCode": "Código del cupón:",
+      "date": "Válido hasta",
+      "transaction": "Valor Mínimo"
+    }
+  },
+  "newAddress": {
+    "title": "Add New Address",
+    "subTitle": "Address Details",
+    "name": "Name Address",
+    "address": "Address",
+    "namePlaceholder": "Home",
+    "addressPlaceholder": "Snow Street, San Francisco",
+    "checkboxText": "Make this the default address",
+    "button": "Add"
+  },
+  "profile": {
+    "title": "Perfil",
+    "voucher": "Facturas",
+    "address": "Direcciones",
+    "payment_method": "Metodos de pago",
+    "dark_mode": "Modo oscuro",
+    "logout": "Cerrar sesión",
+    "help_center": "Centro de ayuda",
+    "general": "General",
+    "account_settings": "Ajustes de cuenta",
+    "app_settings": "Ajustes de app",
+    "support": "Soporte"
+  }
+}

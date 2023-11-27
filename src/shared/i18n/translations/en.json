@@ -1,0 +1,142 @@
+{
+  "auth": {
+    "sign_up": "Sign Up",
+    "sign_in": "Sign In",
+    "create_account": {
+      "title": "Create your Account",
+      "already_account": "already have an account?"
+    },
+    "login": {
+      "title": "Login Your Account",
+      "forgot_password": "Forgot Password"
+    },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "description": "Don't worry! it Happens. please enter the email associated with your account"
+    },
+    "otp_code": {
+      "title": "Enter Otp Code",
+      "description": "An 4 digits code has been send to"
+    }
+  },
+  "home": {
+    "special_offers": "Special Offers",
+    "most_popular": "Most Popular",
+    "favorites": {
+      "title": "Favorites",
+      "empty_title": "Not Favorite yet",
+      "empty_description": "You don't have a favorite plant list yet"
+    }
+  },
+  "list_plant": {
+    "title": "Available Plant"
+  },
+  "cart": {
+    "title": "My Cart",
+    "remove_cart": "Remove From Cart"
+  },
+  "checkout": {
+    "title": "Check Out",
+    "new_address": "Add new address",
+    "confirm_address": "Confirm address",
+    "amount": "Amount",
+    "shipping": "Shipping",
+    "total": "Total",
+    "select_shipping": "Select shipping"
+  },
+  "orders": {
+    "title": "My Orders",
+    "progress": "On Progress",
+    "success": "Success",
+    "canceled": "Canceled",
+    "track_order": "Track Order"
+  },
+  "tracking": {
+    "title": "Tracking",
+    "estimate_delivery": "Estimate Delivery",
+    "shipment": "Shipment",
+    "packet_delivery": "Packet In Delivery"
+  },
+  "general": {
+    "typing_name": "Typing your name",
+    "typing_password": "Typing your password",
+    "continue": "Continue",
+    "help": "Help",
+    "email": "Email address",
+    "password": "Password",
+    "full_name": "Full name",
+    "home": "Home",
+    "remember": "Remember me",
+    "submit": "Submit",
+    "reset": "Reset",
+    "search": "Search",
+    "notifications": "Notifications",
+    "plant": "Plant",
+    "sort": "Sort",
+    "description": "Description",
+    "quantity": "Quantity",
+    "price": "Price",
+    "buy_now": "Buy Now",
+    "cancel": "Cancel",
+    "yes_remove": "Yes remove",
+    "address": "Address",
+    "change": "Change",
+    "chose_shipping": "Chose Shipping",
+    "shipping_type": "Chose Shipping Type",
+    "chose_payment_method": "Chose payment method",
+    "method_type": "Chose Payment Type",
+    "language": "Language",
+    "login": "Login",
+    "sign_up": "Sign Up",
+    "welcome_message": "Let's Get Growing: Start Your Plant Journey with Our App!",
+    "buy": "Buy"
+  },
+  "newPayment": {
+    "title": "Add New Payment",
+    "cardHolderName": "Card Holder Name",
+    "expiryDate": "Expiry Date",
+    "cardNumber": "Card Number",
+    "cardName": "Card Name",
+    "cvv": "CVV",
+    "button": "Add New Payment"
+  },
+  "payments": {
+    "title": "Payments",
+    "button": "Add New Payment",
+    "paymentBox": {
+      "button": "Change"
+    }
+  },
+  "vouchers": {
+    "title": "Vouchers",
+    "button": "Add New Voucher",
+    "couponBox": {
+      "couponCode": "Your coupon code:",
+      "date": "Valid until",
+      "transaction": "Min. Transaction"
+    }
+  },
+  "newAddress": {
+    "title": "Add New Address",
+    "subTitle": "Address Details",
+    "name": "Name Address",
+    "address": "Address",
+    "namePlaceholder": "Home",
+    "addressPlaceholder": "Snow Street, San Francisco",
+    "checkboxText": "Make this the default address",
+    "button": "Add"
+  },
+  "profile": {
+    "title": "Profile",
+    "voucher": "Voucher",
+    "address": "Address",
+    "payment_method": "Payment Methods",
+    "dark_mode": "Dark Mode",
+    "logout": "Logout",
+    "help_center": "Help Center",
+    "general": "General",
+    "account_settings": "Account Settings",
+    "app_settings": "App Settings",
+    "support": "Support"
+  }
+}
