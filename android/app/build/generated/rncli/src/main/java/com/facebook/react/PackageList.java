@@ -11,7 +11,18 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-
+// @react-native-async-storage/async-storage
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+// react-native-gesture-handler
+import com.swmansion.gesturehandler.RNGestureHandlerPackage;
+// react-native-restart
+import com.reactnativerestart.RestartPackage;
+// react-native-safe-area-context
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+// react-native-screens
+import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-vision-camera
+import com.mrousavy.camera.CameraPackage;
 
 public class PackageList {
   private Application application;
@@ -56,7 +67,13 @@ public class PackageList {
 
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
-      new MainReactPackage(mConfig)
+      new MainReactPackage(mConfig),
+      new AsyncStoragePackage(),
+      new RNGestureHandlerPackage(),
+      new RestartPackage(),
+      new SafeAreaContextPackage(),
+      new RNScreensPackage(),
+      new CameraPackage()
     ));
   }
 }
