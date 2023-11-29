@@ -27,6 +27,7 @@ import Language from '@/modules/private/profile/sections/language';
 import Conversation from '@/modules/private/conversation';
 import Chats from '@/modules/private/chats';
 import DetailProduct from '@/modules/private/detailProduct';
+import LocationPermission from '@/modules/auth/locationPermission';
 
 export type RootStackParamList = {
 	login: undefined;
@@ -52,6 +53,7 @@ export type RootStackParamList = {
 	conversation: undefined;
 	chats: undefined;
 	detailProduct: undefined;
+	locationPermission: undefined;
 };
 export type RouteItem = {
 	path: keyof RootStackParamList;
@@ -176,6 +178,11 @@ const RoutesStack: RouteItem[] = [
 	{
 		path: 'detailProduct',
 		component: DetailProduct,
+		private: true,
+	},
+	{
+		path: 'locationPermission',
+		component: LocationPermission,
 		private: true,
 	},
 ];

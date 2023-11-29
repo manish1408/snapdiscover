@@ -104,7 +104,7 @@ export default function DetailProduct() {
 
 						<View style={{ flex: 1 }}>
 							{product.flavourNotes.map((chunk, idx) => (
-								<Typography style={styles.flavour} translate={false}>
+								<Typography key={idx} style={styles.flavour} translate={false}>
 									{chunk}
 								</Typography>
 							))}

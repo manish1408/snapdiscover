@@ -5648,10 +5648,10 @@ react-native-screens@^3.23.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-vision-camera@^3.6.11:
-  version "3.6.11"
-  resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-3.6.11.tgz"
-  integrity sha512-NDmOEAFeFPbG+ypziv1SL/3I4P3jXabF7MNdcHE3qXvyAw/WxlXDAPLrnK3njZ96tDem8y31jAtTreVQ3racew==
+react-native-vision-camera@^3.6.12:
+  version "3.6.12"
+  resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-3.6.12.tgz"
+  integrity sha512-+AmBmuy1toNpyZvHGyE5kdrJGP3b1LwfFBqrwoW8VG1NJPzO5bXHf7XC2vVdGcEZf3TxBkGNPO0sy7B9j7t3ww==
 
 react-native@0.72.3:
   version "0.72.3"

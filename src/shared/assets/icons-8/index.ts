@@ -4,3 +4,4 @@ export { default as user } from './user.png';
 export { default as camera100 } from './camera-100.png';
 export { default as share } from './share.png';
 export { default as cash } from './cash.png';
+export { default as arrowBack } from './arrow-back.png';

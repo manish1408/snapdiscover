@@ -160,3 +160,5 @@ vendor/
 
 /android/app/build
 /ios/Pods/
+
+/android/.gradle
