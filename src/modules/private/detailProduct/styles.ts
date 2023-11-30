@@ -112,7 +112,8 @@ export const _styles = (isDarkMode: boolean) =>
 			marginTop: normalize(10),
 			marginBottom: normalize(20),
 			flexDirection: 'row',
-			alignItems: 'center',
-			justifyContent: 'space-between',
+			// alignItems: 'center',
+			// justifyContent: 'space-between',
+			// gap: 10,
 		},
 	});

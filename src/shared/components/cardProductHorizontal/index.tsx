@@ -17,7 +17,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 	const navigation = useNavigation<NavigationProps>();
 
 	function navigateTo() {
-		navigation.navigate('detailProduct', product);
+		navigation.navigate('detailProduct', { ...product });
 	}
 	return (
 		<TouchableOpacity onPress={navigateTo} style={styles.container}>

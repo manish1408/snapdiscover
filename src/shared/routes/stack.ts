@@ -28,8 +28,10 @@ import Conversation from '@/modules/private/conversation';
 import Chats from '@/modules/private/chats';
 import DetailProduct from '@/modules/private/detailProduct';
 import LocationPermission from '@/modules/auth/locationPermission';
+import WelcomeModal from '@/modules/auth/welcomeModal';
 
 export type RootStackParamList = {
+	tab: undefined;
 	login: undefined;
 	createAccount: undefined;
 	enterOtp: undefined;
@@ -52,8 +54,33 @@ export type RootStackParamList = {
 	language: undefined;
 	conversation: undefined;
 	chats: undefined;
-	detailProduct: undefined;
+	detailProduct: {
+		id: string;
+		image: string;
+		name: string;
+		score: number;
+		date: string;
+		isVerified: boolean;
+		points: number;
+		isFavourite: boolean;
+		rating: number;
+		totalRatings: number;
+		description: string;
+		tasteProfile: TasteProfile;
+		ratingSource: RatingSource[];
+		abv: number;
+		ibu: number;
+		ingredients: string[];
+		reviews: Review[];
+		foodPairing: string[];
+		servingsSuggestions: string;
+		flavourNotes: string[];
+		address: string;
+		website: string;
+		soldBy: string;
+	};
 	locationPermission: undefined;
+	welcomeModal: undefined;
 };
 export type RouteItem = {
 	path: keyof RootStackParamList;
@@ -63,7 +90,22 @@ export type RouteItem = {
 export type RouteProps<T extends keyof RootStackParamList> = RouteProp<RootStackParamList, T>;
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
+export interface TasteProfile {
+	bitterness: number;
+	sweetness: number;
+	citrus: number;
+}
 
+export interface RatingSource {
+	source: string;
+	rating: number;
+	totalRatings: number;
+}
+
+export interface Review {
+	user: string;
+	comment: string;
+}
 const RoutesStack: RouteItem[] = [
 	{
 		path: 'login',
@@ -183,7 +225,12 @@ const RoutesStack: RouteItem[] = [
 	{
 		path: 'locationPermission',
 		component: LocationPermission,
-		private: true,
+		private: false,
+	},
+	{
+		path: 'welcomeModal',
+		component: WelcomeModal,
+		private: false,
 	},
 ];
 export default RoutesStack;

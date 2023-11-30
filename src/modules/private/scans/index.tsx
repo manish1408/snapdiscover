@@ -16,6 +16,7 @@ import { NavigationProps } from '@/shared/routes/stack';
 import useDarkMode from '@/shared/hooks/useDarkMode';
 import { semantic } from '@/shared/constants/colors';
 import { MOCKUP_PRODUCTS } from '@/db/index';
+import WelcomeModal from './components/WelcomeModal';
 
 export default function Scans() {
 	const { isDarkMode } = useDarkMode();
@@ -40,6 +41,7 @@ export default function Scans() {
 	return (
 		<View style={{ flex: 1 }}>
 			<Wrapper>
+				<WelcomeModal />
 				<View style={{ flex: 1, paddingHorizontal: normalize(24) }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<HeaderWithIcon icon={scan} title="scans.title" />

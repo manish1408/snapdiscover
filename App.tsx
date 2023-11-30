@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
-import { ScrollView, StyleSheet, useColorScheme, View } from 'react-native';
+import { Alert, Linking, ScrollView, StyleSheet, useColorScheme, View } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,9 +21,12 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import useEffectOnce from '@/shared/hooks/useEffectOnce';
 import { normalize, storage } from '@/shared/helpers';
 import i18n from 'i18next';
-import { PermissionsAndroid, Text, TouchableOpacity } from 'react-native';
+import { PermissionsAndroid, Text, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import { Button } from '@/shared/components/buttons';
 import Typography from '@/shared/components/typography';
+import { request, PERMISSIONS, requestMultiple, RESULTS, checkMultiple } from 'react-native-permissions';
+import SplashScreen from 'react-native-splash-screen';
+import { ResultMap } from 'react-native-permissions/dist/typescript/results';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -79,6 +82,9 @@ function TabNavigation() {
 }
 
 function App(): JSX.Element {
+	useEffect(() => {
+		SplashScreen.hide();
+	}, []);
 	async function getTranslate() {
 		const ing = await storage.get('language');
 		console.log('ing', ing);
@@ -91,80 +97,110 @@ function App(): JSX.Element {
 	useEffectOnce(() => {
 		getTranslate().catch();
 	}, []);
-
-	const [isLocationPermissionGranted, setLocationPermissionGranted] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [locationPermission, setLocationPermission] = useState<typeof ResultMap | null>(null);
 
 	useEffect(() => {
-		requestLocationPermission();
+		checkPermissionStatus();
 	}, []);
 
-	async function requestLocationPermission() {
-		try {
-			const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-				title: 'Snap Discover Permission',
-				message: 'Snap Discover needs access to your location ',
-				buttonNeutral: 'Ask Me Later',
-				buttonNegative: 'Cancel',
-				buttonPositive: 'OK',
+	function checkPermissionStatus() {
+		const locationPermissionsPlatform = Platform.select({
+			ios: [PERMISSIONS.IOS.LOCATION_ALWAYS, PERMISSIONS.IOS.LOCATION_WHEN_IN_USE],
+			android: [PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION, PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION],
+		});
+
+		requestMultiple(locationPermissionsPlatform)
+			.then((result) => {
+				console.log(result);
+
+				if (
+					(Platform.OS === 'ios' &&
+						(result[PERMISSIONS.IOS.LOCATION_ALWAYS] === RESULTS.GRANTED || result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === RESULTS.GRANTED)) ||
+					(Platform.OS === 'android' &&
+						result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === RESULTS.GRANTED &&
+						result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.GRANTED)
+				) {
+					console.log('Location permissions granted');
+					setLocationPermission(RESULTS.GRANTED);
+				} else if (
+					(Platform.OS === 'ios' &&
+						(result[PERMISSIONS.IOS.LOCATION_ALWAYS] === RESULTS.BLOCKED || result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === RESULTS.BLOCKED)) ||
+					(Platform.OS === 'android' &&
+						(result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === RESULTS.BLOCKED ||
+							result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.BLOCKED))
+				) {
+					console.log('Location permissions blocked');
+					setLocationPermission(RESULTS.BLOCKED);
+				} else {
+					console.log('Location permissions denied');
+					setLocationPermission(RESULTS.DENIED);
+				}
+			})
+			.catch((error) => {
+				console.error('Permission request error:', error);
 			});
-			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-				console.log("You've access for the location");
-				setLocationPermissionGranted(true);
-			} else {
-				console.log("You don't have access for the location");
-				setLocationPermissionGranted(false);
-			}
-		} catch (err) {
-			console.warn(err);
-		}
+		setLoading(false);
 	}
 
-	return (
+	function handleRetryPermission() {
+		if (locationPermission === RESULTS.BLOCKED) {
+			Alert.alert('Permission Blocked', 'Location permissions are blocked. Please go to the app settings and enable location permissions.', [
+				{ text: 'OK', onPress: () => Linking.openSettings() },
+			]);
+		} else {
+			setLocationPermission(null);
+			checkPermissionStatus();
+		}
+	}
+	return locationPermission === RESULTS.GRANTED ? (
 		<NavigationContainer>
-			{isLocationPermissionGranted ? (
-				<Stack.Navigator initialRouteName={'welcome'} screenOptions={{ headerShown: false }}>
-					<Stack.Screen name="tab" component={TabNavigation} />
-					{RoutesStack.map((route) => {
-						return <Stack.Screen key={route.path} name={route.path} component={route.component} />;
-					})}
-				</Stack.Navigator>
-			) : (
-				<View
-					style={{
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center',
-						alignSelf: 'center',
-						padding: normalize(20),
-					}}
-				>
-					<Typography
-						style={{
-							fontWeight: '500',
-							fontSize: normalize(22),
-							marginBottom: normalize(10),
-						}}
-					>
-						Please grant location permission to continue
-					</Typography>
-					<TouchableOpacity
-						style={{
-							borderColor: '#EEEEEE',
-							borderWidth: 1,
-							paddingHorizontal: normalize(20),
-							paddingVertical: normalize(12),
-							backgroundColor: '#EEEEEE',
-							borderRadius: normalize(20),
-						}}
-						onPress={requestLocationPermission}
-					>
-						<Text style={{ color: '#000000' }}>Grant Permission</Text>
-					</TouchableOpacity>
-				</View>
-			)}
+			<Stack.Navigator initialRouteName={'tab'} screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="tab" component={TabNavigation} />
+				{RoutesStack.map((route) => {
+					return <Stack.Screen key={route.path} name={route.path} component={route.component} />;
+				})}
+			</Stack.Navigator>
 		</NavigationContainer>
+	) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
+		<View
+			style={{
+				height: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				alignSelf: 'center',
+				padding: normalize(20),
+			}}
+		>
+			<Typography
+				style={{
+					fontWeight: '500',
+					fontSize: normalize(22),
+					marginBottom: normalize(10),
+				}}
+			>
+				Please grant location permission to continue
+			</Typography>
+			<TouchableOpacity
+				style={{
+					borderColor: '#EEEEEE',
+					borderWidth: 1,
+					paddingHorizontal: normalize(20),
+					paddingVertical: normalize(12),
+					backgroundColor: '#EEEEEE',
+					borderRadius: normalize(20),
+				}}
+				onPress={handleRetryPermission}
+			>
+				<Text style={{ color: '#000000' }}>Grant Permission</Text>
+			</TouchableOpacity>
+		</View>
+	) : (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<ActivityIndicator />
+		</View>
 	);
 }
 

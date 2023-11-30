@@ -7,7 +7,7 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import Typography from '@/shared/components/typography';
 import Icon from '@/shared/components/icon';
 import { star, shippingCart, shoppingBag } from '@/shared/assets/icons';
-import { share } from '@/shared/assets/icons-8';
+import { share, starFilled } from '@/shared/assets/icons-8';
 import Counter from '@/shared/components/counter';
 import { currencyType } from '@/shared/constants/global';
 import { Button } from '@/shared/components/buttons';
@@ -19,14 +19,15 @@ export default function DetailProduct() {
 	const { isDarkMode } = useDarkMode();
 	const styles = _styles(isDarkMode);
 	const route = useRoute();
+	console.log(route.params);
 	const product = { ...route.params };
 
 	return (
 		<Wrapper>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-				<Header title={product.name} />
+				<Header title={product?.name} />
 				<View style={styles.containerImage}>
-					<Image resizeMode="contain" style={styles.image} source={product.image} />
+					<Image resizeMode="contain" style={styles.image} source={product?.image} />
 				</View>
 
 				<View style={styles.containerName}>
@@ -40,25 +41,25 @@ export default function DetailProduct() {
 
 				<View style={styles.containerCantSold}>
 					<View style={styles.sold}>
-						<Typography translate={false}>{product.soldBy}</Typography>
+						<Typography translate={false}>{product?.soldBy}</Typography>
 						<View style={styles.space} />
 						{/* <Typography>Sold</Typography> */}
 					</View>
 					<View style={styles.separator} />
 					<TouchableOpacity onPress={() => navigate('reviews')} style={styles.row}>
-						<Icon customStyles={styles.sizeStar} icon={star} />
+						<Icon customStyles={styles.sizeStar} icon={starFilled} />
 						<View style={styles.space} />
 						<View style={styles.space} />
-						<Typography translate={false}>{product.rating}</Typography>
+						<Typography translate={false}>{product?.rating}</Typography>
 						<View style={styles.space} />
-						<Typography translate={false}> ({product.totalRatings}</Typography>
+						<Typography translate={false}> ({product?.totalRatings}</Typography>
 						<View style={styles.space} />
 						<Typography> Ratings)</Typography>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Ratings</Typography>
-					{product.ratingSource.map((chunk, idx) => (
+					{product?.ratingSource?.map((chunk, idx) => (
 						<View key={idx} style={styles.containerName}>
 							<View style={{ flex: 1 }}>
 								<Typography style={styles.source}>{chunk.source}</Typography>
@@ -80,19 +81,19 @@ export default function DetailProduct() {
 						<View>
 							<Typography translate={false}>Bitterness</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product.tasteProfile.bitterness}/5
+								{product?.tasteProfile?.bitterness}/5
 							</Typography>
 						</View>
 						<View>
 							<Typography translate={false}>Sweetness</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product.tasteProfile.sweetness}/5
+								{product?.tasteProfile?.sweetness}/5
 							</Typography>
 						</View>
 						<View>
 							<Typography translate={false}>Citrus</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product.tasteProfile.citrus}/5
+								{product?.tasteProfile?.citrus}/5
 							</Typography>
 						</View>
 					</View>
@@ -103,7 +104,7 @@ export default function DetailProduct() {
 						</View>
 
 						<View style={{ flex: 1 }}>
-							{product.flavourNotes.map((chunk, idx) => (
+							{product?.flavourNotes?.map((chunk, idx) => (
 								<Typography key={idx} style={styles.flavour} translate={false}>
 									{chunk}
 								</Typography>
@@ -115,7 +116,7 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>{'general.description'}</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product.description}
+						{product?.description}
 					</Typography>
 				</View>
 
@@ -123,25 +124,25 @@ export default function DetailProduct() {
 					<View>
 						<Typography translate={false}>ABV</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product.abv}%
+							{product?.abv}%
 						</Typography>
 					</View>
 					<View>
 						<Typography translate={false}>IBU</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product.ibu}%
+							{product?.ibu}%
 						</Typography>
 					</View>
 					<View>
 						<Typography translate={false}>Ingredients</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product.ingredients.join(', ')}
+							{product?.ingredients?.join(', ')}
 						</Typography>
 					</View>
 				</View>
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>User Reviews</Typography>
-					{product.reviews.map((chunk, idx) => (
+					{product?.reviews?.map((chunk, idx) => (
 						<Typography key={idx} style={styles.review} translate={false}>
 							"{chunk.comment}" - {chunk.user}
 						</Typography>
@@ -151,14 +152,14 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>Food Pairing</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product.foodPairing.join(', ')}
+						{product?.foodPairing?.join(', ')}
 					</Typography>
 				</View>
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Servings Suggestions</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product.servingsSuggestions}
+						{product?.servingsSuggestions}
 					</Typography>
 				</View>
 				<View style={styles.containerDescription}>
@@ -175,16 +176,16 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>Visit Brewery</Typography>
 
 					<View style={styles.containerAddress}>
-						<View>
+						<View style={{ width: '50%' }}>
 							<Typography style={styles.source}>Address</Typography>
 							<Typography style={styles.description} translate={false}>
-								{product.address}
+								{product?.address}
 							</Typography>
 						</View>
-						<View>
+						<View style={{ width: '50%' }}>
 							<Typography style={styles.source}>Website</Typography>
 							<Typography style={styles.description} translate={false}>
-								{product.website}
+								{product?.website}
 							</Typography>
 						</View>
 					</View>

@@ -5,3 +5,5 @@ export { default as camera100 } from './camera-100.png';
 export { default as share } from './share.png';
 export { default as cash } from './cash.png';
 export { default as arrowBack } from './arrow-back.png';
+export { default as starFilled } from './star-filled.png';
+export { default as star } from './star.png';

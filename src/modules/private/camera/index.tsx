@@ -18,6 +18,7 @@ import { semantic } from '@/shared/constants/colors';
 import { MOCKUP_PRODUCTS } from '@/db/index';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
 import Icon from '@/shared/components/icon';
+
 export default function CameraScreen() {
 	const [openModal, setOpenModal] = useState(false);
 	const [found, setFound] = useState(false);
@@ -48,8 +49,20 @@ export default function CameraScreen() {
 		setUpload(true);
 		setTimeout(() => {
 			setUpload(false);
-			setFound(true);
+			let isFound = true;
+			if (isFound) {
+				setFound(isFound);
+				navigateTo();
+			}
 		}, 2000);
+	}
+
+	const navigation = useNavigation<NavigationProps>();
+
+	function navigateTo() {
+		const product = MOCKUP_PRODUCTS[0];
+		console.log(product);
+		navigation.navigate('detailProduct', { ...product });
 	}
 
 	if (device === null) return <ActivityIndicator />;
