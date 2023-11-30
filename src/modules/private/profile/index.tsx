@@ -1,5 +1,5 @@
-import { arrowBack, dots, edit, eyeFilled, help, location, logout, notification, order, security, vocher, walletFilled } from '@/shared/assets/icons';
-import { user } from '@/shared/assets/icons-8';
+import { arrowBack, dots, eyeFilled, logout, notification, order, security, vocher, walletFilled } from '@/shared/assets/icons';
+import { user, terms, privacy, help, location, language, edit, arrowRight } from '@/shared/assets/icons-8';
 import Icon from '@/shared/components/icon';
 import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
@@ -72,7 +72,7 @@ const Profile = () => {
 					</TouchableOpacity>
 				</View>
 
-				<Section
+				{/* <Section
 					title="profile.general"
 					elements={[
 						{
@@ -81,7 +81,7 @@ const Profile = () => {
 							onPress: () => navigate('vouchers'),
 						},
 					]}
-				/>
+				/> */}
 
 				<Section
 					title="profile.account_settings"
@@ -91,25 +91,25 @@ const Profile = () => {
 							leftIcon: <Icon icon={location} />,
 							onPress: () => toggleModal(),
 						},
-						{
-							name: 'profile.payment_method',
-							leftIcon: <Icon icon={walletFilled} />,
-							onPress: () => navigate('payments'),
-						},
-						{
-							name: 'profile.dark_mode',
-							leftIcon: <Icon icon={eyeFilled} />,
-							rightElement: (
-								<Toggle
-									isEnabled={toggleDarkMode || isDarkMode}
-									setIsEnabled={(newValue) => {
-										setToggleDarkMode(newValue);
-										changeColorScheme().catch();
-									}}
-								/>
-							),
-						},
-						{ name: 'profile.logout', leftIcon: <Icon icon={logout} /> },
+						// {
+						// 	name: 'profile.payment_method',
+						// 	leftIcon: <Icon icon={walletFilled} />,
+						// 	onPress: () => navigate('payments'),
+						// },
+						// {
+						// 	name: 'profile.dark_mode',
+						// 	leftIcon: <Icon icon={eyeFilled} />,
+						// 	rightElement: (
+						// 		<Toggle
+						// 			isEnabled={toggleDarkMode || isDarkMode}
+						// 			setIsEnabled={(newValue) => {
+						// 				setToggleDarkMode(newValue);
+						// 				changeColorScheme().catch();
+						// 			}}
+						// 		/>
+						// 	),
+						// },
+						// { name: 'profile.logout', leftIcon: <Icon icon={logout} /> },
 					]}
 				/>
 
@@ -118,7 +118,7 @@ const Profile = () => {
 					elements={[
 						{
 							name: 'general.language',
-							leftIcon: <Icon icon={order} />,
+							leftIcon: <Icon icon={language} />,
 							onPress: () => navigate('language'),
 						},
 					]}
@@ -131,6 +131,16 @@ const Profile = () => {
 							name: 'profile.help_center',
 							leftIcon: <Icon icon={help} />,
 							onPress: () => navigate('chats'),
+						},
+						{
+							name: 'Terms of Service',
+							leftIcon: <Icon icon={terms} />,
+							onPress: () => navigate('terms'),
+						},
+						{
+							name: 'Privacy',
+							leftIcon: <Icon icon={privacy} />,
+							onPress: () => navigate('privacy'),
 						},
 					]}
 				/>
