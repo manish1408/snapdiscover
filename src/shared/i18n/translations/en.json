@@ -144,5 +144,8 @@
 	},
 	"favourites": {
 		"title": "Favourites"
+	},
+	"earn": {
+		"title": "Earn"
 	}
 }

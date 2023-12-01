@@ -7,19 +7,20 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import Typography from '@/shared/components/typography';
 import Icon from '@/shared/components/icon';
 import { star, shippingCart, shoppingBag } from '@/shared/assets/icons';
-import { share, starFilled } from '@/shared/assets/icons-8';
+import { share, starYellowFilled } from '@/shared/assets/icons-8';
 import Counter from '@/shared/components/counter';
 import { currencyType } from '@/shared/constants/global';
 import { Button } from '@/shared/components/buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationProps } from '@/shared/routes/stack';
+import RelatedProduct from './components/relatedProduct';
 
 export default function DetailProduct() {
 	const { navigate } = useNavigation<NavigationProps>();
 	const { isDarkMode } = useDarkMode();
 	const styles = _styles(isDarkMode);
 	const route = useRoute();
-	console.log(route.params);
+	// console.log(route.params);
 	const product = { ...route.params };
 
 	return (
@@ -47,7 +48,7 @@ export default function DetailProduct() {
 					</View>
 					<View style={styles.separator} />
 					<TouchableOpacity onPress={() => navigate('reviews')} style={styles.row}>
-						<Icon customStyles={styles.sizeStar} icon={starFilled} />
+						<Icon customStyles={styles.sizeStar} icon={starYellowFilled} />
 						<View style={styles.space} />
 						<View style={styles.space} />
 						<Typography translate={false}>{product?.rating}</Typography>
@@ -148,6 +149,7 @@ export default function DetailProduct() {
 						</Typography>
 					))}
 				</View>
+
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Food Pairing</Typography>
 
@@ -161,6 +163,10 @@ export default function DetailProduct() {
 					<Typography style={styles.description} translate={false}>
 						{product?.servingsSuggestions}
 					</Typography>
+				</View>
+				<View style={styles.containerDescription}>
+					<Typography style={styles.descriptionTitle}>Related Products</Typography>
+					<RelatedProduct />
 				</View>
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Share this with friends</Typography>

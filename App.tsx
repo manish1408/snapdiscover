@@ -27,6 +27,7 @@ import Typography from '@/shared/components/typography';
 import { request, PERMISSIONS, requestMultiple, RESULTS, checkMultiple } from 'react-native-permissions';
 import SplashScreen from 'react-native-splash-screen';
 import { ResultMap } from 'react-native-permissions/dist/typescript/results';
+import { GrantLocation } from '@/shared/components/grantLocation';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -44,10 +45,11 @@ function TabNavigation() {
 							backgroundColor: isDarkMode ? semantic.background.dark.d500 : semantic.background.white.w500,
 						},
 						tabBarIcon: ({ focused }) => {
-							const iconStyle =
-								route.name === 'camera'
-									? { tintColor: focused ? palette.main.p500 : semantic.text.grey, width: 30, height: 30 }
-									: { tintColor: focused ? palette.main.p500 : semantic.text.grey };
+							// const iconStyle =
+							// 	route.name === 'camera'
+							// 		? { tintColor: focused ? palette.main.p500 : semantic.text.grey, width: 30, height: 30 }
+							// 		: { tintColor: focused ? palette.main.p500 : semantic.text.grey };
+							const iconStyle = route.name === 'camera' ? { width: 30, height: 30 } : {};
 							const wrapStyle =
 								route.name === 'camera'
 									? {
@@ -67,7 +69,7 @@ function TabNavigation() {
 
 							return (
 								<View style={wrapStyle}>
-									<Icon customStyles={iconStyle} icon={route.icon} />
+									<Icon customStyles={iconStyle} icon={focused ? route.activeIcon : route.icon} />
 								</View>
 							);
 						},
@@ -163,40 +165,7 @@ function App(): JSX.Element {
 			</Stack.Navigator>
 		</NavigationContainer>
 	) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
-		<View
-			style={{
-				height: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-				alignSelf: 'center',
-				padding: normalize(20),
-			}}
-		>
-			<Typography
-				style={{
-					fontWeight: '500',
-					fontSize: normalize(22),
-					marginBottom: normalize(10),
-				}}
-			>
-				Please grant location permission to continue
-			</Typography>
-			<TouchableOpacity
-				style={{
-					borderColor: '#EEEEEE',
-					borderWidth: 1,
-					paddingHorizontal: normalize(20),
-					paddingVertical: normalize(12),
-					backgroundColor: '#EEEEEE',
-					borderRadius: normalize(20),
-				}}
-				onPress={handleRetryPermission}
-			>
-				<Text style={{ color: '#000000' }}>Grant Permission</Text>
-			</TouchableOpacity>
-		</View>
+		<GrantLocation handleRetryPermission={handleRetryPermission} />
 	) : (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<ActivityIndicator />

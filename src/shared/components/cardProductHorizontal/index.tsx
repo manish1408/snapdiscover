@@ -23,7 +23,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 		<TouchableOpacity onPress={navigateTo} style={styles.container}>
 			<View style={styles.containerImage}>
 				<Image style={styles.image} resizeMode="contain" source={product.image} />
-				{favourite && <Image style={styles.icon} resizeMode="contain" source={require('@/shared/assets/icons-8/heart.png')} />}
+				{favourite && <Image style={styles.icon} resizeMode="contain" source={require('@/shared/assets/icons-8/heart-pink-filled.png')} />}
 			</View>
 
 			<View style={styles.containerInfo}>

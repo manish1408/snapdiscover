@@ -1,5 +1,5 @@
 import { arrowBack, dots, eyeFilled, logout, notification, order, security, vocher, walletFilled } from '@/shared/assets/icons';
-import { user, terms, privacy, help, location, language, edit, arrowRight } from '@/shared/assets/icons-8';
+import { user, terms, privacy, help, location, language, edit, arrowRight, userFIlled } from '@/shared/assets/icons-8';
 import Icon from '@/shared/components/icon';
 import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
@@ -42,7 +42,7 @@ const Profile = () => {
 			<View style={styles.container}>
 				<View style={styles.profileText}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Icon icon={user} />
+						<Icon icon={userFIlled} />
 						<Typography
 							style={{
 								fontWeight: '700',

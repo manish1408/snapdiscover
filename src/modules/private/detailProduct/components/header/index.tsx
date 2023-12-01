@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Icon from '@/shared/components/icon';
 import { arrowBack, like } from '@/shared/assets/icons';
-import { heartOutline } from '@/shared/assets/icons-8';
+import { heartOutline, heartPinkFilled } from '@/shared/assets/icons-8';
 import Typography from '@/shared/components/typography';
 import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +23,7 @@ export default function Header({ title }) {
 			</Typography>
 
 			<TouchableOpacity>
-				<Icon icon={heartOutline} />
+				<Icon icon={heartPinkFilled} />
 			</TouchableOpacity>
 		</View>
 	);

@@ -234,3 +234,88 @@ export const MOCKUP_PRODUCTS = [
 		soldBy: 'Citrus Spirits Co',
 	},
 ];
+
+export const MOCKUP_RELATED_PRODUCTS = [
+	{
+		id: '1',
+		image: require('@/shared/assets/images/merlot-reserve.png'),
+		name: 'Merlot Reserve',
+		score: 92,
+		date: '2023-01-15T00:00:00Z',
+		isVerified: true,
+		points: 8,
+		isFavourite: true,
+		rating: 4.2,
+		totalRatings: 1600,
+
+		description:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at nunc sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer viverra risus commodo enim.',
+
+		tasteProfile: {
+			bitterness: 3,
+			sweetness: 5,
+			citrus: 4,
+		},
+		ratingSource: [
+			{ source: 'Untapped', rating: 4.0, totalRatings: 1200 },
+			{ source: 'Ratebeer', rating: 4.5, totalRatings: 800 },
+		],
+		abv: 13,
+		ibu: 25,
+		ingredients: ['Merlot grapes', 'Yeast', 'Oak'],
+		reviews: [
+			{
+				user: 'John Doe',
+				comment: 'Great wine! Loved the rich flavor.',
+			},
+		],
+		foodPairing: ['Grilled steak', 'Dark chocolate'],
+		servingsSuggestions: 'Best served at room temperature.',
+		flavourNotes: ['Medium Bitterness', 'Light Sweetness', 'Rich Citrus Aroma'],
+		address: '123 Vineyard Lane, Winetown, CA 12345',
+		website: 'www.merlotreservewinery.com',
+		soldBy: 'WineCo',
+	},
+	{
+		id: '2',
+		image: require('@/shared/assets/images/budweiser.png'),
+		name: 'Budweiser',
+		score: 91,
+		date: '2023-05-20T00:00:00Z',
+		isVerified: true,
+		points: 8,
+		isFavourite: true,
+		rating: 4.2,
+		totalRatings: 1600,
+		description:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at nunc sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer viverra risus commodo enim.',
+		tasteProfile: {
+			bitterness: 2,
+			sweetness: 3,
+			citrus: 1,
+		},
+		ratingSource: [
+			{ source: 'Untapped', rating: 3.8, totalRatings: 1800 },
+			{ source: 'Ratebeer', rating: 4.2, totalRatings: 1000 },
+		],
+		abv: 5,
+		ibu: 15,
+		ingredients: ['Barley', 'Hops', 'Water', 'Yeast'],
+		reviews: [
+			{
+				user: 'Jane Smith',
+				comment: 'Classic and refreshing. A go-to choice for gatherings.',
+			},
+			{
+				user: 'John Doe',
+				comment: 'Great beer! Loved the rich flavor.',
+			},
+		],
+		foodPairing: ['Grilled chicken', 'Spicy wings'],
+		servingsSuggestions: 'Best served chilled.',
+		flavourNotes: ['Medium Bitterness', 'Light Sweetness', 'Rich Citrus Aroma'],
+		address: '456 Brewery Street, Hopsville, CO 67890',
+		website: 'www.budweiser.com',
+		soldBy: 'HopBrew Co',
+	},
+];

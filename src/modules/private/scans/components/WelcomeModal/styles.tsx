@@ -13,6 +13,7 @@ export const _styles = (isDarkMode: boolean) =>
 			paddingHorizontal: normalize(14),
 			backgroundColor: isDarkMode ? semantic.background.dark.d500 : semantic.background.white.w500,
 			gap: 60,
+			alignItems: 'center',
 		},
 		contentWrapper: {
 			justifyContent: 'center',
@@ -21,16 +22,16 @@ export const _styles = (isDarkMode: boolean) =>
 			gap: 5,
 		},
 		icon: {
-			width: 30,
-			height: 30,
+			width: 32,
+			height: 32,
 		},
 
 		text: {
-			fontWeight: '600',
+			fontWeight: '700',
 			fontSize: normalize(30),
 			color: semantic.text.black,
 			marginVertical: normalize(8),
-			paddingHorizontal: normalize(50),
+			paddingHorizontal: normalize(40),
 			alignItems: 'center',
 			textAlign: 'center',
 		},
@@ -49,4 +50,15 @@ export const _styles = (isDarkMode: boolean) =>
 			top: 30,
 			right: 16,
 		},
+
+		continueWrapper: {
+			borderColor: '#EEEEEE',
+			borderWidth: 1,
+			paddingHorizontal: normalize(20),
+			paddingVertical: normalize(12),
+			backgroundColor: '#EEEEEE',
+			borderRadius: normalize(20),
+			width: 100,
+		},
+		continueBtn: { color: '#000000' },
 	});

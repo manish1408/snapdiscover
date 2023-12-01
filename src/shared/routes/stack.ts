@@ -28,9 +28,9 @@ import Conversation from '@/modules/private/conversation';
 import Chats from '@/modules/private/chats';
 import DetailProduct from '@/modules/private/detailProduct';
 import LocationPermission from '@/modules/auth/locationPermission';
-import WelcomeModal from '@/modules/auth/welcomeModal';
 import Terms from '@/modules/private/profile/terms';
 import Privacy from '@/modules/private/profile/privacy';
+import Earn from '@/modules/private/earn';
 
 export type RootStackParamList = {
 	tab: undefined;
@@ -85,6 +85,7 @@ export type RootStackParamList = {
 	welcomeModal: undefined;
 	terms: undefined;
 	privacy: undefined;
+	earn: undefined;
 };
 export type RouteItem = {
 	path: keyof RootStackParamList;
@@ -231,11 +232,7 @@ const RoutesStack: RouteItem[] = [
 		component: LocationPermission,
 		private: false,
 	},
-	{
-		path: 'welcomeModal',
-		component: WelcomeModal,
-		private: false,
-	},
+
 	{
 		path: 'terms',
 		component: Terms,
@@ -244,6 +241,11 @@ const RoutesStack: RouteItem[] = [
 	{
 		path: 'privacy',
 		component: Privacy,
+		private: true,
+	},
+	{
+		path: 'earn',
+		component: Earn,
 		private: true,
 	},
 ];

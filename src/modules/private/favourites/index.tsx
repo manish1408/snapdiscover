@@ -3,7 +3,7 @@ import Wrapper from '@/shared/components/wrapper';
 import { ScrollView, View } from 'react-native';
 import HeaderWithIcon from '@/shared/components/headerBack';
 
-import { heartOutline } from '@/shared/assets/icons-8';
+import { heartFilled } from '@/shared/assets/icons-8';
 import CardProductHorizontal from '@/shared/components/cardProductHorizontal';
 import List from '@/shared/components/list';
 import { Button, ButtonOutline } from '@/shared/components/buttons';
@@ -42,29 +42,11 @@ export default function Favourites() {
 			<Wrapper>
 				<View style={{ flex: 1, paddingHorizontal: normalize(24) }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-						<HeaderWithIcon icon={heartOutline} title="favourites.title" />
+						<HeaderWithIcon icon={heartFilled} title="favourites.title" />
 						<View style={{ height: normalize(32) }} />
 						<List between data={MOCKUP_PRODUCTS} rows={1} renderItem={renderItem} />
 					</ScrollView>
 				</View>
-				<ButtonSheet onClose={toggleOpenDeleteItem} dispatch={openDeleteItem}>
-					<View style={styles.bodyButtonSheet}>
-						<Typography style={styles.titleButtonSheet}>{'cart.remove_cart'}</Typography>
-						<View style={styles.containerProduct}>
-							<CardProductHorizontal actions={false} product={selectedProductToRemove} />
-						</View>
-
-						<View style={styles.footerButtonSheet}>
-							<View style={{ flex: 1 }}>
-								<ButtonOutline onPress={toggleOpenDeleteItem} title="general.cancel" />
-							</View>
-							<View style={{ width: 10 }} />
-							<View style={{ flex: 1 }}>
-								<Button title="general.yes_remove" />
-							</View>
-						</View>
-					</View>
-				</ButtonSheet>
 			</Wrapper>
 		</View>
 	);
