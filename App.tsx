@@ -27,7 +27,7 @@ import Typography from '@/shared/components/typography';
 import { request, PERMISSIONS, requestMultiple, RESULTS, checkMultiple } from 'react-native-permissions';
 import SplashScreen from 'react-native-splash-screen';
 import { ResultMap } from 'react-native-permissions/dist/typescript/results';
-import { GrantLocation } from '@/shared/components/grantLocation';
+import { GrantPermission } from '@/shared/components/grantPermission';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -114,8 +114,6 @@ function App(): JSX.Element {
 
 		requestMultiple(locationPermissionsPlatform)
 			.then((result) => {
-				console.log(result);
-
 				if (
 					(Platform.OS === 'ios' &&
 						(result[PERMISSIONS.IOS.LOCATION_ALWAYS] === RESULTS.GRANTED || result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === RESULTS.GRANTED)) ||
@@ -165,7 +163,7 @@ function App(): JSX.Element {
 			</Stack.Navigator>
 		</NavigationContainer>
 	) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
-		<GrantLocation handleRetryPermission={handleRetryPermission} />
+		<GrantPermission desc="Please grant location permission to continue" handleRetryPermission={handleRetryPermission} />
 	) : (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<ActivityIndicator />
