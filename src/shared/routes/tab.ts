@@ -59,6 +59,7 @@ export default [
 		icon: CashIcon,
 		activeIcon: cashFilled,
 		component: Earn,
+		// component: Home,
 	},
 	{
 		id: '5',

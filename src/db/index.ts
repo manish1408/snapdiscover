@@ -1,7 +1,11 @@
 export const MOCKUP_PRODUCTS = [
 	{
 		id: '1',
-		image: require('@/shared/assets/images/merlot-reserve.png'),
+		images: [
+			require('@/shared/assets/images/merlot-reserve.png'),
+			require('@/shared/assets/images/budweiser.png'),
+			require('@/shared/assets/images/captain-morgan.png'),
+		],
 		name: 'Merlot Reserve',
 		score: 92,
 		date: '2023-01-15T00:00:00Z',
@@ -41,7 +45,11 @@ export const MOCKUP_PRODUCTS = [
 	},
 	{
 		id: '2',
-		image: require('@/shared/assets/images/budweiser.png'),
+		images: [
+			require('@/shared/assets/images/budweiser.png'),
+			require('@/shared/assets/images/merlot-reserve.png'),
+			require('@/shared/assets/images/captain-morgan.png'),
+		],
 		name: 'Budweiser',
 		score: 91,
 		date: '2023-05-20T00:00:00Z',
@@ -83,7 +91,7 @@ export const MOCKUP_PRODUCTS = [
 	},
 	{
 		id: '3',
-		image: require('@/shared/assets/images/chardonnay-elegance.png'),
+		images: [require('@/shared/assets/images/chardonnay-elegance.png'), require('@/shared/assets/images/budweiser.png')],
 		name: 'Chardonnay Elegance',
 		score: 89,
 		date: '2023-02-02T00:00:00Z',
@@ -121,7 +129,11 @@ export const MOCKUP_PRODUCTS = [
 	},
 	{
 		id: '4',
-		image: require('@/shared/assets/images/jack-daniels.png'),
+		images: [
+			require('@/shared/assets/images/jack-daniels.png'),
+			require('@/shared/assets/images/chardonnay-elegance.png'),
+			require('@/shared/assets/images/captain-morgan.png'),
+		],
 		name: 'Jack Daniels',
 		score: 95,
 		date: '2023-03-10T00:00:00Z',
@@ -159,7 +171,7 @@ export const MOCKUP_PRODUCTS = [
 	},
 	{
 		id: '5',
-		image: require('@/shared/assets/images/captain-morgan.png'),
+		images: [require('@/shared/assets/images/captain-morgan.png'), require('@/shared/assets/images/jack-daniels.png')],
 		name: 'Captain Morgan',
 		score: 88,
 		date: '2023-04-05T00:00:00Z',
@@ -197,7 +209,7 @@ export const MOCKUP_PRODUCTS = [
 	},
 	{
 		id: '6',
-		image: require('@/shared/assets/images/citrus-forward-gin.png'),
+		images: [require('@/shared/assets/images/citrus-forward-gin.png')],
 		name: 'Citrus Forward Gin',
 		score: 90,
 		date: '2023-06-15T00:00:00Z',
@@ -238,7 +250,11 @@ export const MOCKUP_PRODUCTS = [
 export const MOCKUP_RELATED_PRODUCTS = [
 	{
 		id: '1',
-		image: require('@/shared/assets/images/merlot-reserve.png'),
+		images: [
+			require('@/shared/assets/images/merlot-reserve.png'),
+			require('@/shared/assets/images/budweiser.png'),
+			require('@/shared/assets/images/captain-morgan.png'),
+		],
 		name: 'Merlot Reserve',
 		score: 92,
 		date: '2023-01-15T00:00:00Z',
@@ -278,7 +294,11 @@ export const MOCKUP_RELATED_PRODUCTS = [
 	},
 	{
 		id: '2',
-		image: require('@/shared/assets/images/budweiser.png'),
+		images: [
+			require('@/shared/assets/images/budweiser.png'),
+			require('@/shared/assets/images/merlot-reserve.png'),
+			require('@/shared/assets/images/captain-morgan.png'),
+		],
 		name: 'Budweiser',
 		score: 91,
 		date: '2023-05-20T00:00:00Z',

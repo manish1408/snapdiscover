@@ -14,6 +14,7 @@ import { Button } from '@/shared/components/buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationProps } from '@/shared/routes/stack';
 import RelatedProduct from './components/relatedProduct';
+import { ProductCarousel } from '../detailPlant/components/productCarousel';
 
 export default function DetailProduct() {
 	const { navigate } = useNavigation<NavigationProps>();
@@ -28,7 +29,8 @@ export default function DetailProduct() {
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
 				<Header title={product?.name} />
 				<View style={styles.containerImage}>
-					<Image resizeMode="contain" style={styles.image} source={product?.image} />
+					{/* <Image resizeMode="contain" style={styles.image} source={product?.image} /> */}
+					<ProductCarousel images={product?.images} />
 				</View>
 
 				<View style={styles.containerName}>

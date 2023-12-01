@@ -11,7 +11,8 @@ export const _styles = (isDarkMode: boolean) =>
 		containerImage: {
 			width: '100%',
 			height: normalize(325),
-			marginTop: normalize(10),
+			marginTop: normalize(20),
+			marginBottom: normalize(20),
 		},
 		image: {
 			width: '100%',
