@@ -81,6 +81,14 @@ export default function DetailProduct() {
 		}
 	};
 
+	async function onShare() {
+		try {
+			const shareResponse = await Share.open({ title: product.name, message: product.description, url: deepLink });
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	return (
 		<Wrapper>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -94,7 +102,7 @@ export default function DetailProduct() {
 					<Typography style={styles.name} translate={false}>
 						{product?.name}
 					</Typography>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => onShare()}>
 						<Icon icon={share} />
 					</TouchableOpacity>
 				</View>
