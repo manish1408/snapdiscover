@@ -23,6 +23,8 @@ import com.reactnativerestart.RestartPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-share
+import cl.json.RNSharePackage;
 // react-native-splash-screen
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 // react-native-vision-camera
@@ -78,6 +80,7 @@ public class PackageList {
       new RestartPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new RNSharePackage(),
       new SplashScreenReactPackage(),
       new CameraPackage()
     ));

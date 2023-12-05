@@ -58,28 +58,6 @@ export type RootStackParamList = {
 	chats: undefined;
 	detailProduct: {
 		id: string;
-		image: string;
-		name: string;
-		score: number;
-		date: string;
-		isVerified: boolean;
-		points: number;
-		isFavourite: boolean;
-		rating: number;
-		totalRatings: number;
-		description: string;
-		tasteProfile: TasteProfile;
-		ratingSource: RatingSource[];
-		abv: number;
-		ibu: number;
-		ingredients: string[];
-		reviews: Review[];
-		foodPairing: string[];
-		servingsSuggestions: string;
-		flavourNotes: string[];
-		address: string;
-		website: string;
-		soldBy: string;
 	};
 	locationPermission: undefined;
 	welcomeModal: undefined;
@@ -225,7 +203,7 @@ const RoutesStack: RouteItem[] = [
 	{
 		path: 'detailProduct',
 		component: DetailProduct,
-		private: true,
+		private: false,
 	},
 	{
 		path: 'locationPermission',

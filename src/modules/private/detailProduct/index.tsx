@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Platform, ScrollView, TouchableOpacity, View } from 'react-native';
 import { _styles } from './styles';
 import Header from './components/header';
 import useDarkMode from '@/shared/hooks/useDarkMode';
@@ -14,15 +14,72 @@ import { Button } from '@/shared/components/buttons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationProps } from '@/shared/routes/stack';
 import RelatedProduct from './components/relatedProduct';
-import { ProductCarousel } from '../detailPlant/components/productCarousel';
+import { ProductCarousel } from './components/productCarousel';
+import Share from 'react-native-share';
+import { MOCKUP_PRODUCTS } from '@/db';
 
 export default function DetailProduct() {
 	const { navigate } = useNavigation<NavigationProps>();
 	const { isDarkMode } = useDarkMode();
 	const styles = _styles(isDarkMode);
 	const route = useRoute();
-	// console.log(route.params);
-	const product = { ...route.params };
+
+	const [product, setProduct] = useState({});
+	const [deepLink, setDeepLink] = useState({});
+
+	useEffect(() => {
+		getProduct();
+	}, [route?.params]);
+
+	function getProduct() {
+		const pid = route?.params?.id;
+		const data = MOCKUP_PRODUCTS.filter((p) => p.id === pid);
+		setProduct(data[0]);
+		setDeepLink(`plantify://detailProduct/${pid}`);
+	}
+
+	async function shareOnSocial(platform) {
+		try {
+			const shareOptions = {
+				title: product.name,
+				message: product.description,
+				url: deepLink,
+				social: Share.Social[platform],
+			};
+
+			const shareResult = await Share.shareSingle(shareOptions);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	const shareOnInstagram = async () => {
+		try {
+			const isInstagramInstalledAndroid = await Share.isPackageInstalled('com.instagram.android');
+			const isInstagramInstalledIOS = await Linking.canOpenURL('instagram://user?username=instagram');
+			if (isInstagramInstalledAndroid.isInstalled || isInstagramInstalledIOS) {
+				const shareOptions = {
+					title: product.name,
+					message: product.description,
+					url: deepLink,
+					social: Share.Social.INSTAGRAM,
+					type: 'text/plain',
+				};
+
+				const shareResult = await Share.shareSingle(shareOptions);
+				console.log(shareResult);
+			} else {
+				const instagramAppUrl =
+					Platform.OS === 'android'
+						? 'https://play.google.com/store/apps/details?id=com.instagram.android'
+						: 'https://apps.apple.com/us/app/instagram/id389801252';
+
+				await Linking.openURL(instagramAppUrl);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<Wrapper>
@@ -174,10 +231,18 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>Share this with friends</Typography>
 
 					<View style={styles.containerSocial}>
-						<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/facebook.png')} />
-						<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/whatsapp.png')} />
-						<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/insta.png')} />
-						<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/twitter.png')} />
+						<TouchableOpacity onPress={() => shareOnSocial('FACEBOOK')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/facebook.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnSocial('WHATSAPP')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/whatsapp.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnInstagram()}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/insta.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnSocial('TWITTER')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/twitter.png')} />
+						</TouchableOpacity>
 					</View>
 				</View>
 				<View style={styles.containerDescription}>

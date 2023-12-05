@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@/shared/components/list';
 import { View } from 'react-native';
 import CardProduct from '@/shared/components/cardProduct';

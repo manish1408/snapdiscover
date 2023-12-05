@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { PropsWithChildren } from 'react';
 import { Alert, Linking, ScrollView, StyleSheet, useColorScheme, View } from 'react-native';
 
@@ -14,7 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import RoutesStack, { RootStackParamList } from '@/shared/routes/stack';
 import RoutesTab from '@/shared/routes/tab';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { palette, semantic } from '@/shared/constants/colors';
 import Icon from '@/shared/components/icon';
 import useDarkMode from '@/shared/hooks/useDarkMode';
@@ -28,6 +28,9 @@ import { request, PERMISSIONS, requestMultiple, RESULTS, checkMultiple } from 'r
 import SplashScreen from 'react-native-splash-screen';
 import { ResultMap } from 'react-native-permissions/dist/typescript/results';
 import { GrantPermission } from '@/shared/components/grantPermission';
+
+import { NavigationProps } from '@/shared/routes/stack';
+import { Loader } from '@/shared/components/Loader';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -84,6 +87,7 @@ function TabNavigation() {
 }
 
 function App(): JSX.Element {
+	const navigationRef = useRef(null);
 	useEffect(() => {
 		SplashScreen.hide();
 	}, []);
@@ -153,8 +157,20 @@ function App(): JSX.Element {
 			checkPermissionStatus();
 		}
 	}
+
+	const config = {
+		screens: {
+			detailProduct: 'detailProduct/:id',
+		},
+	};
+
+	const linking = {
+		prefixes: ['https://www.plantify.com/', 'plantify://'],
+		config,
+	};
+
 	return locationPermission === RESULTS.GRANTED ? (
-		<NavigationContainer>
+		<NavigationContainer linking={linking} fallback={<Loader />}>
 			<Stack.Navigator initialRouteName={'tab'} screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="tab" component={TabNavigation} />
 				{RoutesStack.map((route) => {
@@ -165,9 +181,7 @@ function App(): JSX.Element {
 	) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
 		<GrantPermission desc="Please grant location permission to continue" handleRetryPermission={handleRetryPermission} />
 	) : (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<ActivityIndicator />
-		</View>
+		<Loader />
 	);
 }
 

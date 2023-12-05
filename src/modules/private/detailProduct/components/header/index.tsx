@@ -11,10 +11,19 @@ import { semantic } from '@/shared/constants/colors';
 
 export default function Header({ title }) {
 	const { isDarkMode } = useDarkMode();
-	const { goBack } = useNavigation();
+	const navigation = useNavigation();
+
+	function navigateTo() {
+		console.log(navigation.canGoBack());
+		if (navigation.canGoBack()) {
+			navigation.goBack();
+		} else {
+			navigation.replace('tab');
+		}
+	}
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={goBack}>
+			<TouchableOpacity onPress={() => navigateTo()}>
 				<Icon customStyles={{ tintColor: isDarkMode ? semantic.background.white.w500 : semantic.background.dark.d500 }} icon={arrowBack} />
 			</TouchableOpacity>
 

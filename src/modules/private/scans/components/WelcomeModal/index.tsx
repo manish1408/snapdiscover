@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from '@/modules/auth/welcome/components/hero';
 import { View, Image, Modal, TouchableOpacity, Text } from 'react-native';
 import { Button, ButtonOutline } from '@/shared/components/buttons';
@@ -20,6 +20,7 @@ export default function WelcomeModal() {
 		setModal(false);
 		navigation.navigate('tab');
 	}
+
 	return (
 		<Modal visible={modal} animationType="slide" transparent={true}>
 			<View style={styles.container}>
