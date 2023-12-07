@@ -29,16 +29,16 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="plantify" />
+            <data android:scheme="snapztest" />
         </intent-filter>
-        <!-- <intent-filter>
+        <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="http" />
             <data android:scheme="https" />
-            <data android:host="www.plantify.com" />
-        </intent-filter> -->
+            <data android:host="www.snapztest.com" />
+        </intent-filter>
       </activity>
     </application>
     <queries>

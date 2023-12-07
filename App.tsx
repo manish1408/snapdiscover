@@ -165,7 +165,7 @@ function App(): JSX.Element {
 	};
 
 	const linking = {
-		prefixes: ['https://www.plantify.com/', 'plantify://'],
+		prefixes: ['https://www.snapztest.com/', 'snapztest://'],
 		config,
 	};
 

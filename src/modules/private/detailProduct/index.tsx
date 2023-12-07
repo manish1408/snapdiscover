@@ -35,14 +35,13 @@ export default function DetailProduct() {
 		const pid = route?.params?.id;
 		const data = MOCKUP_PRODUCTS.filter((p) => p.id === pid);
 		setProduct(data[0]);
-		setDeepLink(`plantify://detailProduct/${pid}`);
+		// setDeepLink(`snapz://detailProduct/${pid}`);
+		setDeepLink(`https://www.snapztest.com/detailProduct/${pid}`);
 	}
 
 	async function shareOnSocial(platform) {
 		try {
 			const shareOptions = {
-				title: product.name,
-				message: product.description,
 				url: deepLink,
 				social: Share.Social[platform],
 			};
@@ -59,8 +58,6 @@ export default function DetailProduct() {
 			const isInstagramInstalledIOS = await Linking.canOpenURL('instagram://user?username=instagram');
 			if (isInstagramInstalledAndroid.isInstalled || isInstagramInstalledIOS) {
 				const shareOptions = {
-					title: product.name,
-					message: product.description,
 					url: deepLink,
 					social: Share.Social.INSTAGRAM,
 					type: 'text/plain',
