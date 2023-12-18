@@ -1,10 +1,10 @@
-import { arrowBack, dots, eyeFilled, logout, notification, order, security, vocher, walletFilled } from '@/shared/assets/icons';
-import { user, terms, privacy, help, location, language, edit, arrowRight, userFIlled } from '@/shared/assets/icons-8';
+import { arrowBack, dots, eyeFilled, notification, order, security, vocher, walletFilled } from '@/shared/assets/icons';
+import { user, terms, privacy, help, location, language, edit, arrowRight, userFIlled, logout } from '@/shared/assets/icons-8';
 import Icon from '@/shared/components/icon';
 import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TouchableOpacity, Image, Alert } from 'react-native';
 import Section from './components/section';
 import Toggle from '@/shared/components/toggle';
 
@@ -16,6 +16,9 @@ import ButtonSheet from '@/shared/components/buttonSheet';
 import ListOptionCard, { OptionCardOptions } from '@/shared/components/ListOptionCard';
 import { Button } from '@/shared/components/buttons';
 import useDarkMode from '@/shared/hooks/useDarkMode';
+import { getToken, removeToken } from '@/shared/auth/authStorage';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Profile = () => {
 	const [toggleDarkMode, setToggleDarkMode] = useState<boolean>(false);
@@ -24,7 +27,34 @@ const Profile = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [addressSelected, setAddressSelected] = useState<OptionCardOptions>();
 	const { isDarkMode, changeColorScheme } = useDarkMode();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		fetchUserData();
+	}, []);
+
+	const fetchUserData = async () => {
+		setIsLoading(true);
+		const token = await getToken();
+
+		if (token) {
+			try {
+				const userDoc = await firestore().collection('users').doc(token).get();
+				console.log(userDoc);
+				if (userDoc.exists) {
+					const userData = userDoc.data();
+					setUser(userData);
+				} else {
+					console.warn('User document not found in Firestore');
+				}
+			} catch (err) {}
+		} else {
+			setUser(null);
+		}
+		setIsLoading(false);
+	};
 	function onSelectAddress(option: OptionCardOptions) {
 		setAddressSelected(option);
 	}
@@ -36,9 +66,31 @@ const Profile = () => {
 		toggleModal();
 		navigate('addNewAddress');
 	}
-
+	const onSignOutPress = () => {
+		Alert.alert(
+			'Sign Out',
+			'Are you sure you want to sign out?',
+			[
+				{ text: 'Cancel', style: 'cancel' },
+				{
+					text: 'Sign Out',
+					onPress: () => signOut(),
+					style: 'destructive',
+				},
+			],
+			{ cancelable: true },
+		);
+	};
+	const signOut = async () => {
+		try {
+			await removeToken();
+			navigate('welcome');
+		} catch (error) {
+			console.error('Error signing out:', error);
+		}
+	};
 	return (
-		<Wrapper>
+		<Wrapper loading={isLoading}>
 			<View style={styles.container}>
 				<View style={styles.profileText}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -61,10 +113,10 @@ const Profile = () => {
 							flexDirection: 'row',
 						}}
 					>
-						<Image style={styles.image} source={{ uri: 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
+						<Image style={styles.image} source={{ uri: user?.photo ? user?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
 						<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
-							<Typography style={{ fontWeight: '700', fontSize: 16 }}>Username</Typography>
-							<Typography style={{ fontWeight: '500', fontSize: 14 }}>phone</Typography>
+							<Typography style={{ fontWeight: '700', fontSize: 16 }}>{user?.fullName || user?.name}</Typography>
+							<Typography style={{ fontWeight: '500', fontSize: 14 }}>{user?.email}</Typography>
 						</View>
 					</View>
 					<TouchableOpacity onPress={() => navigate('editProfile')}>
@@ -109,7 +161,13 @@ const Profile = () => {
 						// 		/>
 						// 	),
 						// },
-						// { name: 'profile.logout', leftIcon: <Icon icon={logout} /> },
+						{
+							name: 'profile.logout',
+							leftIcon: <Icon icon={logout} />,
+							onPress: () => {
+								onSignOutPress();
+							},
+						},
 					]}
 				/>
 

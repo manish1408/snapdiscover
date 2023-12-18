@@ -31,6 +31,7 @@ import { GrantPermission } from '@/shared/components/grantPermission';
 
 import { NavigationProps } from '@/shared/routes/stack';
 import { Loader } from '@/shared/components/Loader';
+import { checkAuthentication } from '@/shared/auth/authUtils';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -168,10 +169,20 @@ function App(): JSX.Element {
 		prefixes: ['https://www.snapztest.com/', 'snapztest://'],
 		config,
 	};
+	const [initialRoute, setInitialRoute] = useState('');
+	useEffect(() => {
+		getInitialRoute();
+	}, []);
+
+	const getInitialRoute = async () => {
+		const userToken = await checkAuthentication();
+		console.log(userToken);
+		userToken ? setInitialRoute('tab') : setInitialRoute('welcome');
+	};
 
 	return locationPermission === RESULTS.GRANTED ? (
 		<NavigationContainer linking={linking} fallback={<Loader />}>
-			<Stack.Navigator initialRouteName={'tab'} screenOptions={{ headerShown: false }}>
+			<Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="tab" component={TabNavigation} />
 				{RoutesStack.map((route) => {
 					return <Stack.Screen key={route.path} name={route.path} component={route.component} />;

@@ -33,8 +33,8 @@ import Privacy from '@/modules/private/profile/privacy';
 import Earn from '@/modules/private/earn';
 
 export type RootStackParamList = {
-	tab: undefined;
 	login: undefined;
+	tab: undefined;
 	createAccount: undefined;
 	enterOtp: undefined;
 	enterNewPassword: undefined;
@@ -203,7 +203,7 @@ const RoutesStack: RouteItem[] = [
 	{
 		path: 'detailProduct',
 		component: DetailProduct,
-		private: false,
+		private: true,
 	},
 	{
 		path: 'locationPermission',

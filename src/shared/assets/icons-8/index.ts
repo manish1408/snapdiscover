@@ -21,3 +21,6 @@ export { default as location } from './location.png';
 export { default as language } from './language.png';
 export { default as edit } from './edit.png';
 export { default as arrowRight } from './arrowRight.png';
+export { default as logout } from './logout.png';
+export { default as eye } from './eye.png';
+export { default as eyeOff } from './eye-off.png';

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125902216495",
+    "project_id": "snapdiscover",
+    "storage_bucket": "snapdiscover.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125902216495:android:60e40d7db0a2eb5af3d5da",
+        "android_client_info": {
+          "package_name": "com.plantify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125902216495-aog8qqgos716iv4hkbrsaec245h38kps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQksQM_Z1w8Tgjkkvifdqg2fCXwrnL5Zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125902216495-aog8qqgos716iv4hkbrsaec245h38kps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
