@@ -11,16 +11,18 @@ import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
 import CheckBox from '@/shared/components/checkbox';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '@/shared/routes/stack';
+// import { NavigationProps } from '@/shared/routes/stack';
 import auth from '@react-native-firebase/auth';
 import { isValidEmail } from '@/shared/helpers';
 import firestore from '@react-native-firebase/firestore';
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { storeToken } from '@/shared/auth/authStorage';
+import { NavigationProps } from '@/shared/interfaces/route-types';
+import ShowHidePassword from '@/shared/components/showHidePassword';
 
 export default function Login() {
 	const navigation = useNavigation<NavigationProps>();
-
+	console.log(navigation.navigate);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -64,7 +66,7 @@ export default function Login() {
 				console.log('User does not exist');
 			}
 			await storeToken(userCredentials.user.uid);
-			navigation.navigate('tab');
+			// navigation.navigate('scan');
 			setEmail('');
 			setPassword('');
 			setIsLoading(false);
@@ -79,16 +81,24 @@ export default function Login() {
 		setIsLoading(true);
 		try {
 			await GoogleSignin.hasPlayServices();
-			const usrInfo = await GoogleSignin.signIn();
+			await GoogleSignin.signOut();
+			const userInfo = await GoogleSignin.signIn();
+			// const { idToken } = await GoogleSignin.signIn();
 
-			const userDocRef = firestore().collection('users').doc(usrInfo.user.id);
+			// Create a Google credential with the token
+			const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
+
+			// Sign-in the user with the credential
+			auth().signInWithCredential(googleCredential);
+
+			const userDocRef = firestore().collection('users').doc(userInfo.user.id);
 			const userData = {
-				uid: usrInfo.user.id,
-				...usrInfo.user,
+				uid: userInfo.user.id,
+				...userInfo.user,
 			};
 			await userDocRef.set(userData);
-			await storeToken(usrInfo.user.id);
-			navigation.navigate('tab');
+			await storeToken(userInfo.user.id);
+			// navigation.navigate('scan');
 			setIsLoading(false);
 		} catch (error) {
 			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -123,7 +133,7 @@ export default function Login() {
 					<View style={styles.formControl}>
 						<Input
 							leftIcon={<Icon icon={lock} />}
-							rightIcon={<Icon icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
+							rightIcon={<ShowHidePassword icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
 							secureTextEntry={!isPasswordVisible}
 							label="general.password"
 							placeholder="general.typing_password"

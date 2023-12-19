@@ -1,7 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { CategoryDTO, OrderDTO, ProductDTO } from '@/shared/DTO';
 import Login from '@/modules/auth/login';
 import CreateAccount from '@/modules/auth/createAccount';
 import EnterOtp from '@/modules/auth/enterOtp';

@@ -1,5 +1,4 @@
 import Home from '@/modules/private/home';
-// import { home as HomeIcon, shippingCart, user as UserIcon, shoppingBag } from '@/shared/assets/icons';
 import {
 	heart as HeartIcon,
 	scan as ScanIcon,
@@ -21,13 +20,6 @@ import Camera from '@/modules/private/camera';
 import Earn from '@/modules/private/earn';
 
 export default [
-	// {
-	// 	id: '1',
-	// 	displayName: 'general.home',
-	// 	name: 'homeTab',
-	// 	icon: HomeIcon,
-	// 	component: Home,
-	// },
 	{
 		id: '1',
 		displayName: 'general.home',
@@ -59,7 +51,6 @@ export default [
 		icon: CashIcon,
 		activeIcon: cashFilled,
 		component: Earn,
-		// component: Home,
 	},
 	{
 		id: '5',

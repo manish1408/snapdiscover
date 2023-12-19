@@ -14,11 +14,10 @@ import { isValidEmail } from '@/shared/helpers';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { eyeOff, eye } from '@/shared/assets/icons-8';
+import ShowHidePassword from '@/shared/components/showHidePassword';
 export default function CreateAccount() {
-	const navigation = useNavigation<NavigationProps>();
-	function navigateTo() {
-		navigation.navigate('login');
-	}
+	const { navigate } = useNavigation<NavigationProps>();
+
 	const [fullName, setFullName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -64,7 +63,7 @@ export default function CreateAccount() {
 			setPassword('');
 			setErrorMsg(' ');
 			setIsLoading(false);
-			navigateTo();
+			navigate('login');
 		} catch (err) {
 			setIsLoading(false);
 			let cleanedErrorMessage = err.message.replace(/\[.*?\]/g, '').trim();
@@ -103,7 +102,7 @@ export default function CreateAccount() {
 					<View style={styles.formControl}>
 						<Input
 							leftIcon={<Icon icon={lock} />}
-							rightIcon={<Icon icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
+							rightIcon={<ShowHidePassword icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
 							secureTextEntry={!isPasswordVisible}
 							label="general.password"
 							placeholder="general.typing_password"
@@ -118,7 +117,7 @@ export default function CreateAccount() {
 				</View>
 				<View style={styles.containerLink}>
 					<Typography style={styles.alreadyAccount}>{'auth.create_account.already_account'}</Typography>
-					<Pressable onPress={navigateTo}>
+					<Pressable onPress={() => navigate('login')}>
 						<Typography style={styles.link}>{'auth.sign_in'}</Typography>
 					</Pressable>
 				</View>

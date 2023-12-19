@@ -13,12 +13,8 @@ interface IconProps {
 	customStyles?: StyleProp<ImageStyle> | undefined;
 	onIconPress?: undefined;
 }
-export default function Icon({ icon, width, height, customStyles, onIconPress }: IconProps) {
+export default function Icon({ icon, width, height, customStyles }: IconProps) {
 	const { isDarkMode } = useDarkMode();
 	const styles = _styles({ width, height, isDarkMode });
-	return (
-		<TouchableOpacity onPress={() => onIconPress && onIconPress()}>
-			<Image style={[styles.icon, customStyles]} source={icon} />
-		</TouchableOpacity>
-	);
+	return <Image style={[styles.icon, customStyles]} source={icon} />;
 }
