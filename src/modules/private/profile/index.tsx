@@ -32,7 +32,7 @@ const Profile = () => {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		// fetchUserData();
+		fetchUserData();
 	}, []);
 
 	const fetchUserData = async () => {
@@ -85,9 +85,8 @@ const Profile = () => {
 		try {
 			// await removeToken();
 			// navigate('welcome');
-			auth()
-				.signOut()
-				.then(() => console.log('User signed out!'));
+			await auth().signOut();
+			console.log('User signed out!');
 		} catch (error) {
 			console.error('Error signing out:', error);
 		}
@@ -116,10 +115,10 @@ const Profile = () => {
 							flexDirection: 'row',
 						}}
 					>
-						{/* <Image style={styles.image} source={{ uri: user?.photo ? user?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} /> */}
+						<Image style={styles.image} source={{ uri: user?.photo ? user?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
 						<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
-							{/* <Typography style={{ fontWeight: '700', fontSize: 16 }}>{user?.fullName || user?.name}</Typography> */}
-							{/* <Typography style={{ fontWeight: '500', fontSize: 14 }}>{user?.email}</Typography> */}
+							<Typography style={{ fontWeight: '700', fontSize: 16 }}>{user?.fullName || user?.name}</Typography>
+							<Typography style={{ fontWeight: '500', fontSize: 14 }}>{user?.email}</Typography>
 						</View>
 					</View>
 					<TouchableOpacity onPress={() => navigate('editProfile')}>

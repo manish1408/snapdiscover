@@ -7,13 +7,7 @@ import AppStack from '@/shared/navigation/AppStack';
 import AuthStack from '@/shared/navigation/AuthStack';
 import { useAuth } from '@/shared/hooks/useAuth';
 import useFirebaseCloudMessaging from '@/shared/hooks/useFirebaseCloudMessaging';
-import messaging from '@react-native-firebase/messaging';
 import useSplashScreen from '@/shared/hooks/useSplashScreen';
-
-// Push Notification background handler
-messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-	console.log('Message handled in the background!', remoteMessage);
-});
 
 function App(): JSX.Element {
 	// Push Notification hook

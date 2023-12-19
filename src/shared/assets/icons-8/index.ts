@@ -24,3 +24,4 @@ export { default as arrowRight } from './arrowRight.png';
 export { default as logout } from './logout.png';
 export { default as eye } from './eye.png';
 export { default as eyeOff } from './eye-off.png';
+export { default as bell } from './bell.png';

@@ -2,7 +2,7 @@ import { RouteItem } from '../interfaces/route-types';
 import DetailPlant from '@/modules/private/detailPlant';
 import PlantList from '@/modules/private/plantList';
 import Favorite from '@/modules/private/home/sections/favorite';
-import Notifications from '@/modules/private/home/sections/notifications';
+
 import Reviews from '@/modules/private/detailPlant/sections/reviews';
 import Checkout from '@/modules/private/checkout';
 import EditProfile from '@/modules/private/profile/sections/editProfile';
@@ -23,6 +23,7 @@ import Terms from '@/modules/private/profile/terms';
 import Privacy from '@/modules/private/profile/privacy';
 import Earn from '@/modules/private/earn';
 import Scans from '@/modules/private/scans';
+import Notifications from '@/modules/private/notifications';
 const AppRoutes: RouteItem[] = [
 	{
 		path: 'detailPlant',
@@ -39,11 +40,11 @@ const AppRoutes: RouteItem[] = [
 		component: Favorite,
 		private: true,
 	},
-	{
-		path: 'notifications',
-		component: Notifications,
-		private: true,
-	},
+	// {
+	// 	path: 'notifications',
+	// 	component: Notifications,
+	// 	private: true,
+	// },
 	{
 		path: 'reviews',
 		component: Reviews,
@@ -134,6 +135,11 @@ const AppRoutes: RouteItem[] = [
 		path: 'scan',
 		private: true,
 		component: Scans,
+	},
+	{
+		path: 'notifications',
+		private: true,
+		component: Notifications,
 	},
 ];
 

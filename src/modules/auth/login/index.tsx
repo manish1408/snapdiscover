@@ -11,7 +11,6 @@ import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
 import CheckBox from '@/shared/components/checkbox';
 import { useNavigation } from '@react-navigation/native';
-// import { NavigationProps } from '@/shared/routes/stack';
 import auth from '@react-native-firebase/auth';
 import { isValidEmail } from '@/shared/helpers';
 import firestore from '@react-native-firebase/firestore';

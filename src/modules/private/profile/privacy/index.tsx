@@ -8,6 +8,7 @@ import { normalize, storage } from '@/shared/helpers';
 import i18n from 'i18next';
 import useEffectOnce from '@/shared/hooks/useEffectOnce';
 import { semantic } from '@/shared/constants/colors';
+import Header from '../components/header';
 
 const defaultOptions = [
 	{
@@ -58,7 +59,7 @@ export default function Privacy() {
 	return (
 		<Wrapper>
 			<View style={{ paddingHorizontal: normalize(24) }}>
-				<HeaderWithIcon title="Privacy Policy" />
+				<Header title="Privacy Policy" />
 
 				{[1, 2, 3].map((chunk, idx) => (
 					<View key={idx} style={{ marginTop: normalize(20) }}>

@@ -19,6 +19,8 @@ import Scans from '@/modules/private/scans';
 import Favourites from '@/modules/private/favourites';
 import Camera from '@/modules/private/camera';
 import Earn from '@/modules/private/earn';
+import Chat from '@/modules/private/chats/components/chat';
+import Notifications from '@/modules/private/home/sections/notifications';
 
 export default [
 	// {
@@ -68,5 +70,6 @@ export default [
 		icon: UserIcon,
 		activeIcon: userFIlled,
 		component: Profile,
+		// component: Home,
 	},
 ];

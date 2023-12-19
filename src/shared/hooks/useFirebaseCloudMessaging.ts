@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
+
 const useFirebaseCloudMessaging = () => {
 	useEffect(() => {
 		const initializeFCM = async () => {
@@ -29,7 +30,7 @@ const useFirebaseCloudMessaging = () => {
 	useEffect(() => {
 		const handleFCMMessage = async () => {
 			const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-				Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+				Alert.alert('Notification Foreground state', JSON.stringify(remoteMessage));
 			});
 
 			return unsubscribe;
@@ -41,14 +42,14 @@ const useFirebaseCloudMessaging = () => {
 	// Background and Quit Push
 	function backQuitePushHandler() {
 		messaging().onNotificationOpenedApp((remoteMessage) => {
-			console.log('Notification caused app to open from background state:', remoteMessage.notification);
+			console.log('Notification Background state:', remoteMessage);
 		});
 
 		messaging()
 			.getInitialNotification()
 			.then((remoteMessage) => {
 				if (remoteMessage) {
-					console.log('Notification caused app to open from quit state:', remoteMessage.notification);
+					console.log('Notification Quit state:', remoteMessage);
 				}
 			});
 	}
