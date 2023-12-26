@@ -17,11 +17,15 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import { semantic } from '@/shared/constants/colors';
 import { MOCKUP_PRODUCTS } from '@/db/index';
 
+import useFetchCollections from '@/shared/hooks/useFetchCollections';
+
 export default function Favourites() {
 	const { isDarkMode } = useDarkMode();
 	const { navigate } = useNavigation<NavigationProps>();
 	const [openDeleteItem, setOpenDeleteItem] = useState(false);
 	const [selectedProductToRemove, setSelectedProductToRemove] = useState({});
+	const { data: products, loading } = useFetchCollections('products');
+
 	function toggleOpenDeleteItem() {
 		setOpenDeleteItem(!openDeleteItem);
 	}
@@ -37,14 +41,15 @@ export default function Favourites() {
 			</View>
 		);
 	}
+
 	return (
 		<View style={{ flex: 1 }}>
-			<Wrapper>
+			<Wrapper loading={loading}>
 				<View style={{ flex: 1, paddingHorizontal: normalize(24) }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<HeaderWithIcon icon={heartFilled} title="favourites.title" />
 						<View style={{ height: normalize(32) }} />
-						<List between data={MOCKUP_PRODUCTS} rows={1} renderItem={renderItem} />
+						<List between data={products} rows={1} renderItem={renderItem} />
 					</ScrollView>
 				</View>
 			</Wrapper>

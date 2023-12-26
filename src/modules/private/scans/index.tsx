@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
 import { ScrollView, View } from 'react-native';
 import HeaderWithIcon from '@/shared/components/headerBack';
@@ -17,6 +17,8 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import { semantic } from '@/shared/constants/colors';
 import { MOCKUP_PRODUCTS } from '@/db/index';
 import WelcomeModal from './components/WelcomeModal';
+
+import useFetchCollections from '@/shared/hooks/useFetchCollections';
 
 export default function Scans() {
 	const { isDarkMode } = useDarkMode();
@@ -38,15 +40,19 @@ export default function Scans() {
 			</View>
 		);
 	}
+
+	// Firebase
+	const { data: products, loading } = useFetchCollections('products');
+
 	return (
 		<View style={{ flex: 1 }}>
-			<Wrapper>
+			<Wrapper loading={loading}>
 				<WelcomeModal />
 				<View style={{ flex: 1, paddingHorizontal: normalize(24) }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<HeaderWithIcon icon={scanFilled} title="scans.title" />
 						<View style={{ height: normalize(32) }} />
-						<List between data={MOCKUP_PRODUCTS} rows={1} renderItem={renderItem} />
+						<List between data={products} rows={1} renderItem={renderItem} />
 					</ScrollView>
 				</View>
 			</Wrapper>

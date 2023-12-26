@@ -19,7 +19,7 @@ export default function ShowHidePassword({ icon, width, height, customStyles, on
 	const styles = _styles({ width, height, isDarkMode });
 
 	return (
-		<TouchableOpacity onPress={() => onIconPress && onIconPress()}>
+		<TouchableOpacity onPress={() => onIconPress()}>
 			<Image style={[styles.icon, customStyles]} source={icon} />
 		</TouchableOpacity>
 	);

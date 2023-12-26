@@ -22,30 +22,28 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 	return (
 		<TouchableOpacity onPress={navigateTo} style={styles.container}>
 			<View style={styles.containerImage}>
-				<Image style={styles.image} resizeMode="contain" source={product.images[0]} />
+				<Image style={styles.image} resizeMode="contain" source={{ uri: product.images[0] }} />
 				{favourite && <Image style={styles.icon} resizeMode="contain" source={require('@/shared/assets/icons-8/heart-pink-filled.png')} />}
 			</View>
 
 			<View style={styles.containerInfo}>
 				<View style={styles.actions}>
 					<Typography style={styles.name} translate={false}>
-						{product.name}
+						{product.title}
 					</Typography>
 				</View>
 
 				<Typography style={styles.category} translate={false}>
-					Score: {product.score}
+					Points: {product?.points}
 				</Typography>
 				<Typography style={styles.category} translate={false}>
-					{moment(product.date).format('YYYY-DD-MM')}
+					{moment(product?.date).format('YYYY-DD-MM')}
 				</Typography>
 				{!favourite && (
 					<Typography style={styles.category} translate={false}>
-						{product.points} points (
 						<Typography style={product.isVerified ? styles.verified : styles.notVerified} translate={false}>
 							{product.isVerified ? 'Verified' : 'Not verified'}
 						</Typography>
-						)
 					</Typography>
 				)}
 			</View>

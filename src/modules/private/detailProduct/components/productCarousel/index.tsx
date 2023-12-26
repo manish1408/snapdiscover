@@ -18,7 +18,7 @@ export const ProductCarousel = ({ images = [] }) => {
 	const renderItem = ({ item, index }) => {
 		return (
 			<View style={styles.imgWrapper}>
-				<Image style={styles.image} source={item} />
+				<Image style={styles.image} source={{ uri: item }} />
 			</View>
 		);
 	};
