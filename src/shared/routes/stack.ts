@@ -43,7 +43,9 @@ export type RootStackParamList = {
 	plantList: undefined;
 	favorites: undefined;
 	notifications: undefined;
-	reviews: undefined;
+	reviews: {
+		productId: string;
+	};
 	checkout: undefined;
 	editProfile: undefined;
 	vouchers: undefined;

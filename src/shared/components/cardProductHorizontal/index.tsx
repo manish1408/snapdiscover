@@ -21,11 +21,12 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 	}
 	return (
 		<TouchableOpacity onPress={navigateTo} style={styles.container}>
-			<View style={styles.containerImage}>
-				<Image style={styles.image} resizeMode="contain" source={{ uri: product.images[0] }} />
-				{favourite && <Image style={styles.icon} resizeMode="contain" source={require('@/shared/assets/icons-8/heart-pink-filled.png')} />}
-			</View>
-
+			{product.images && product.images.length > 0 && (
+				<View style={styles.containerImage}>
+					<Image style={styles.image} resizeMode="contain" source={{ uri: product.images[0] }} />
+					{favourite && <Image style={styles.icon} resizeMode="contain" source={require('@/shared/assets/icons-8/heart-pink-filled.png')} />}
+				</View>
+			)}
 			<View style={styles.containerInfo}>
 				<View style={styles.actions}>
 					<Typography style={styles.name} translate={false}>

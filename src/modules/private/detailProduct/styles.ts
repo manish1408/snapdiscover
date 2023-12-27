@@ -24,6 +24,7 @@ export const _styles = (isDarkMode: boolean) =>
 			justifyContent: 'space-between',
 			marginTop: normalize(24),
 		},
+		commentRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' },
 		name: {
 			fontSize: normalize(24),
 			fontWeight: '700',
@@ -36,6 +37,7 @@ export const _styles = (isDarkMode: boolean) =>
 			flexDirection: 'row',
 			alignItems: 'center',
 			marginTop: normalize(20),
+			justifyContent: 'space-between',
 		},
 		sold: {
 			flexDirection: 'row',
@@ -117,4 +119,9 @@ export const _styles = (isDarkMode: boolean) =>
 			// justifyContent: 'space-between',
 			// gap: 10,
 		},
+
+		// body: {
+		// 	flex: 1,
+		// 	paddingHorizontal: normalize(10),
+		// },
 	});

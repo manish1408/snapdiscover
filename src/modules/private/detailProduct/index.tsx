@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
-import { Image, Linking, Platform, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Platform, ScrollView, Text, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import { _styles } from './styles';
 import Header from './components/header';
 import useDarkMode from '@/shared/hooks/useDarkMode';
 import Typography from '@/shared/components/typography';
 import Icon from '@/shared/components/icon';
 import { star, shippingCart, shoppingBag } from '@/shared/assets/icons';
-import { share, starYellowFilled } from '@/shared/assets/icons-8';
+import { comment, share, starYellowFilled } from '@/shared/assets/icons-8';
 import Counter from '@/shared/components/counter';
 import { currencyType } from '@/shared/constants/global';
 import { Button } from '@/shared/components/buttons';
@@ -19,6 +19,9 @@ import Share from 'react-native-share';
 import { MOCKUP_PRODUCTS } from '@/db';
 import firestore from '@react-native-firebase/firestore';
 import useFetchCollectionDetails from '@/shared/hooks/useFetchCollectionDetails';
+import { normalize } from '@/shared/helpers';
+import AddCommentSection from './components/addCommentSection';
+
 export default function DetailProduct() {
 	const { navigate } = useNavigation<NavigationProps>();
 	const { isDarkMode } = useDarkMode();
@@ -105,10 +108,10 @@ export default function DetailProduct() {
 					<View style={styles.sold}>
 						<Typography translate={false}>{product?.brewery?.name}</Typography>
 						<View style={styles.space} />
-						{/* <Typography>Sold</Typography> */}
 					</View>
 					<View style={styles.separator} />
-					<TouchableOpacity style={styles.row}>
+
+					<View style={styles.row}>
 						<Icon customStyles={styles.sizeStar} icon={starYellowFilled} />
 						<View style={styles.space} />
 						<View style={styles.space} />
@@ -117,6 +120,13 @@ export default function DetailProduct() {
 						<Typography translate={false}> ({product?.totalRatings}</Typography>
 						<View style={styles.space} />
 						<Typography> Ratings)</Typography>
+					</View>
+					<TouchableOpacity style={styles.row} onPress={() => navigate('reviews', { productId })}>
+						<Icon customStyles={styles.sizeStar} icon={comment} />
+						<View style={styles.space} />
+						<View style={styles.space} />
+						<Typography> Comment</Typography>
+						<View style={styles.space} />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.containerDescription}>
@@ -274,18 +284,6 @@ export default function DetailProduct() {
 						</View>
 					</View>
 				</View>
-
-				{/* <View style={styles.containerName}>
-					<View style={{ flex: 1 }}>
-						<Typography style={styles.price}>{'general.price'}</Typography>
-						<Typography style={styles.total} translate={false}>
-							{currencyType} 20.00
-						</Typography>
-					</View>
-					<View style={{ flex: 1 }}>
-						<Button leftIcon={<Icon customStyles={{ tintColor: 'white' }} icon={shoppingBag} />} title={'general.buy_now'} />
-					</View>
-				</View> */}
 			</ScrollView>
 		</Wrapper>
 	);

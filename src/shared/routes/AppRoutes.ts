@@ -3,7 +3,7 @@ import DetailPlant from '@/modules/private/detailPlant';
 import PlantList from '@/modules/private/plantList';
 import Favorite from '@/modules/private/home/sections/favorite';
 
-import Reviews from '@/modules/private/detailPlant/sections/reviews';
+import Reviews from '@/modules/private/detailProduct/sections/reviews';
 import Checkout from '@/modules/private/checkout';
 import EditProfile from '@/modules/private/profile/sections/editProfile';
 import Vouchers from '@/modules/private/profile/sections/vouchers';

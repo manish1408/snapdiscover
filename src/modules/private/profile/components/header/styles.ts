@@ -9,6 +9,5 @@ export const styles = StyleSheet.create({
 	title: {
 		fontSize: normalize(24),
 		fontWeight: '700',
-		marginLeft: normalize(6),
 	},
 });
