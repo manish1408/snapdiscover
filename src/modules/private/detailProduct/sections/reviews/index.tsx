@@ -46,17 +46,19 @@ export default function Reviews() {
 	};
 	const handleAddComment = async (comment) => {
 		try {
-			const currentUser = auth().currentUser;
+			// const currentUser = auth().currentUser;
 
-			if (!currentUser) {
-				console.error('User not authenticated.');
-				return;
-			}
-
+			// if (!currentUser) {
+			// 	console.error('User not authenticated.');
+			// 	return;
+			// }
+			const cu = auth().currentUser;
+			const res = await firestore().collection('users').doc(cu.uid).get();
+			const currentUser = res.data();
 			const postedBy: PostedBy = {
-				userName: currentUser.displayName || '',
-				userId: currentUser.uid || '',
-				photo: currentUser.photoURL || null,
+				userName: currentUser?.displayName || '',
+				userId: currentUser?.uid || '',
+				photo: currentUser?.photoURL || null,
 				postedDate: firestore.FieldValue.serverTimestamp(),
 			};
 

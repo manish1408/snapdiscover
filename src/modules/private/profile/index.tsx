@@ -11,50 +11,27 @@ import Toggle from '@/shared/components/toggle';
 import { styles } from './styles';
 import { normalize } from '@/shared/helpers';
 import { NavigationProps } from '@/shared/routes/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import ButtonSheet from '@/shared/components/buttonSheet';
 import ListOptionCard, { OptionCardOptions } from '@/shared/components/ListOptionCard';
 import { Button } from '@/shared/components/buttons';
 import useDarkMode from '@/shared/hooks/useDarkMode';
-import { getToken, removeToken } from '@/shared/auth/authStorage';
+import { getUser, removeUser } from '@/shared/auth/authStorage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { useUser } from '@/shared/hooks/userContext';
 
 const Profile = () => {
 	const [toggleDarkMode, setToggleDarkMode] = useState<boolean>(false);
 	const { navigate } = useNavigation<NavigationProps>();
-
+	const route = useRoute();
 	const [openModal, setOpenModal] = useState(false);
 	const [addressSelected, setAddressSelected] = useState<OptionCardOptions>();
 	const { isDarkMode, changeColorScheme } = useDarkMode();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const [user, setUser] = useState(null);
+	const { user } = useUser();
 
-	useEffect(() => {
-		fetchUserData();
-	}, []);
-
-	const fetchUserData = async () => {
-		setIsLoading(true);
-		const token = await getToken();
-
-		if (token) {
-			try {
-				const userDoc = await firestore().collection('users').doc(token).get();
-				console.log(userDoc);
-				if (userDoc.exists) {
-					const userData = userDoc.data();
-					setUser(userData);
-				} else {
-					console.warn('User document not found in Firestore');
-				}
-			} catch (err) {}
-		} else {
-			setUser(null);
-		}
-		setIsLoading(false);
-	};
 	function onSelectAddress(option: OptionCardOptions) {
 		setAddressSelected(option);
 	}
@@ -83,8 +60,6 @@ const Profile = () => {
 	};
 	const signOut = async () => {
 		try {
-			// await removeToken();
-			// navigate('welcome');
 			await auth().signOut();
 			console.log('User signed out!');
 		} catch (error) {
@@ -115,7 +90,7 @@ const Profile = () => {
 							flexDirection: 'row',
 						}}
 					>
-						<Image style={styles.image} source={{ uri: user?.photo ? user?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
+						<Image style={styles.image} source={{ uri: user?.photoURL ? user?.photoURL : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
 						<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
 							<Typography style={{ fontWeight: '700', fontSize: 16 }}>{user?.fullName || user?.name}</Typography>
 							<Typography style={{ fontWeight: '500', fontSize: 14 }}>{user?.email}</Typography>

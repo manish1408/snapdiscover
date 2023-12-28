@@ -3,16 +3,18 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Wrapper from '@/shared/components/wrapper';
 import HeaderWithIcon from '@/shared/components/headerBack';
 import Icon from '@/shared/components/icon';
-import { edit, mail, phone, user } from '@/shared/assets/icons';
+import { edit } from '@/shared/assets/icons';
 import Input from '@/shared/components/input';
 import { Button } from '@/shared/components/buttons';
 import { _styles } from './styles';
 import Header from '../../components/header';
 import { launchImageLibrary } from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+
 import storage from '@react-native-firebase/storage';
 import { normalize } from '@/shared/helpers';
+
+import { useUser } from '@/shared/hooks/userContext';
 const EditProfile = () => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [photoURL, setPhotoURL] = useState('');
@@ -24,28 +26,17 @@ const EditProfile = () => {
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState<string>(' ');
 	const [source, setSource] = useState(null);
+	const { user, updateUser } = useUser();
 	useEffect(() => {
-		fetchCurrentUser();
+		setCurrentUser(user);
+		setFullName(user?.fullName || '');
+		setPhone(user?.phone || '');
+		setEmail(user?.email || '');
+		setGender(user?.gender || '');
+		setAbout(user?.about || '');
+		setPhotoURL(user?.photoURL);
 	}, []);
-	const fetchCurrentUser = async () => {
-		try {
-			const cu = auth().currentUser;
-			const res = await firestore().collection('users').doc(cu.uid).get();
-			const user = res.data();
-			console.log('User', user);
-			if (user) {
-				setCurrentUser(user);
-				setFullName(user.fullName || '');
-				setPhone(user.phone || '');
-				setEmail(user?.email || '');
-				setGender(user.gender || '');
-				setAbout(user.about || about);
-				setPhotoURL(user?.photoURL);
-			}
-		} catch (error) {
-			console.error('Error fetching current user:', error.message);
-		}
-	};
+
 	const uploadImage = async () => {
 		try {
 			const options = {
@@ -132,7 +123,9 @@ const EditProfile = () => {
 				reqObj.photoURL = imageUrl;
 			}
 			await firestore().collection('users').doc(currentUser.uid).update(reqObj);
-			fetchCurrentUser();
+			const res = await firestore().collection('users').doc(currentUser.uid).get();
+			updateUser(res.data());
+
 			setLoading(false);
 		} catch (error) {
 			console.error('Error updating profile:', error.message);

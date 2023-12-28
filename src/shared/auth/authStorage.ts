@@ -1,32 +1,38 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Store the authentication token
-const storeToken = async (token: string): Promise<void> => {
+// Store the authentication user
+const storeUser = async (user: any): Promise<void> => {
 	try {
-		await AsyncStorage.setItem('userToken', token);
+		await AsyncStorage.setItem('user', JSON.stringify(user));
 	} catch (error) {
-		console.error('Error storing token:', error);
+		console.error('Error storing user:', error);
 	}
 };
 
-// Get the stored authentication token
-const getToken = async (): Promise<string | null> => {
+// Get the stored authentication user
+const getUser = async (): Promise<any | null> => {
 	try {
-		const token = await AsyncStorage.getItem('userToken');
-		return token;
+		const userString = await AsyncStorage.getItem('user');
+		if (userString) {
+			const user = JSON.parse(userString);
+			return user;
+		} else {
+			console.warn('No user data found in AsyncStorage');
+			return null;
+		}
 	} catch (error) {
-		console.error('Error getting token:', error);
+		console.error('Error getting user:', error);
 		return null;
 	}
 };
 
-// Remove the stored authentication token
-const removeToken = async (): Promise<void> => {
+// Remove the stored authentication user
+const removeUser = async (): Promise<void> => {
 	try {
-		await AsyncStorage.removeItem('userToken');
+		await AsyncStorage.removeItem('user');
 	} catch (error) {
-		console.error('Error removing token:', error);
+		console.error('Error removing user:', error);
 	}
 };
 
-export { storeToken, getToken, removeToken };
+export { storeUser, getUser, removeUser };

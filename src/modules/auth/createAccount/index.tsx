@@ -15,6 +15,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { eyeOff, eye } from '@/shared/assets/icons-8';
 import ShowHidePassword from '@/shared/components/showHidePassword';
+import { useUser } from '@/shared/hooks/userContext';
 export default function CreateAccount() {
 	const { navigate } = useNavigation<NavigationProps>();
 
@@ -24,7 +25,7 @@ export default function CreateAccount() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [errorMsg, setErrorMsg] = useState<string>(' ');
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-
+	const { updateUser } = useUser();
 	const handleSignUp = async (): Promise<void> => {
 		if (fullName.trim() === '') {
 			setErrorMsg('Full name is required');
@@ -58,12 +59,12 @@ export default function CreateAccount() {
 			};
 			const userDocRef = firestore().collection('users').doc(userCredentials.user.uid);
 			await userDocRef.set(userData);
+			updateUser(userData);
 			setFullName('');
 			setEmail('');
 			setPassword('');
 			setErrorMsg(' ');
 			setIsLoading(false);
-			navigate('login');
 		} catch (err) {
 			setIsLoading(false);
 			let cleanedErrorMessage = err.message.replace(/\[.*?\]/g, '').trim();

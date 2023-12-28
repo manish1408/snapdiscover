@@ -8,6 +8,7 @@ import AuthStack from '@/shared/navigation/AuthStack';
 import { useAuth } from '@/shared/hooks/useAuth';
 import useFirebaseCloudMessaging from '@/shared/hooks/useFirebaseCloudMessaging';
 import useSplashScreen from '@/shared/hooks/useSplashScreen';
+import { UserProvider } from '@/shared/hooks/userContext';
 
 function App(): JSX.Element {
 	// Push Notification hook
@@ -30,7 +31,7 @@ function App(): JSX.Element {
 		getTranslate().catch();
 	}, []);
 
-	return user ? <AppStack /> : <AuthStack />;
+	return <UserProvider>{user ? <AppStack /> : <AuthStack />}</UserProvider>;
 }
 
 export default App;

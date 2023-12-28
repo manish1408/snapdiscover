@@ -15,9 +15,9 @@ import auth from '@react-native-firebase/auth';
 import { isValidEmail } from '@/shared/helpers';
 import firestore from '@react-native-firebase/firestore';
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { storeToken } from '@/shared/auth/authStorage';
 import { NavigationProps } from '@/shared/interfaces/route-types';
 import ShowHidePassword from '@/shared/components/showHidePassword';
+import { useUser } from '@/shared/hooks/userContext';
 
 export default function Login() {
 	const navigation = useNavigation<NavigationProps>();
@@ -28,7 +28,7 @@ export default function Login() {
 	const [errorMsg, setErrorMsg] = useState<string>(' ');
 	const [isSigninInProgress, setIsSigninInProgress] = useState<boolean>(false);
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-
+	const { updateUser } = useUser();
 	useEffect(() => {
 		GoogleSignin.configure({
 			webClientId: '125902216495-aog8qqgos716iv4hkbrsaec245h38kps.apps.googleusercontent.com',
@@ -61,11 +61,11 @@ export default function Login() {
 			if (userDocSnapshot.exists) {
 				const loggedinUser = userDocSnapshot.data();
 				console.log('Logged in User', loggedinUser);
+				updateUser(loggedinUser);
 			} else {
 				console.log('User does not exist');
 			}
-			await storeToken(userCredentials.user.uid);
-			// navigation.navigate('scan');
+
 			setEmail('');
 			setPassword('');
 			setIsLoading(false);
@@ -80,24 +80,27 @@ export default function Login() {
 		setIsLoading(true);
 		try {
 			await GoogleSignin.hasPlayServices();
-			await GoogleSignin.signOut();
 			const userInfo = await GoogleSignin.signIn();
-			// const { idToken } = await GoogleSignin.signIn();
 
-			// Create a Google credential with the token
 			const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
 
 			// Sign-in the user with the credential
-			auth().signInWithCredential(googleCredential);
-
-			const userDocRef = firestore().collection('users').doc(userInfo.user.id);
+			const userCredentials = await auth().signInWithCredential(googleCredential);
 			const userData = {
-				uid: userInfo.user.id,
-				...userInfo.user,
+				uid: userCredentials.user.uid,
+				email: userCredentials.user.email,
+				fullName: userCredentials.user.displayName,
+				photoURL: userCredentials.user.photoURL,
+				about: '',
+				gender: '',
+				phone: '',
 			};
-			await userDocRef.set(userData);
-			await storeToken(userInfo.user.id);
-			// navigation.navigate('scan');
+			if (userCredentials?.additionalUserInfo?.isNewUser) {
+				const userDocRef = firestore().collection('users').doc(userCredentials.user.uid);
+				await userDocRef.set(userData);
+			}
+			// await storeUser(userData);
+			updateUser(userData);
 			setIsLoading(false);
 		} catch (error) {
 			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
