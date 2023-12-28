@@ -30,7 +30,7 @@ const Profile = () => {
 	const { isDarkMode, changeColorScheme } = useDarkMode();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const { user } = useUser();
+	const { user, clearUser } = useUser();
 
 	function onSelectAddress(option: OptionCardOptions) {
 		setAddressSelected(option);
@@ -60,6 +60,7 @@ const Profile = () => {
 	};
 	const signOut = async () => {
 		try {
+			clearUser();
 			await auth().signOut();
 			console.log('User signed out!');
 		} catch (error) {

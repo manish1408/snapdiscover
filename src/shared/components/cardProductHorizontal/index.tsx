@@ -34,7 +34,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 					</Typography>
 				</View>
 
-				<Typography style={styles.category} translate={false}>
+				{/* <Typography style={styles.category} translate={false}>
 					Points: {product?.points}
 				</Typography>
 				<Typography style={styles.category} translate={false}>
@@ -46,7 +46,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 							{product.isVerified ? 'Verified' : 'Not verified'}
 						</Typography>
 					</Typography>
-				)}
+				)} */}
 			</View>
 		</TouchableOpacity>
 	);

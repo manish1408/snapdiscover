@@ -45,5 +45,7 @@
     <queries>
       <package android:name="com.whatsapp" />
       <package android:name="com.instagram.android" />
+      <package android:name="com.facebook.android" />
+      <package android:name="com.twitter.android" />
     </queries>
 </manifest>

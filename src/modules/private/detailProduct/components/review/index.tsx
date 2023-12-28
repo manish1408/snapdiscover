@@ -9,16 +9,19 @@ import { normalize } from '@/shared/helpers';
 import moment from 'moment';
 
 export default function Review({ comment }) {
-	console.log(comment);
+	console.log('Hello', comment);
 	return (
 		<View style={{ marginBottom: normalize(24) }}>
 			<View style={styles.header}>
 				<View style={styles.row}>
-					<Image style={styles.avatar} source={{ uri: 'https://i.ibb.co/hZqwx78/049-girl-25.png' }} />
+					<Image
+						style={styles.avatar}
+						source={{ uri: comment?.postedBy?.photo ? comment?.postedBy?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }}
+					/>
 
 					<View>
 						<Typography style={styles.name} translate={false}>
-							{comment.userName}
+							{comment.postedBy?.userName}
 						</Typography>
 						<Typography style={styles.date} translate={false}>
 							{moment(comment.postedDate?.toDate()).fromNow()}

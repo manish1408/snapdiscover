@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface UserContextProps {
 	user: any;
 	updateUser: (updatedUser: any) => void;
+	clearUser: () => void;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -17,6 +18,9 @@ const UserProvider: FC<UserProviderProps> = ({ children }) => {
 
 	const updateUser = (updatedUser: any) => {
 		setUser(updatedUser);
+	};
+	const clearUser = () => {
+		setUser(null);
 	};
 
 	// Load user data from AsyncStorage on component mount
@@ -49,7 +53,7 @@ const UserProvider: FC<UserProviderProps> = ({ children }) => {
 		saveUserData();
 	}, [user]);
 
-	return <UserContext.Provider value={{ user, updateUser }}>{children}</UserContext.Provider>;
+	return <UserContext.Provider value={{ user, updateUser, clearUser }}>{children}</UserContext.Provider>;
 };
 
 const useUser = () => {

@@ -45,8 +45,8 @@ export default function DetailProduct() {
 				url: deepLink,
 				social: Share.Social[platform],
 			};
-
-			const shareResult = await Share.shareSingle(shareOptions);
+			console.log(shareOptions);
+			await Share.shareSingle(shareOptions);
 		} catch (error) {
 			console.error(error);
 		}
@@ -94,7 +94,6 @@ export default function DetailProduct() {
 					{/* <Image resizeMode="contain" style={styles.image} source={product?.image} /> */}
 					<ProductCarousel images={product?.images} />
 				</View>
-
 				<View style={styles.containerName}>
 					<Typography style={styles.name} translate={false}>
 						{product?.title}
@@ -103,14 +102,13 @@ export default function DetailProduct() {
 						<Icon icon={share} />
 					</TouchableOpacity>
 				</View>
-
 				<View style={styles.containerCantSold}>
 					<View style={styles.sold}>
-						<Typography translate={false}>{product?.brewery?.name}</Typography>
+						<Typography translate={false}>{product?.additionalInfo?.breweryInfo?.name}</Typography>
 						<View style={styles.space} />
 					</View>
 					<View style={styles.separator} />
-
+					{/*
 					<View style={styles.row}>
 						<Icon customStyles={styles.sizeStar} icon={starYellowFilled} />
 						<View style={styles.space} />
@@ -120,7 +118,7 @@ export default function DetailProduct() {
 						<Typography translate={false}> ({product?.totalRatings}</Typography>
 						<View style={styles.space} />
 						<Typography> Ratings)</Typography>
-					</View>
+					</View> */}
 					<TouchableOpacity style={styles.row} onPress={() => navigate('reviews', { productId })}>
 						<Icon customStyles={styles.sizeStar} icon={comment} />
 						<View style={styles.space} />
@@ -129,43 +127,50 @@ export default function DetailProduct() {
 						<View style={styles.space} />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.containerDescription}>
-					<Typography style={styles.descriptionTitle}>Ratings</Typography>
-					{product?.ratingSource?.map((chunk, idx) => (
-						<View key={idx} style={styles.containerName}>
-							<View style={{ flex: 1 }}>
-								<Typography style={styles.source}>{chunk.source}</Typography>
-							</View>
-							<View style={{ flex: 1 }}>
-								<Typography style={styles.rating} translate={false}>
-									{chunk.rating}/5
-								</Typography>
-								{/* <Typography style={styles.rating} translate={false}>
-									{chunk.totalRatings} ratings
-								</Typography> */}
-							</View>
-						</View>
-					))}
-				</View>
+				{/* {renderRatings(product?.ratings)} */}
+
+				{product?.ratings && Object.keys(product?.ratings).length > 0 && (
+					<View style={styles.containerDescription}>
+						<Typography style={styles.descriptionTitle}>Ratings</Typography>
+						{Object.keys(product?.ratings).map((source) => {
+							const data = product?.ratings[source];
+							return (
+								<View key={source} style={styles.containerName}>
+									<View style={{ flex: 1 }}>
+										<Typography style={styles.source}>{source}</Typography>
+									</View>
+									<View style={{ flex: 1 }}>
+										<Typography style={styles.rating} translate={false}>
+											{data.averageRating}/5
+										</Typography>
+										<Typography style={styles.rating} translate={false}>
+											{data.totalRatings} ratings
+										</Typography>
+									</View>
+								</View>
+							);
+						})}
+					</View>
+				)}
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Taste Profile</Typography>
 					<View style={styles.containerName}>
 						<View>
 							<Typography translate={false}>Bitterness</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product?.bitterness}/5
+								{product?.tasteProfile?.bitterness}/5
 							</Typography>
 						</View>
 						<View>
 							<Typography translate={false}>Sweetness</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product?.sweetness}/5
+								{product?.tasteProfile?.sweetness}/5
 							</Typography>
 						</View>
 						<View>
 							<Typography translate={false}>Citrus</Typography>
 							<Typography style={styles.valueVariant} translate={false}>
-								{product?.citrus}/5
+								{product?.tasteProfile?.citrus}/5
 							</Typography>
 						</View>
 					</View>
@@ -175,7 +180,7 @@ export default function DetailProduct() {
 							<Typography>Flavour Notes</Typography>
 						</View>
 						<Typography style={styles.flavour} translate={false}>
-							{product?.flavourNotes}
+							{product?.tasteProfile?.flavourNotes}
 						</Typography>
 						{/* <View style={{ flex: 1 }}>
 							{product?.flavourNotes?.map((chunk, idx) => (
@@ -190,7 +195,7 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>{'general.description'}</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product?.description}
+						{product?.additionalInfo?.about}
 					</Typography>
 				</View>
 
@@ -198,92 +203,90 @@ export default function DetailProduct() {
 					<View>
 						<Typography translate={false}>ABV</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product?.abv}%
+							{product?.beerDetails?.abv}%
 						</Typography>
 					</View>
 					<View>
 						<Typography translate={false}>IBU</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product?.ibu}%
+							{product?.beerDetails?.ibu}%
 						</Typography>
 					</View>
 					<View>
 						<Typography translate={false}>Ingredients</Typography>
 						<Typography style={styles.valueVariant} translate={false}>
-							{product?.ingredients}
+							{product?.beerDetails?.ingredients?.join(', ')}
 						</Typography>
 						{/* <Typography style={styles.valueVariant} translate={false}>
 							{product?.ingredients?.join(', ')}
 						</Typography> */}
 					</View>
 				</View>
-				<View style={styles.containerDescription}>
+				{/* <View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>User Reviews</Typography>
 					{product?.reviews?.map((chunk, idx) => (
 						<Typography key={idx} style={styles.review} translate={false}>
 							"{chunk.comment}" - {chunk.user}
 						</Typography>
 					))}
-				</View>
-
+				</View> */}
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Food Pairing</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product?.foodServing}
+						{product?.additionalInfo?.foodPairing?.join(', ')}
 					</Typography>
 				</View>
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Servings Suggestions</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product?.servingSuggestions}
+						{product?.additionalInfo?.servingSuggestions}
 					</Typography>
 				</View>
 				{/* <View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Related Products</Typography>
 					<RelatedProduct />
 				</View> */}
-				{product?.socialSharingLinks && product?.socialSharingLinks.length > 0 && (
+
+				<View style={styles.containerDescription}>
+					<Typography style={styles.descriptionTitle}>Share this with friends</Typography>
+					<View style={styles.containerSocial}>
+						<TouchableOpacity onPress={() => shareOnSocial('FACEBOOK')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/facebook.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnSocial('WHATSAPP')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/whatsapp.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnInstagram()}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/insta.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => shareOnSocial('TWITTER')}>
+							<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/twitter.png')} />
+						</TouchableOpacity>
+					</View>
+				</View>
+
+				{product?.additionalInfo?.breweryInfo && Object.keys(product?.additionalInfo?.breweryInfo).length > 0 && (
 					<View style={styles.containerDescription}>
-						<Typography style={styles.descriptionTitle}>Share this with friends</Typography>
-						<View style={styles.containerSocial}>
-							{product?.socialSharingLinks.map((chunk, idx) => (
-								<TouchableOpacity key={idx} onPress={() => shareOnSocial(chunk.name.toUpperCase())}>
-									<Image resizeMode="contain" style={styles.socialImage} source={{ uri: chunk?.icon }} />
-								</TouchableOpacity>
-							))}
-							{/* <TouchableOpacity onPress={() => shareOnSocial('WHATSAPP')}>
-								<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/whatsapp.png')} />
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => shareOnInstagram()}>
-								<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/insta.png')} />
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => shareOnSocial('TWITTER')}>
-								<Image resizeMode="contain" style={styles.socialImage} source={require('@/shared/assets/icons-8/twitter.png')} />
-							</TouchableOpacity> */}
+						<Typography style={styles.descriptionTitle}>Visit Brewery</Typography>
+
+						<View style={styles.containerAddress}>
+							<View style={{ width: '50%' }}>
+								<Typography style={styles.source}>Address</Typography>
+								<Typography style={styles.description} translate={false}>
+									{product?.additionalInfo?.breweryInfo?.location}
+								</Typography>
+							</View>
+							<View style={{ width: '50%' }}>
+								<Typography style={styles.source}>Website</Typography>
+								<Typography style={styles.description} translate={false}>
+									{product?.additionalInfo?.breweryInfo?.websiteLink}
+								</Typography>
+							</View>
 						</View>
 					</View>
 				)}
-
-				<View style={styles.containerDescription}>
-					<Typography style={styles.descriptionTitle}>Visit Brewery</Typography>
-
-					<View style={styles.containerAddress}>
-						<View style={{ width: '50%' }}>
-							<Typography style={styles.source}>Address</Typography>
-							<Typography style={styles.description} translate={false}>
-								{product?.brewery?.address}
-							</Typography>
-						</View>
-						<View style={{ width: '50%' }}>
-							<Typography style={styles.source}>Website</Typography>
-							<Typography style={styles.description} translate={false}>
-								{product?.brewery?.website}
-							</Typography>
-						</View>
-					</View>
-				</View>
 			</ScrollView>
 		</Wrapper>
 	);

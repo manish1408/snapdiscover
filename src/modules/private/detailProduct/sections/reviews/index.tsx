@@ -14,13 +14,14 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Header from '../../components/header';
 import ReviewHeader from '../../components/reviewHeader';
+import { useUser } from '@/shared/hooks/userContext';
 export default function Reviews() {
 	const route = useRoute();
 
 	const { productId } = route?.params;
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-
+	const { user } = useUser();
 	useEffect(() => {
 		fetchComments();
 	}, [productId]);
@@ -29,7 +30,7 @@ export default function Reviews() {
 		try {
 			setLoading(true);
 			const productDoc = await firestore().collection('products').doc(productId).get();
-			const commentIds = productDoc.data()?.comments || [];
+			const commentIds = productDoc.data()?.userComments || [];
 
 			const commentsData = await Promise.all(
 				commentIds.map(async (commentId: string) => {
@@ -46,19 +47,10 @@ export default function Reviews() {
 	};
 	const handleAddComment = async (comment) => {
 		try {
-			// const currentUser = auth().currentUser;
-
-			// if (!currentUser) {
-			// 	console.error('User not authenticated.');
-			// 	return;
-			// }
-			const cu = auth().currentUser;
-			const res = await firestore().collection('users').doc(cu.uid).get();
-			const currentUser = res.data();
 			const postedBy: PostedBy = {
-				userName: currentUser?.displayName || '',
-				userId: currentUser?.uid || '',
-				photo: currentUser?.photoURL || null,
+				userName: user?.fullName || '',
+				userId: user?.uid || '',
+				photo: user?.photoURL || null,
 				postedDate: firestore.FieldValue.serverTimestamp(),
 			};
 
@@ -69,6 +61,7 @@ export default function Reviews() {
 				dislikes: 0,
 				replies: [],
 			};
+			console.log(commentData);
 			const commentRef = await firestore().collection('comments').add(commentData);
 
 			const commentId = commentRef.id;
@@ -77,7 +70,7 @@ export default function Reviews() {
 				.collection('products')
 				.doc(productId)
 				.update({
-					comments: firestore.FieldValue.arrayUnion(commentId),
+					userComments: firestore.FieldValue.arrayUnion(commentId),
 				});
 			fetchComments();
 		} catch (error) {
