@@ -46,6 +46,9 @@ export default function Reviews() {
 		}
 	};
 	const handleAddComment = async (comment) => {
+		if (comment.trim() == '') {
+			return;
+		}
 		try {
 			const postedBy: PostedBy = {
 				userName: user?.fullName || '',

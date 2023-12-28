@@ -30,3 +30,4 @@ export { default as like } from './like.png';
 export { default as dislike } from './dislike.png';
 export { default as likeFilled } from './like-filled.png';
 export { default as dislikeFilled } from './dislike-filled.png';
+export { default as reply } from './reply.png';

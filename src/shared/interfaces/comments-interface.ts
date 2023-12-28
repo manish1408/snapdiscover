@@ -4,7 +4,7 @@ export interface PostedBy {
 	userName: string;
 	userId: string;
 	photo: string | null;
-	postedDate: FirebaseFirestoreTypes.FieldValue;
+	postedDate: FirebaseFirestoreTypes.FieldValue | Date;
 }
 
 export interface Reply {

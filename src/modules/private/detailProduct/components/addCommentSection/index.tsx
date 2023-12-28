@@ -14,7 +14,7 @@ const AddCommentSection = ({ productId, onAddComment }) => {
 	return (
 		<View style={styles.footer}>
 			<View style={styles.containerInput}>
-				<Input placeholder="Type review here..." value={comment} onChangeText={(text) => setComment(text)} />
+				<Input placeholder="Type comment here..." value={comment} onChangeText={(text) => setComment(text)} />
 			</View>
 			<TouchableOpacity style={styles.containerIcon} onPress={() => onAddComment(comment)}>
 				<Icon customStyles={styles.icon} icon={send} />
