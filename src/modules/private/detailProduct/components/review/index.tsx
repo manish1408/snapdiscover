@@ -15,7 +15,6 @@ import firestore from '@react-native-firebase/firestore';
 import ReplySection from '../replySection';
 
 export default function Review({ comment }) {
-	console.log('Hello', comment);
 	const [replyModal, setReplyModal] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 	const [replyText, setReplyText] = useState<string>('');
@@ -69,13 +68,6 @@ export default function Review({ comment }) {
 							</Typography>
 						</View>
 					</View>
-
-					{/* <View>
-					<View style={styles.valueReview}>
-						<Icon icon={star} />
-						<Typography style={styles.textReview}>5.0</Typography>
-					</View>
-				</View> */}
 				</View>
 
 				<View style={{ marginTop: normalize(12) }}>
@@ -144,9 +136,6 @@ export default function Review({ comment }) {
 										</View>
 										<Pressable style={styles.containerIcon} onPress={() => onReply()}>
 											<Icon customStyles={styles.icon} icon={send} />
-										</Pressable>
-										<Pressable style={styles.containerIcon} onPress={() => setReplyModal(!replyModal)}>
-											<Text>Cancel</Text>
 										</Pressable>
 									</View>
 								</View>

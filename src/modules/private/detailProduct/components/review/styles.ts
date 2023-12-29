@@ -52,14 +52,13 @@ export const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	centeredView: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
 		marginTop: 22,
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
+		flex: 1,
 	},
+
 	modalView: {
 		margin: 20,
 		backgroundColor: 'white',

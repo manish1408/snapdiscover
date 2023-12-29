@@ -17,38 +17,41 @@ import ReviewHeader from '../../components/reviewHeader';
 import { useUser } from '@/shared/hooks/userContext';
 export default function Reviews() {
 	const route = useRoute();
-
 	const { productId } = route?.params;
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const { user } = useUser();
+
 	useEffect(() => {
-		fetchComments();
+		const productDocRef = firestore().collection('products').doc(productId);
+		const commentsRef = firestore().collection('comments');
+
+		const unsubscribeProduct = productDocRef.onSnapshot((productSnapshot) => {
+			const commentIds = productSnapshot.data()?.userComments || [];
+			if (commentIds.length === 0) {
+				setComments([]);
+				return;
+			}
+
+			const unsubscribeComments = commentsRef.where(firestore.FieldPath.documentId(), 'in', commentIds).onSnapshot((commentsSnapshot) => {
+				const updatedComments = commentsSnapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				setComments(updatedComments);
+			});
+
+			return () => unsubscribeComments();
+		});
+
+		return () => unsubscribeProduct();
 	}, [productId]);
 
-	const fetchComments = async () => {
-		try {
-			setLoading(true);
-			const productDoc = await firestore().collection('products').doc(productId).get();
-			const commentIds = productDoc.data()?.userComments || [];
-
-			const commentsData = await Promise.all(
-				commentIds.map(async (commentId: string) => {
-					const commentDoc = await firestore().collection('comments').doc(commentId).get();
-					return { id: commentId, ...commentDoc.data() };
-				}),
-			);
-			setComments(commentsData);
-		} catch (error) {
-			console.error('Error fetching comments:', error);
-		} finally {
-			setLoading(false);
-		}
-	};
 	const handleAddComment = async (comment) => {
-		if (comment.trim() == '') {
+		if (comment.trim() === '') {
 			return;
 		}
+
 		try {
 			const postedBy: PostedBy = {
 				userName: user?.fullName || '',
@@ -65,8 +68,8 @@ export default function Reviews() {
 				replies: [],
 			};
 			console.log(commentData);
-			const commentRef = await firestore().collection('comments').add(commentData);
 
+			const commentRef = await firestore().collection('comments').add(commentData);
 			const commentId = commentRef.id;
 
 			await firestore()
@@ -75,14 +78,11 @@ export default function Reviews() {
 				.update({
 					userComments: firestore.FieldValue.arrayUnion(commentId),
 				});
-			fetchComments();
 		} catch (error) {
 			console.error('Error adding comment:', error);
 		}
 	};
-	if (loading) {
-		return <OverlayLoader />;
-	}
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingTop: 50 }}>
 			<KeyboardAvoidingView
