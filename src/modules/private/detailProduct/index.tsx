@@ -195,7 +195,7 @@ export default function DetailProduct() {
 					<Typography style={styles.descriptionTitle}>{'general.description'}</Typography>
 
 					<Typography style={styles.description} translate={false}>
-						{product?.additionalInfo?.about}
+						{product?.about}
 					</Typography>
 				</View>
 

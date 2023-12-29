@@ -36,7 +36,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 
 				{/* <Typography style={styles.category} translate={false}>
 					Points: {product?.points}
-				</Typography>
+				</Typography> */}
 				<Typography style={styles.category} translate={false}>
 					{moment(product?.date).format('YYYY-DD-MM')}
 				</Typography>
@@ -46,7 +46,7 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 							{product.isVerified ? 'Verified' : 'Not verified'}
 						</Typography>
 					</Typography>
-				)} */}
+				)}
 			</View>
 		</TouchableOpacity>
 	);
