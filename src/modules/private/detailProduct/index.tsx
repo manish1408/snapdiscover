@@ -244,10 +244,12 @@ export default function DetailProduct() {
 						{product?.additionalInfo?.servingSuggestions}
 					</Typography>
 				</View>
-				{/* <View style={styles.containerDescription}>
-					<Typography style={styles.descriptionTitle}>Related Products</Typography>
-					<RelatedProduct />
-				</View> */}
+				{product?.additionalInfo?.similarProducts && (
+					<View style={styles.containerDescription}>
+						<Typography style={styles.descriptionTitle}>Related Products</Typography>
+						<RelatedProduct similarProducts={product?.additionalInfo?.similarProducts} />
+					</View>
+				)}
 
 				<View style={styles.containerDescription}>
 					<Typography style={styles.descriptionTitle}>Share this with friends</Typography>

@@ -13,10 +13,12 @@ export const _styles = (isDarkMode: boolean) =>
 			height: normalize(215),
 			backgroundColor: isDarkMode ? semantic.fill.f01 : semantic.fill.f04,
 			borderRadius: normalize(16),
+			alignItems: 'center',
+			justifyContent: 'center',
 		},
 		image: {
-			width: '100%',
-			height: normalize(215),
+			width: normalize(176),
+			height: normalize(180),
 		},
 		name: {
 			fontSize: normalize(18),
