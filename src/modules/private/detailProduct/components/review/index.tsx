@@ -1,148 +1,142 @@
-import React, { useState } from 'react';
-import { Alert, Image, Modal, Pressable, Text, View, KeyboardAvoidingView, SafeAreaView, Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, Pressable, Text, View, KeyboardAvoidingView, SafeAreaView, Platform, ScrollView } from 'react-native';
 import Typography from '@/shared/components/typography';
 import { styles } from './styles';
 import Icon from '@/shared/components/icon';
-import { send, star } from '@/shared/assets/icons';
+import { arrowBack, send, star } from '@/shared/assets/icons';
 import { like, dislike, reply } from '@/shared/assets/icons-8';
 import { normalize } from '@/shared/helpers';
 import moment from 'moment';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Input from '@/shared/components/input';
-import { useUser } from '@/shared/hooks/userContext';
-import { PostedBy, Reply } from '@/shared/interfaces/comments-interface';
 import firestore from '@react-native-firebase/firestore';
 import ReplySection from '../replySection';
 
 export default function Review({ comment }) {
-	const [replyModal, setReplyModal] = useState(false);
-	const [showReplies, setShowReplies] = useState(false);
-	const [replyText, setReplyText] = useState<string>('');
-	const { user } = useUser();
-	async function onReply() {
-		if (replyText.trim() == '') {
-			setReplyModal(false);
-			return;
+	const [openModal, setOpenModal] = useState(false);
+	const [selectedComment, setSelectedComment] = useState(null);
+	function toggleModal(comment = null) {
+		setOpenModal(!openModal);
+		if (!comment) {
+			setSelectedComment(null);
+		} else {
+			setSelectedComment(comment);
 		}
-		try {
-			const postedBy: PostedBy = {
-				userName: user?.fullName || '',
-				userId: user?.uid || '',
-				photo: user?.photoURL || null,
-				postedDate: new Date(),
-			};
-
-			const replyData: Reply = {
-				reply: replyText,
-				postedBy,
-			};
-			console.log(replyData);
-
-			await firestore()
-				.collection('comments')
-				.doc(comment.id)
-				.update({
-					replies: firestore.FieldValue.arrayUnion(replyData),
-				});
-		} catch (error) {
-			console.error('Error adding comment:', error);
-		}
-		setReplyModal(false);
 	}
+
+	useEffect(() => {
+		const commentRef = firestore().collection('comments').doc(comment.id);
+
+		const unsubscribe = commentRef.onSnapshot((snapshot) => {
+			const data = snapshot.data();
+			const likes = data?.likes || 0;
+			const dislikes = data?.dislikes || 0;
+			// console.log('Likes:', likes, 'Dislikes:', dislikes);
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, [comment.id]);
+
+	const handleReaction = async (reactionType: any) => {
+		const commentRef = firestore().collection('comments').doc(comment.id);
+		await commentRef.update({
+			[reactionType === 'like' ? 'likes' : 'dislikes']: firestore.FieldValue.increment(1),
+		});
+	};
+
 	return (
 		<>
-			<View style={{ marginBottom: normalize(24), position: 'relative' }}>
+			<View style={{ marginTop: normalize(24) }}>
 				<View style={styles.header}>
-					<View style={styles.row}>
+					<View style={[styles.row]}>
 						<Image
 							style={styles.avatar}
 							source={{ uri: comment?.postedBy?.photo ? comment?.postedBy?.photo : 'https://i.ibb.co/hZqwx78/049-girl-25.png' }}
 						/>
-
 						<View>
-							<Typography style={styles.name} translate={false}>
-								{comment.postedBy?.userName}
-							</Typography>
-							<Typography style={styles.date} translate={false}>
-								{moment(comment.postedDate?.toDate()).fromNow()}
-							</Typography>
-						</View>
-					</View>
-				</View>
-
-				<View style={{ marginTop: normalize(12) }}>
-					<Typography style={styles.description} translate={false}>
-						{comment.comment}
-					</Typography>
-				</View>
-				{showReplies &&
-					comment.replies &&
-					comment.replies.length > 0 &&
-					comment.replies.map((chunk, idx) => <ReplySection key={idx} replyText={chunk} />)}
-
-				<View style={styles.row}>
-					<View style={styles.row}>
-						<Icon icon={like} />
-						<Typography style={styles.valueLike} translate={false}>
-							{comment.likes}
-						</Typography>
-					</View>
-					<View style={{ width: 10 }} />
-					<View style={styles.row}>
-						<Icon icon={dislike} />
-						<Typography style={styles.valueLike} translate={false}>
-							{comment.dislikes}
-						</Typography>
-					</View>
-					<View style={{ width: 10 }} />
-					<View style={styles.row}>
-						<Pressable onPress={() => setReplyModal(!replyModal)}>
-							<Icon icon={reply} />
-						</Pressable>
-						<Typography style={styles.valueLike} translate={false}>
-							{comment.replies.length}
-						</Typography>
-					</View>
-					<View style={{ width: 10 }} />
-					{comment.replies && comment.replies.length > 0 && (
-						<View style={styles.row}>
-							<TouchableOpacity onPress={() => setShowReplies(!showReplies)}>
-								<Typography style={styles.valueLike} translate={false}>
-									Show replies
+							<View style={[styles.row, styles.commentRow]}>
+								<Typography style={styles.name} translate={false}>
+									{comment.postedBy?.userName}
 								</Typography>
-							</TouchableOpacity>
+								<Typography style={styles.date} translate={false}>
+									{moment(comment?.postedDate).format('MMM DD, YYYY')}
+								</Typography>
+							</View>
+							<View style={{ marginTop: normalize(4) }}>
+								<Typography style={styles.description} translate={false}>
+									{comment.comment}
+								</Typography>
+							</View>
+
+							<View style={styles.row}>
+								<TouchableOpacity onPress={() => handleReaction('like')}>
+									<View style={styles.row}>
+										<Icon icon={like} />
+										<Typography style={styles.valueLike} translate={false}>
+											{comment.likes}
+										</Typography>
+									</View>
+								</TouchableOpacity>
+								<View style={{ width: 10 }} />
+								<TouchableOpacity onPress={() => handleReaction('dislike')}>
+									<View style={styles.row}>
+										<Icon icon={dislike} />
+										<Typography style={styles.valueLike} translate={false}>
+											{comment.dislikes}
+										</Typography>
+									</View>
+								</TouchableOpacity>
+								<View style={{ width: 10 }} />
+								<View style={styles.row}>
+									<Pressable onPress={() => toggleModal(comment)}>
+										<Icon icon={reply} />
+									</Pressable>
+									<Typography style={styles.valueLike} translate={false}>
+										{comment.replies.length > 0 && comment.replies.length}
+									</Typography>
+								</View>
+								<View style={{ width: 10 }} />
+								{comment.replies && comment.replies.length > 0 && (
+									<View style={styles.row}>
+										<TouchableOpacity onPress={() => toggleModal(comment)}>
+											<Typography style={styles.valueLike} translate={false}>
+												Show replies
+											</Typography>
+										</TouchableOpacity>
+									</View>
+								)}
+							</View>
 						</View>
-					)}
+					</View>
 				</View>
-				{replyModal && (
-					<SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingTop: 50 }}>
+
+				<Modal animationType="slide" transparent={true} visible={openModal}>
+					<SafeAreaView style={{ backgroundColor: 'white' }}>
 						<KeyboardAvoidingView
 							behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-							style={{ height: '100%', flex: 1 }}
+							style={{ height: '100%' }}
 							keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : normalize(22)}
 						>
-							<Modal
-								animationType="slide"
-								transparent={true}
-								visible={replyModal}
-								onRequestClose={() => {
-									setReplyModal(!replyModal);
-								}}
-							>
-								<View style={styles.centeredView}>
-									<View style={styles.modalView}>
-										<View style={styles.containerInput}>
-											<Input placeholder="Type reply here..." value={replyText} onChangeText={(text) => setReplyText(text)} />
-										</View>
-										<Pressable style={styles.containerIcon} onPress={() => onReply()}>
-											<Icon customStyles={styles.icon} icon={send} />
-										</Pressable>
-									</View>
-								</View>
-							</Modal>
+							<View style={{ padding: normalize(24), flex: 1 }}>
+								<Pressable onPress={() => toggleModal()} style={{ flexDirection: 'row', alignItems: 'center' }}>
+									<Icon icon={arrowBack} />
+									<Typography
+										style={{
+											fontWeight: '700',
+											fontSize: normalize(24),
+											marginLeft: normalize(10),
+										}}
+									>
+										Replies
+									</Typography>
+								</Pressable>
+
+								<ReplySection commentId={selectedComment?.id} />
+							</View>
 						</KeyboardAvoidingView>
 					</SafeAreaView>
-				)}
+				</Modal>
 			</View>
 		</>
 	);

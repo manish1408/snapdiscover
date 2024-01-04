@@ -10,7 +10,7 @@ import useDarkMode from '@/shared/hooks/useDarkMode';
 import { semantic } from '@/shared/constants/colors';
 import { NavigationProps } from '@/shared/interfaces/route-types';
 
-export default function ReviewHeader({ title }) {
+export default function ReviewHeader({ title, commentsLength }) {
 	const { isDarkMode } = useDarkMode();
 	const navigation = useNavigation<NavigationProps>();
 
@@ -23,6 +23,9 @@ export default function ReviewHeader({ title }) {
 				<Icon customStyles={{ tintColor: isDarkMode ? semantic.background.white.w500 : semantic.background.dark.d500 }} icon={arrowBack} />
 			</TouchableOpacity>
 
+			<Typography style={styles.title} translate={false}>
+				{commentsLength}
+			</Typography>
 			<Typography style={styles.title} translate={false}>
 				{title}
 			</Typography>

@@ -10,11 +10,11 @@ export const styles = StyleSheet.create({
 	},
 	row: {
 		flexDirection: 'row',
-		alignItems: 'center',
+		// alignItems: 'center',
 	},
 	avatar: {
-		width: normalize(60),
-		height: normalize(60),
+		width: normalize(50),
+		height: normalize(50),
 		marginRight: normalize(12),
 		borderRadius: normalize(100),
 	},
@@ -110,5 +110,9 @@ export const styles = StyleSheet.create({
 	},
 	icon: {
 		tintColor: 'rgba(156, 166, 169, 1)',
+	},
+	commentRow: {
+		alignItems: 'center',
+		gap: 10,
 	},
 });

@@ -31,7 +31,7 @@ export default function DetailProduct() {
 	const productId = route?.params?.id;
 	const { data: product, loading } = useFetchCollectionDetails(productId, 'products');
 	const [deepLink, setDeepLink] = useState({});
-
+	// console.log(product?.userComments.length);
 	useEffect(() => {
 		createDeepLink();
 	}, []);
@@ -123,7 +123,8 @@ export default function DetailProduct() {
 						<Icon customStyles={styles.sizeStar} icon={comment} />
 						<View style={styles.space} />
 						<View style={styles.space} />
-						<Typography> Comment</Typography>
+						<Typography translate={false}> Comments </Typography>
+
 						<View style={styles.space} />
 					</TouchableOpacity>
 				</View>
