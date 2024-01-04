@@ -4,7 +4,7 @@ import Icon from '@/shared/components/icon';
 import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, TouchableOpacity, Image, Alert, Text } from 'react-native';
 import Section from './components/section';
 import Toggle from '@/shared/components/toggle';
 
@@ -21,6 +21,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useUser } from '@/shared/hooks/userContext';
 import useFetchCms from '@/shared/hooks/useFetchCms';
+import NewAddress from './sections/newAddress';
+import Input from '@/shared/components/input';
+import showToast from '@/shared/helpers/showToast';
 
 const Profile = () => {
 	const [toggleDarkMode, setToggleDarkMode] = useState<boolean>(false);
@@ -31,8 +34,12 @@ const Profile = () => {
 	const { isDarkMode, changeColorScheme } = useDarkMode();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const { user, clearUser } = useUser();
+	const { user, clearUser, updateUser } = useUser();
 	const cmsList = useFetchCms();
+	const [country, setCountry] = useState(user?.location && user?.location?.country ? user.location.country : '');
+	const [region, setRegion] = useState(user?.location && user?.location?.region ? user.location.region : '');
+	const [errorMsg, setErrorMsg] = useState<string>(' ');
+	const [loading, setLoading] = useState(false);
 
 	function onSelectAddress(option: OptionCardOptions) {
 		setAddressSelected(option);
@@ -79,6 +86,44 @@ const Profile = () => {
 	});
 	function navigateToCMS(data: any) {
 		navigate('cms', { data });
+	}
+	async function onAddLocation() {
+		try {
+			if (country.trim() === '') {
+				setErrorMsg('Country is required');
+				setLoading(false);
+				return;
+			}
+			if (region.trim() === '') {
+				setErrorMsg('Region is required');
+				setLoading(false);
+				return;
+			}
+			setLoading(true);
+			setErrorMsg('');
+			const userRef = firestore().collection('users').doc(user.uid);
+
+			const userDoc = await userRef.get();
+			if (!userDoc.exists) {
+				throw new Error('User not found');
+			}
+			// Update the user object with country and region
+			const updatedUser = {
+				...userDoc.data(),
+				location: {
+					country: country,
+					region: region,
+				},
+			};
+			await userRef.update(updatedUser);
+			updateUser(updatedUser);
+			toggleModal();
+			showToast('Success', { type: 'success' });
+		} catch (error) {
+			console.error('Error:', error.message);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
@@ -131,7 +176,7 @@ const Profile = () => {
 					title="profile.account_settings"
 					elements={[
 						{
-							name: 'profile.address',
+							name: 'Location',
 							leftIcon: <Icon icon={location} />,
 							onPress: () => toggleModal(),
 						},
@@ -207,32 +252,21 @@ const Profile = () => {
 									marginLeft: normalize(10),
 								}}
 							>
-								{'general.address'}
+								Location
 							</Typography>
 						</TouchableOpacity>
-
-						<ListOptionCard
-							value={addressSelected}
-							onChange={onSelectAddress}
-							options={[
-								{
-									id: '1',
-									icon: location,
-									title: 'Home',
-									description: 'Snow Street, San Francisco, California 42343',
-									active: false,
-								},
-								{
-									id: '2',
-									icon: location,
-									title: 'Parent House',
-									description: 'Snow Street, San Francisco, California 423433123',
-									active: false,
-								},
-							]}
-						/>
-
-						<Button onPress={navigateToNewAddress} title="Add New Address" />
+						<View style={{ marginTop: normalize(24) }}>
+							<View>
+								<View style={{ marginBottom: normalize(24) }}>
+									<Input label="Country" placeholder="Add country" value={country} onChangeText={setCountry} />
+								</View>
+								<View style={{ marginBottom: normalize(24) }}>
+									<Input label="Region" placeholder="Add region" rightIcon={<Icon icon={location} />} value={region} onChangeText={setRegion} />
+								</View>
+							</View>
+							<Text style={styles.error}>{errorMsg}</Text>
+							<Button title="Add" onPress={() => onAddLocation()} disabled={loading} loading={loading} />
+						</View>
 					</View>
 				</ButtonSheet>
 			</View>

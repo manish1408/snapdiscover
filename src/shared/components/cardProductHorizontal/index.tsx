@@ -40,13 +40,12 @@ export default function CardProductHorizontal({ product, actions = true, favouri
 				<Typography style={styles.category} translate={false}>
 					{moment(product?.date).format('YYYY-DD-MM')}
 				</Typography>
-				{!favourite && (
-					<Typography style={styles.category} translate={false}>
-						<Typography style={product.isVerified ? styles.verified : styles.notVerified} translate={false}>
-							{product.isVerified ? 'Verified' : 'Not verified'}
-						</Typography>
+
+				<Typography style={styles.category} translate={false}>
+					<Typography style={product.isVerified ? styles.verified : styles.notVerified} translate={false}>
+						{product.isVerified ? 'Verified' : 'Not verified'}
 					</Typography>
-				)}
+				</Typography>
 			</View>
 		</TouchableOpacity>
 	);

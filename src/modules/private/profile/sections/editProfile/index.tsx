@@ -15,6 +15,7 @@ import storage from '@react-native-firebase/storage';
 import { normalize } from '@/shared/helpers';
 
 import { useUser } from '@/shared/hooks/userContext';
+import showToast from '@/shared/helpers/showToast';
 const EditProfile = () => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [photoURL, setPhotoURL] = useState('');
@@ -77,7 +78,7 @@ const EditProfile = () => {
 				setLoading(false);
 				return;
 			}
-
+			setErrorMsg('');
 			setLoading(true);
 			let reqObj: any = {
 				fullName,
@@ -125,7 +126,7 @@ const EditProfile = () => {
 			await firestore().collection('users').doc(currentUser.uid).update(reqObj);
 			const res = await firestore().collection('users').doc(currentUser.uid).get();
 			updateUser(res.data());
-
+			showToast('Profile saved', { type: 'success' });
 			setLoading(false);
 		} catch (error) {
 			console.error('Error updating profile:', error.message);
@@ -152,7 +153,7 @@ const EditProfile = () => {
 					<Input label="About" value={about} onChangeText={setAbout} />
 				</View>
 				<Text style={_styles.error}>{errorMsg}</Text>
-				<Button title="Submit" onPress={() => handleSubmit()} style={{ paddingBottom: normalize(16) }} />
+				<Button disabled={loading} loading={loading} title="Submit" onPress={() => handleSubmit()} style={{ paddingBottom: normalize(16) }} />
 			</View>
 		</Wrapper>
 	);

@@ -9,6 +9,7 @@ import { useAuth } from '@/shared/hooks/useAuth';
 import useFirebaseCloudMessaging from '@/shared/hooks/useFirebaseCloudMessaging';
 import useSplashScreen from '@/shared/hooks/useSplashScreen';
 import { UserProvider } from '@/shared/hooks/userContext';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 function App(): JSX.Element {
 	// Push Notification hook
@@ -31,7 +32,11 @@ function App(): JSX.Element {
 		getTranslate().catch();
 	}, []);
 
-	return <UserProvider>{user ? <AppStack /> : <AuthStack />}</UserProvider>;
+	return (
+		<ToastProvider>
+			<UserProvider>{user ? <AppStack /> : <AuthStack />}</UserProvider>
+		</ToastProvider>
+	);
 }
 
 export default App;

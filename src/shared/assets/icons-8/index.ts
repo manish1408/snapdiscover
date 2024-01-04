@@ -31,3 +31,6 @@ export { default as dislike } from './dislike.png';
 export { default as likeFilled } from './like-filled.png';
 export { default as dislikeFilled } from './dislike-filled.png';
 export { default as reply } from './reply.png';
+export { default as SuccessIcon } from './success-icon.png';
+export { default as DangerIcon } from './danger-icon.png';
+export { default as WarningIcon } from './warning-icon.png';
