@@ -20,6 +20,7 @@ import { getUser, removeUser } from '@/shared/auth/authStorage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useUser } from '@/shared/hooks/userContext';
+import useFetchCms from '@/shared/hooks/useFetchCms';
 
 const Profile = () => {
 	const [toggleDarkMode, setToggleDarkMode] = useState<boolean>(false);
@@ -31,6 +32,7 @@ const Profile = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const { user, clearUser } = useUser();
+	const cmsList = useFetchCms();
 
 	function onSelectAddress(option: OptionCardOptions) {
 		setAddressSelected(option);
@@ -43,6 +45,7 @@ const Profile = () => {
 		toggleModal();
 		navigate('addNewAddress');
 	}
+
 	const onSignOutPress = () => {
 		Alert.alert(
 			'Sign Out',
@@ -67,6 +70,17 @@ const Profile = () => {
 			console.error('Error signing out:', error);
 		}
 	};
+	const cmsElement = cmsList.map((cms) => {
+		return {
+			name: cms?.pageTitle,
+			leftIcon: <Icon icon={terms} />,
+			onPress: () => navigateToCMS(cms),
+		};
+	});
+	function navigateToCMS(data: any) {
+		navigate('cms', { data });
+	}
+
 	return (
 		<Wrapper loading={isLoading}>
 			<View style={styles.container}>
@@ -162,23 +176,24 @@ const Profile = () => {
 
 				<Section
 					title="profile.support"
-					elements={[
-						{
-							name: 'profile.help_center',
-							leftIcon: <Icon icon={help} />,
-							onPress: () => navigate('chats'),
-						},
-						{
-							name: 'Terms of Service',
-							leftIcon: <Icon icon={terms} />,
-							onPress: () => navigate('terms'),
-						},
-						{
-							name: 'Privacy',
-							leftIcon: <Icon icon={privacy} />,
-							onPress: () => navigate('privacy'),
-						},
-					]}
+					elements={cmsElement}
+					// elements={[
+					// 	{
+					// 		name: 'profile.help_center',
+					// 		leftIcon: <Icon icon={help} />,
+					// 		onPress: () => navigate('chats'),
+					// 	},
+					// 	{
+					// 		name: 'Terms of Service',
+					// 		leftIcon: <Icon icon={terms} />,
+					// 		onPress: () => navigateToCMS({ cms: 'terms' }),
+					// 	},
+					// 	{
+					// 		name: 'Privacy',
+					// 		leftIcon: <Icon icon={privacy} />,
+					// 		onPress: () => navigate('privacy'),
+					// 	},
+					// ]}
 				/>
 
 				<ButtonSheet dispatch={openModal}>

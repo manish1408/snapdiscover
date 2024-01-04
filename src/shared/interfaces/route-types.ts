@@ -33,6 +33,9 @@ export type RootStackParamList = {
 	privacy: undefined;
 	earn: undefined;
 	scan: undefined;
+	cms: {
+		data: any;
+	};
 };
 
 export type RouteItem = {

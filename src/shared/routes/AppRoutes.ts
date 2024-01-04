@@ -24,6 +24,7 @@ import Privacy from '@/modules/private/profile/privacy';
 import Earn from '@/modules/private/earn';
 import Scans from '@/modules/private/scans';
 import Notifications from '@/modules/private/notifications';
+import CMS from '@/modules/private/profile/cms';
 const AppRoutes: RouteItem[] = [
 	{
 		path: 'detailPlant',
@@ -140,6 +141,11 @@ const AppRoutes: RouteItem[] = [
 		path: 'notifications',
 		private: true,
 		component: Notifications,
+	},
+	{
+		path: 'cms',
+		component: CMS,
+		private: true,
 	},
 ];
 
