@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import HeaderWithIcon from '@/shared/components/headerBack';
 
 import { heartFilled } from '@/shared/assets/icons-8';
@@ -18,13 +18,17 @@ import { semantic } from '@/shared/constants/colors';
 import { MOCKUP_PRODUCTS } from '@/db/index';
 
 import useFetchCollections from '@/shared/hooks/useFetchCollections';
+import { useUser } from '@/shared/hooks/userContext';
+import { useUserFavorites } from '@/shared/hooks/useUserFavorites';
 
 export default function Favourites() {
 	const { isDarkMode } = useDarkMode();
 	const { navigate } = useNavigation<NavigationProps>();
 	const [openDeleteItem, setOpenDeleteItem] = useState(false);
 	const [selectedProductToRemove, setSelectedProductToRemove] = useState({});
-	const { data: products, loading } = useFetchCollections('products');
+	// const { data: products, loading } = useFetchCollections('products');
+	const { user } = useUser();
+	const { favoriteProducts, loading } = useUserFavorites(user.uid);
 
 	function toggleOpenDeleteItem() {
 		setOpenDeleteItem(!openDeleteItem);
@@ -49,7 +53,11 @@ export default function Favourites() {
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<HeaderWithIcon icon={heartFilled} title="favourites.title" />
 						<View style={{ height: normalize(32) }} />
-						<List between data={products} rows={1} renderItem={renderItem} />
+						{favoriteProducts.length > 0 ? (
+							<List between data={favoriteProducts} rows={1} renderItem={renderItem} />
+						) : (
+							<Typography translate={false}>No favorites yei!</Typography>
+						)}
 					</ScrollView>
 				</View>
 			</Wrapper>

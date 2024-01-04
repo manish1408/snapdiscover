@@ -89,7 +89,7 @@ export default function DetailProduct() {
 	return (
 		<Wrapper loading={loading}>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-				<Header title={product?.title} />
+				<Header title={product?.title} productId={productId} />
 				<View style={styles.containerImage}>
 					{/* <Image resizeMode="contain" style={styles.image} source={product?.image} /> */}
 					<ProductCarousel images={product?.images} />
