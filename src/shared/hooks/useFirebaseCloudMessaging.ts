@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
+import { getUser } from '../auth/authStorage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 const useFirebaseCloudMessaging = () => {
 	useEffect(() => {
@@ -13,8 +16,24 @@ const useFirebaseCloudMessaging = () => {
 				// Android
 				PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 				await messaging().registerDeviceForRemoteMessages();
-				const token = await messaging().getToken();
-				console.log('FCM Token :', token);
+
+
+				const resp = await AsyncStorage.getItem("user");
+				if (resp) {
+					
+					const user = JSON.parse(resp)
+					if (!user.notificationKey) {
+						console.log("Updating Notification Key")
+						const token = await messaging().getToken();
+						console.log('FCM Token :', token);
+						await firestore().collection('users').doc(user.uid).update({
+							notificationKey:token
+						});
+						const res = await firestore().collection('users').doc(user.uid).get();
+						await AsyncStorage.setItem("user",JSON.stringify(res.data()))
+					}
+
+				}
 
 				// Background and Quit Push Handler
 				backQuitePushHandler();

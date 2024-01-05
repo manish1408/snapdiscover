@@ -18,6 +18,7 @@ import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-goo
 import { NavigationProps } from '@/shared/interfaces/route-types';
 import ShowHidePassword from '@/shared/components/showHidePassword';
 import { useUser } from '@/shared/hooks/userContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
 	const navigation = useNavigation<NavigationProps>();
@@ -62,6 +63,8 @@ export default function Login() {
 				const loggedinUser = userDocSnapshot.data();
 				console.log('Logged in User', loggedinUser);
 				updateUser(loggedinUser);
+				console.log("User Data", loggedinUser)
+				await AsyncStorage.setItem("user",JSON.stringify(loggedinUser));
 			} else {
 				console.log('User does not exist');
 			}
