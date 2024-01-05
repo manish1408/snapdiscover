@@ -51,8 +51,7 @@ export default function Reviews() {
 				userName: user?.fullName || '',
 				userId: user?.uid || '',
 				photo: user?.photoURL || null,
-				// postedDate: firestore.FieldValue.serverTimestamp(),
-				postedDate: new Date(),
+				postedDate: firestore.Timestamp.now(),
 			};
 
 			const commentData: Comment = {

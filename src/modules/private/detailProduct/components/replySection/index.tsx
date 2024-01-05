@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, View } from 'react-native';
 import Typography from '@/shared/components/typography';
 import { styles } from './styles';
-import { normalize } from '@/shared/helpers';
+import { getAgoDate, normalize } from '@/shared/helpers';
 import moment from 'moment';
 import AddReplySection from '../addReplySection';
 import firestore from '@react-native-firebase/firestore';
@@ -33,7 +33,7 @@ export default function ReplySection({ commentId }) {
 				userName: user?.fullName || 'Anonymous',
 				userId: user?.uid || '',
 				photo: user?.photoURL || null,
-				postedDate: new Date(),
+				postedDate: firestore.Timestamp.now(),
 			};
 
 			const replyData: Reply = {
@@ -69,7 +69,7 @@ export default function ReplySection({ commentId }) {
 										{comment.postedBy?.userName}
 									</Typography>
 									<Typography style={styles.date} translate={false}>
-										{moment(comment?.postedDate).format('MMM DD, YYYY')}
+										{getAgoDate(comment?.postedBy?.postedDate)}
 									</Typography>
 								</View>
 								<View style={{ marginTop: normalize(4) }}>
@@ -96,10 +96,10 @@ export default function ReplySection({ commentId }) {
 											<View style={{ marginRight: normalize(50) }}>
 												<View style={[styles.row, styles.commentRow]}>
 													<Typography style={styles.name} translate={false}>
-														{chunk.postedBy?.userName ? comment.postedBy?.userName : 'Anonymous'}
+														{chunk.postedBy?.userName ? chunk.postedBy?.userName : 'Anonymous'}
 													</Typography>
 													<Typography style={styles.date} translate={false}>
-														{moment(chunk?.postedDate).format('MMM DD, YYYY')}
+														{getAgoDate(chunk?.postedBy?.postedDate)}
 													</Typography>
 												</View>
 												<View style={{ marginVertical: normalize(8) }}>

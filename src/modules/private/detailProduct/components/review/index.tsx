@@ -5,7 +5,7 @@ import { styles } from './styles';
 import Icon from '@/shared/components/icon';
 import { arrowBack, send, star } from '@/shared/assets/icons';
 import { like, dislike, reply } from '@/shared/assets/icons-8';
-import { normalize } from '@/shared/helpers';
+import { getAgoDate, normalize } from '@/shared/helpers';
 import moment from 'moment';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
@@ -60,7 +60,7 @@ export default function Review({ comment }) {
 									{comment.postedBy?.userName}
 								</Typography>
 								<Typography style={styles.date} translate={false}>
-									{moment(comment?.postedDate).format('MMM DD, YYYY')}
+									{getAgoDate(comment?.postedBy?.postedDate)}
 								</Typography>
 							</View>
 							<View style={{ marginTop: normalize(4) }}>

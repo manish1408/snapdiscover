@@ -1,5 +1,6 @@
 import { Dimensions, PixelRatio, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -52,4 +53,10 @@ export const storage = {
 export function isValidEmail(address) {
 	let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 	return reg.test(address);
+}
+
+export function getAgoDate(date) {
+	const dateValue = (date?.seconds + date?.nanoseconds * 10 ** -9) * 1000;
+	const agoDate = moment(new Date(dateValue)).fromNow();
+	return agoDate;
 }
