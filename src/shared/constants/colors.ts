@@ -1,10 +1,10 @@
 export const palette = {
 	main: {
-		p500: '#41644A',
-		p400: '#67836E',
-		p300: '#8DA292',
-		p200: '#B3C1B7',
-		p100: '#ECF0ED',
+		p500: '#5DBDEA',
+		p400: '#67BDEA',
+		p300: '#67BDEA',
+		p200: '#67BDEA',
+		p100: '#67BDEA',
 	},
 };
 

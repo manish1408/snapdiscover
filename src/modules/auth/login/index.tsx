@@ -130,7 +130,7 @@ export default function Login() {
 						<Input
 							leftIcon={<Icon icon={mail} />}
 							label="general.email"
-							placeholder="dev@soadtech.io"
+							placeholder=""
 							value={email}
 							onChangeText={(text) => setEmail(text)}
 						/>
@@ -141,7 +141,7 @@ export default function Login() {
 							rightIcon={<ShowHidePassword icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
 							secureTextEntry={!isPasswordVisible}
 							label="general.password"
-							placeholder="general.typing_password"
+							placeholder=""
 							value={password}
 							onChangeText={(text) => setPassword(text)}
 						/>

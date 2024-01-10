@@ -3,11 +3,11 @@
 		"sign_up": "Sign Up",
 		"sign_in": "Sign In",
 		"create_account": {
-			"title": "Create your Account",
+			"title": "Create your account",
 			"already_account": "already have an account?"
 		},
 		"login": {
-			"title": "Login Your Account",
+			"title": "Sign in",
 			"forgot_password": "Forgot Password"
 		},
 		"forgot_password": {
@@ -88,7 +88,7 @@
 		"language": "Language",
 		"login": "Login",
 		"sign_up": "Sign Up",
-		"welcome_message": "Let's Get Growing: Start Your Plant Journey with Our App!",
+		"welcome_message": "Discover more with a scan!",
 		"buy": "Buy"
 	},
 	"newPayment": {

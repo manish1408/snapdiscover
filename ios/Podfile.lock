@@ -827,6 +827,8 @@ PODS:
     - RNPermissions
   - Permission-LocationWhenInUse (3.10.1):
     - RNPermissions
+  - Permission-Notifications (3.10.1):
+    - RNPermissions
   - PromisesObjC (2.3.1)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -1302,6 +1304,7 @@ DEPENDENCIES:
   - libevent (~> 2.1.12)
   - Permission-LocationAccuracy (from `../node_modules/react-native-permissions/ios/LocationAccuracy`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -1405,6 +1408,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/LocationAccuracy"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
+  Permission-Notifications:
+    :path: "../node_modules/react-native-permissions/ios/Notifications"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -1542,6 +1547,7 @@ SPEC CHECKSUMS:
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   Permission-LocationAccuracy: dc0b0989dd004f183a32ad5f99802d9e09b0571a
   Permission-LocationWhenInUse: 31f52ebddef50c306a585b5a82ca16c8ff582dec
+  Permission-Notifications: 817390e18898f34adad940cd4141e771e77086ea
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: a2faf4bad4e438ca37b2040cb8f7799baa065c18
@@ -1596,6 +1602,6 @@ SPEC CHECKSUMS:
   VisionCamera: 4072a150c532927587d6f628f292f1c80ee21a98
   Yoga: 8796b55dba14d7004f980b54bcc9833ee45b28ce
 
-PODFILE CHECKSUM: 87d30b6eb6ec82d6520627f0a8c3e6bf5b4fded6
+PODFILE CHECKSUM: 2cfba8f1ffa814ab3bab20af4456d7a1b1743f7b
 
 COCOAPODS: 1.14.3

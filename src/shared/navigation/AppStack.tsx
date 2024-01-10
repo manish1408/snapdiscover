@@ -78,7 +78,8 @@ function AppStack() {
 		prefixes: ['https://www.snapztest.com/', 'snapztest://'],
 		config,
 	};
-	return locationPermission === RESULTS.GRANTED ? (
+
+	return (
 		<NavigationContainer linking={linking} fallback={<Loader />}>
 			<Stack.Navigator initialRouteName={'tab'} screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="tab" component={TabNavigation} />
@@ -87,11 +88,21 @@ function AppStack() {
 				})}
 			</Stack.Navigator>
 		</NavigationContainer>
-	) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
-		<GrantPermission desc="Please grant location permission to continue" handleRetryPermission={handleRetryPermission} />
-	) : (
-		<Loader />
 	);
+	// return locationPermission === RESULTS.GRANTED ? (
+	// 	<NavigationContainer linking={linking} fallback={<Loader />}>
+	// 		<Stack.Navigator initialRouteName={'tab'} screenOptions={{ headerShown: false }}>
+	// 			<Stack.Screen name="tab" component={TabNavigation} />
+	// 			{AppRoutes.map((route) => {
+	// 				return <Stack.Screen key={route.path} name={route.path} component={route.component} />;
+	// 			})}
+	// 		</Stack.Navigator>
+	// 	</NavigationContainer>
+	// ) : locationPermission === RESULTS.BLOCKED || locationPermission === RESULTS.DENIED ? (
+	// 	<GrantPermission desc="Please grant location permission to continue" handleRetryPermission={handleRetryPermission} />
+	// ) : (
+	// 	<Loader />
+	// );
 }
 
 export default AppStack;

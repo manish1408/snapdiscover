@@ -86,7 +86,7 @@ export default function CreateAccount() {
 						<Input
 							leftIcon={<Icon icon={user} />}
 							label="general.full_name"
-							placeholder="general.typing_name"
+							placeholder=""
 							value={fullName}
 							onChangeText={(text) => setFullName(text)}
 						/>
@@ -95,7 +95,7 @@ export default function CreateAccount() {
 						<Input
 							leftIcon={<Icon icon={mail} />}
 							label="general.email"
-							placeholder="dev@soadtech.io"
+							placeholder=""
 							value={email}
 							onChangeText={(text) => setEmail(text)}
 						/>
@@ -106,7 +106,7 @@ export default function CreateAccount() {
 							rightIcon={<ShowHidePassword icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
 							secureTextEntry={!isPasswordVisible}
 							label="general.password"
-							placeholder="general.typing_password"
+							placeholder=""
 							value={password}
 							onChangeText={(text) => setPassword(text)}
 						/>
