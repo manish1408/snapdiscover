@@ -598,7 +598,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.snapz--co.snapz";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = co.snapz;
 				PRODUCT_NAME = plantify;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -627,7 +627,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.snapz--co.snapz";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = co.snapz;
 				PRODUCT_NAME = snapz;
 				SWIFT_VERSION = 5.0;

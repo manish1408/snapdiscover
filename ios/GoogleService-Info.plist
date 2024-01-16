@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>125902216495-eqb6ta35r9rig2qmigd3q5ueai8cr476.apps.googleusercontent.com</string>
+	<string>125902216495-vtkplfl1tvecs0mf5rhd58t0alrhveao.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.125902216495-eqb6ta35r9rig2qmigd3q5ueai8cr476</string>
+	<string>com.googleusercontent.apps.125902216495-vtkplfl1tvecs0mf5rhd58t0alrhveao</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>125902216495-sa9441ua4t87pjemjkk8phn8eo4qvipi.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.plantify</string>
+	<string>co.snapz</string>
 	<key>PROJECT_ID</key>
 	<string>snapdiscover</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:125902216495:ios:659d887079ea3e1cf3d5da</string>
+	<string>1:125902216495:ios:b26875cec9df1364f3d5da</string>
 </dict>
 </plist>
