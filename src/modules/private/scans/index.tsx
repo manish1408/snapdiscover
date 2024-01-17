@@ -19,6 +19,7 @@ import { MOCKUP_PRODUCTS } from '@/db/index';
 import WelcomeModal from './components/WelcomeModal';
 
 import useFetchCollections from '@/shared/hooks/useFetchCollections';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Scans() {
 	const { isDarkMode } = useDarkMode();
@@ -44,10 +45,23 @@ export default function Scans() {
 	// Firebase
 	const { data: products, loading } = useFetchCollections('products');
 
+	const [modalOpened,setModalOpened] = useState(false);
+
+	useEffect(() => {
+		getModalState();
+	},[]);
+
+	const getModalState = async () =>{
+		const _modalOpened = await AsyncStorage.getItem("welcome-modal-opened");
+		if( !_modalOpened){
+			setModalOpened(true);
+		}
+	}
+
 	return (
 		<View style={{ flex: 1 }}>
 			<Wrapper loading={loading}>
-				<WelcomeModal />
+				{modalOpened && <WelcomeModal />}
 				<View style={{ flex: 1, paddingHorizontal: normalize(24) }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<HeaderWithIcon icon={scanFilled} title="scans.title" />

@@ -16,9 +16,9 @@ export default function LocationPermission() {
 				buttonPositive: 'OK',
 			});
 			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-				console.log("You've access for the location");
+				// console.log("You've access for the location");
 			} else {
-				console.log("You don't have access for the location");
+				// console.log("You don't have access for the location");
 			}
 		} catch (err) {
 			console.warn(err);

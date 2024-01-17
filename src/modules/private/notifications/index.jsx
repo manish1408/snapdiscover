@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
 import { ScrollView, View } from 'react-native';
 import HeaderWithIcon from '@/shared/components/headerBack';
@@ -7,6 +7,7 @@ import Typography from '@/shared/components/typography';
 import { styles } from './styles';
 import Notification from './components/notification';
 import Header from './components/header';
+import { getDocument } from '@/shared/helpers/firebaseHelper';
 
 export default function Notifications() {
 	const sections = [
@@ -43,25 +44,35 @@ export default function Notifications() {
 			],
 		},
 	];
+
+	useEffect(() => {
+		getNotifications();
+	}, []);
+
+	const [notificationData, setNotificationData] = useState(null);
+
+	const getNotifications = async () => {
+		try {
+			const resp = await getDocument("notifications");
+			setNotificationData(resp);
+			// // console.log("Notification Data 🚨", resp)
+
+		} catch (error) {
+			// console.log(error);
+		}
+	}
+
 	return (
 		<Wrapper>
 			<ScrollView style={styles.container}>
 				{/* <HeaderWithIcon title={'general.notifications'} /> */}
 				<Header title="Notifications" />
 				<View style={styles.body}>
-					{sections.map((section) => (
-						<View key={section.id}>
-							<Typography style={styles.title} translate={false}>
-								{section.date}
-							</Typography>
 
-							<View>
-								{section.notifications.map((notification, index) => (
-									<Notification key={index} notification={notification} />
-								))}
-							</View>
-						</View>
+					{notificationData?.length > 0 && notificationData.map((notification) => (
+						<Notification key={notification._id} notification={notification.data} />
 					))}
+
 				</View>
 			</ScrollView>
 		</Wrapper>

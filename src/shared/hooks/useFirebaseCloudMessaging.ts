@@ -47,9 +47,9 @@ const useFirebaseCloudMessaging = () => {
 
       // 		const user = JSON.parse(resp)
       // 		if (!user || !user.notificationKey) {
-      // 			console.log("Updating Notification Key")
+      // 			// console.log("Updating Notification Key")
       // 			const token = await messaging().getToken();
-      // 			console.log('FCM Token :', token);
+      // 			// console.log('FCM Token :', token);
       // 			await firestore().collection('users').doc(user.uid).update({
       // 				notificationKey:token
       // 			});
@@ -88,14 +88,14 @@ const useFirebaseCloudMessaging = () => {
   // Background and Quit Push
   function backQuitePushHandler() {
     messaging().onNotificationOpenedApp((remoteMessage) => {
-      console.log("Notification Background state:", remoteMessage);
+      // console.log("Notification Background state:", remoteMessage);
     });
 
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
         if (remoteMessage) {
-          console.log("Notification Quit state:", remoteMessage);
+          // console.log("Notification Quit state:", remoteMessage);
         }
       });
   }

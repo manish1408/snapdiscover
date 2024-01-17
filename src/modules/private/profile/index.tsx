@@ -72,7 +72,7 @@ const Profile = () => {
 		try {
 			clearUser();
 			await auth().signOut();
-			console.log('User signed out!');
+			// console.log('User signed out!');
 		} catch (error) {
 			console.error('Error signing out:', error);
 		}

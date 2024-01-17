@@ -58,7 +58,7 @@ export const _styles = (isDarkMode: boolean) =>
 			paddingVertical: normalize(12),
 			backgroundColor: '#EEEEEE',
 			borderRadius: normalize(20),
-			width: 140,
+			
 		},
 		continueBtn: { color: '#000000' },
 	});

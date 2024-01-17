@@ -20,7 +20,7 @@ export default function useDarkMode() {
       await storage.create('colorScheme', isDarkMode ? 'light' : 'dark' )
       RNRestart.restart();
     } catch (e) {
-      console.log('error', e)
+      // console.log('error', e)
     }
   }
   useEffectOnce(() => {

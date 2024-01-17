@@ -61,7 +61,7 @@ export default function Reviews() {
 				dislikes: 0,
 				replies: [],
 			};
-			console.log(commentData);
+			// // console.log(commentData);
 
 			const commentRef = await firestore().collection('comments').add(commentData);
 			const commentId = commentRef.id;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import useDarkMode from "@/shared/hooks/useDarkMode";
 import {_styles} from './styles'
@@ -7,10 +7,7 @@ import { mail, sale, shippingCart, shoppingBag, wallet } from "@/shared/assets/i
 import Typography from "@/shared/components/typography";
 import { NotificationDTO } from "@/shared/DTO";
 
-interface NotificationProps {
-  notification: NotificationDTO
-}
-export default function Notification({notification}: NotificationProps) {
+export default function Notification({notification}) {
   const {isDarkMode} = useDarkMode()
   const styles = _styles(isDarkMode)
   function renderIcon() {
@@ -21,17 +18,18 @@ export default function Notification({notification}: NotificationProps) {
       'promo': sale
     }
     // @ts-ignore
-    return icons[notification.state]
+    return icons['promo']
   }
+
   return (
     <View style={styles.container}>
         <View style={styles.iconContainer}>
           <Icon customStyles={styles.iconSize} icon={renderIcon()} />
         </View>
       <View style={styles.containerInfo}>
-        <Typography style={styles.title} translate={false}>{notification.title}</Typography>
+        <Typography style={styles.title} translate={false}>{notification?.data?.title}</Typography>
         <Typography style={styles.description} translate={false}>
-          {notification.description}
+          {notification?.data?.body}
         </Typography>
       </View>
     </View>

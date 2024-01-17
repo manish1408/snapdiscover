@@ -25,13 +25,13 @@ import AddCommentSection from './components/addCommentSection';
 export default function DetailProduct() {
 	const { navigate } = useNavigation<NavigationProps>();
 	const { isDarkMode } = useDarkMode();
-	const styles = _styles(isDarkMode);
+	const styles = _styles();
 	const route = useRoute();
 
 	const productId = route?.params?.id;
 	const { data: product, loading } = useFetchCollectionDetails(productId, 'products');
 	const [deepLink, setDeepLink] = useState({});
-	// console.log(product?.userComments.length);
+	// // console.log(product?.userComments.length);
 	useEffect(() => {
 		createDeepLink();
 	}, []);
@@ -45,7 +45,7 @@ export default function DetailProduct() {
 				url: deepLink,
 				social: Share.Social[platform],
 			};
-			console.log(shareOptions);
+			// console.log(shareOptions);
 			await Share.shareSingle(shareOptions);
 		} catch (error) {
 			console.error(error);
@@ -64,7 +64,7 @@ export default function DetailProduct() {
 				};
 
 				const shareResult = await Share.shareSingle(shareOptions);
-				console.log(shareResult);
+				// console.log(shareResult);
 			} else {
 				const instagramAppUrl =
 					Platform.OS === 'android'
@@ -82,7 +82,7 @@ export default function DetailProduct() {
 		try {
 			const shareResponse = await Share.open({ title: product.name, message: product.description, url: deepLink });
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	}
 
@@ -91,8 +91,10 @@ export default function DetailProduct() {
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
 				<Header title={product?.title} productId={productId} />
 				<View style={styles.containerImage}>
-					{/* <Image resizeMode="contain" style={styles.image} source={product?.image} /> */}
+					{/* <Image resizeMode="contain" style={styles.image} source={product?.images[0]} /> */}
 					<ProductCarousel images={product?.images} />
+					
+
 				</View>
 				<View style={styles.containerName}>
 					<Typography style={styles.name} translate={false}>

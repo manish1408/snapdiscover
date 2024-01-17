@@ -30,7 +30,7 @@ export default function Review({ comment }) {
 			const data = snapshot.data();
 			const likes = data?.likes || 0;
 			const dislikes = data?.dislikes || 0;
-			// console.log('Likes:', likes, 'Dislikes:', dislikes);
+			// // console.log('Likes:', likes, 'Dislikes:', dislikes);
 		});
 
 		return () => {

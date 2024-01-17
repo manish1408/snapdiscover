@@ -16,7 +16,7 @@ const useFetchCollectionDetails = (collectionId: string, collection: string) => 
 						...productDoc.data(),
 					});
 				} else {
-					console.log(`Data not found with ID:`, collectionId);
+					// console.log(`Data not found with ID:`, collectionId);
 				}
 			} catch (error) {
 				console.error(`Error fetching ${collection} details:`, error);

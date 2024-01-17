@@ -91,14 +91,14 @@ const EditProfile = () => {
 				const { uri, type, fileSize } = source;
 
 				if (type !== 'image/jpeg' && type !== 'image/png') {
-					console.log('Invalid image format');
+					// console.log('Invalid image format');
 					return;
 				}
 
 				// Validate image size allow images up to 5MB)
 				const maxSizeInBytes = 5 * 1024 * 1024;
 				if (fileSize > maxSizeInBytes) {
-					console.log('Image size exceeds the limit');
+					// console.log('Image size exceeds the limit');
 					return;
 				}
 
@@ -112,11 +112,11 @@ const EditProfile = () => {
 				const task = reference.putFile(uri);
 				task.on('state_changed', (snapshot) => {
 					const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-					console.log(`Upload is ${progress}% done`);
+					// console.log(`Upload is ${progress}% done`);
 				});
 
 				task.then(async () => {
-					console.log('Image uploaded to the bucket!');
+					// console.log('Image uploaded to the bucket!');
 				});
 
 				await task;

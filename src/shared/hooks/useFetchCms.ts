@@ -14,7 +14,7 @@ const useFetchCms = () => {
 					id: doc.id,
 					...doc.data(),
 				}));
-			console.log(updatedCmsList.length);
+			// console.log(updatedCmsList.length);
 			setCmsList(updatedCmsList);
 		});
 

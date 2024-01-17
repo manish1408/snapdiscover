@@ -35,7 +35,7 @@ function AppStack() {
 						result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === RESULTS.GRANTED &&
 						result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.GRANTED)
 				) {
-					console.log('Location permissions granted');
+					// console.log('Location permissions granted');
 					setLocationPermission(RESULTS.GRANTED);
 				} else if (
 					(Platform.OS === 'ios' &&
@@ -44,10 +44,10 @@ function AppStack() {
 						(result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === RESULTS.BLOCKED ||
 							result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.BLOCKED))
 				) {
-					console.log('Location permissions blocked');
+					// console.log('Location permissions blocked');
 					setLocationPermission(RESULTS.BLOCKED);
 				} else {
-					console.log('Location permissions denied');
+					// console.log('Location permissions denied');
 					setLocationPermission(RESULTS.DENIED);
 				}
 			})

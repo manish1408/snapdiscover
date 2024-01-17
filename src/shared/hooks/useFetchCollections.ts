@@ -18,7 +18,7 @@ const useFetchCollections = (collection: any) => {
 
 					setData(productsData);
 				} else {
-					console.log(`No documents found in the ${collection} collection.`);
+					// console.log(`No documents found in the ${collection} collection.`);
 				}
 			} catch (error) {
 				console.error(`Error fetching ${collection}  data:`, error);

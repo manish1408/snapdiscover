@@ -76,7 +76,7 @@ export default function CreateAccount() {
 			setIsLoading(false);
 			let cleanedErrorMessage = err.message.replace(/\[.*?\]/g, '').trim();
 			setErrorMsg(cleanedErrorMessage);
-			console.log(cleanedErrorMessage);
+			// console.log(cleanedErrorMessage);
 		}
 	};
 	const togglePassword = () => {

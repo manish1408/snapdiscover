@@ -8,6 +8,7 @@ import { NavigationProps } from '@/shared/routes/stack';
 import useDarkMode from '@/shared/hooks/useDarkMode';
 import Typography from '@/shared/components/typography';
 import Wrapper from '@/shared/components/wrapper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function WelcomeModal() {
 	const [modal, setModal] = useState(true);
@@ -16,8 +17,9 @@ export default function WelcomeModal() {
 	const { isDarkMode } = useDarkMode();
 	const styles = _styles(isDarkMode);
 
-	function navigateTo() {
+	async function navigateTo() {
 		setModal(false);
+		await AsyncStorage.setItem("welcome-modal-opened", 'true')
 		navigation.navigate('tab');
 	}
 
