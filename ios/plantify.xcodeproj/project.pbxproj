@@ -72,6 +72,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = plantify/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		838921AC7EDB48AAB9590706 /* Urbanist-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Urbanist-MediumItalic.ttf"; path = "../src/shared/assets/fonts/Urbanist-MediumItalic.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-plantify-plantifyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-plantify-plantifyTests.release.xcconfig"; path = "Target Support Files/Pods-plantify-plantifyTests/Pods-plantify-plantifyTests.release.xcconfig"; sourceTree = "<group>"; };
+		A80611AF2B57B87A008BA75E /* plantify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = plantify.entitlements; path = plantify/plantify.entitlements; sourceTree = "<group>"; };
 		BC772CB2785843958D33D02E /* Urbanist-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Urbanist-Medium.ttf"; path = "../src/shared/assets/fonts/Urbanist-Medium.ttf"; sourceTree = "<group>"; };
 		C8DFCDA8761D4015B1D2B590 /* Urbanist-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Urbanist-Regular.ttf"; path = "../src/shared/assets/fonts/Urbanist-Regular.ttf"; sourceTree = "<group>"; };
 		D164C8A7F3C4496C8D525910 /* Urbanist-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Urbanist-ExtraBold.ttf"; path = "../src/shared/assets/fonts/Urbanist-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -124,6 +125,7 @@
 		13B07FAE1A68108700A75B9A /* plantify */ = {
 			isa = PBXGroup;
 			children = (
+				A80611AF2B57B87A008BA75E /* plantify.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -583,6 +585,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = plantify/plantify.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G8F2L69A83;
 				ENABLE_BITCODE = NO;
@@ -598,8 +601,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "co.snapz--co.snapz";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = co.snapz;
+				PRODUCT_BUNDLE_IDENTIFIER = co.snapz;
 				PRODUCT_NAME = plantify;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -613,6 +615,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = plantify/plantify.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G8F2L69A83;
 				INFOPLIST_FILE = plantify/Info.plist;
@@ -627,8 +630,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "co.snapz--co.snapz";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = co.snapz;
+				PRODUCT_BUNDLE_IDENTIFIER = co.snapz;
 				PRODUCT_NAME = snapz;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

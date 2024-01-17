@@ -41,6 +41,8 @@
 	<string>$(PRODUCT_NAME) needs access to your Location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	 <key>NSPhotoLibraryUsageDescription</key>
+  <string>$(PRODUCT_NAME) needs access to your Files.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
 	<key>NSUserNotificationsUsageDescription</key>
@@ -65,6 +67,11 @@
 		<string>Urbanist-SemiBoldItalic.ttf</string>
 		<string>Urbanist-Thin.ttf</string>
 		<string>Urbanist-ThinItalic.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

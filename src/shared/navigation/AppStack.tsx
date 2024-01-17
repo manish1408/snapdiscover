@@ -17,7 +17,7 @@ function AppStack() {
 	const [locationPermission, setLocationPermission] = useState<typeof ResultMap | null>(null);
 
 	useEffect(() => {
-		checkPermissionStatus();
+		// checkPermissionStatus();
 	}, []);
 
 	function checkPermissionStatus() {

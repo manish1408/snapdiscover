@@ -16,6 +16,8 @@ import firestore from '@react-native-firebase/firestore';
 import { eyeOff, eye } from '@/shared/assets/icons-8';
 import ShowHidePassword from '@/shared/components/showHidePassword';
 import { useUser } from '@/shared/hooks/userContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { deleteDocument } from '@/shared/helpers/firebaseHelper';
 export default function CreateAccount() {
 	const { navigate } = useNavigation<NavigationProps>();
 
@@ -52,10 +54,14 @@ export default function CreateAccount() {
 
 		try {
 			const userCredentials = await auth().createUserWithEmailAndPassword(email, password);
+
+			const fcmtoken = await AsyncStorage.getItem("fcmtoken") ?? '';
+
 			const userData = {
 				uid: userCredentials.user.uid,
 				email: userCredentials.user.email,
 				fullName,
+				notificationKey:fcmtoken,
 			};
 			const userDocRef = firestore().collection('users').doc(userCredentials.user.uid);
 			await userDocRef.set(userData);
@@ -65,7 +71,8 @@ export default function CreateAccount() {
 			setPassword('');
 			setErrorMsg(' ');
 			setIsLoading(false);
-		} catch (err) {
+			const resp = await deleteDocument("unregisteredUsers",fcmtoken);
+		} catch (err:any) {
 			setIsLoading(false);
 			let cleanedErrorMessage = err.message.replace(/\[.*?\]/g, '').trim();
 			setErrorMsg(cleanedErrorMessage);

@@ -14,6 +14,7 @@ import {
 import useSplashScreen from "@/shared/hooks/useSplashScreen"; 
 import { UserProvider } from "@/shared/hooks/userContext";
 import { ToastProvider } from "react-native-toast-notifications";
+import {request, PERMISSIONS} from 'react-native-permissions';
 
 function App(): JSX.Element {
   // Push Notification hook
