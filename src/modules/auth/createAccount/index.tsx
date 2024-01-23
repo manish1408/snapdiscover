@@ -186,9 +186,28 @@ export default function CreateAccount() {
 								{ label: 'Wish not to respond', value: 'wishNotToRespond' },
 							]}
 							style={{
+								inputIOS: {
+									fontSize: normalize(16),
+									paddingVertical: 12,
+									paddingHorizontal: 10,
+									borderWidth: 1,
+									borderColor: 'gray',
+									borderRadius: 4,
+									color: semantic.text.black,
+									paddingRight: 30,
+								},
+								inputAndroid: {
+									fontSize: normalize(16),
+									paddingHorizontal: 10,
+									paddingVertical: 8,
+									borderWidth: 0.5,
+									borderColor: 'purple',
+									borderRadius: 8,
+									color: semantic.text.black,
+									paddingRight: 30,
+								},
 								viewContainer: { backgroundColor: semantic.fill.f04, borderRadius: normalize(8) },
 							}}
-							darkTheme={true}
 						/>
 					</View>
 					<View style={styles.formControl}>
