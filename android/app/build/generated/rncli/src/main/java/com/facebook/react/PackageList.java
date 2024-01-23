@@ -27,6 +27,8 @@ import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.reactnativegooglesignin.RNGoogleSigninPackage;
 // @react-native-picker/picker
 import com.reactnativecommunity.picker.RNCPickerPackage;
+// react-native-device-country
+import com.reactnativedevicecountry.DeviceCountryPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-image-picker
@@ -102,6 +104,7 @@ public class PackageList {
       new ReactNativeFirebaseStoragePackage(),
       new RNGoogleSigninPackage(),
       new RNCPickerPackage(),
+      new DeviceCountryPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
       new RNLocalizePackage(),

@@ -23,6 +23,8 @@ import { semantic } from '@/shared/constants/colors';
 import RNPickerSelect from 'react-native-picker-select';
 import * as RNLocalize from 'react-native-localize';
 const dataSource = Array.from({ length: 43 }, (_, i) => (i + 18).toString());
+import DeviceCountry from 'react-native-device-country';
+import COUNTRIES from '@/shared/helpers/countries';
 export default function CreateAccount() {
 	const { navigate } = useNavigation<NavigationProps>();
 
@@ -38,17 +40,18 @@ export default function CreateAccount() {
 	const { updateUser } = useUser();
 
 	useEffect(() => {
-		const getCountry = async () => {
+		const getDeviceCountryCode = async () => {
 			try {
-				const localeCountry = RNLocalize.getCountry();
-				console.log('localeCountry', localeCountry);
-				setCountry(localeCountry);
+				const result = await DeviceCountry.getCountryCode();
+				const countryName = COUNTRIES.filter((chunk) => chunk.isoCode.toLowerCase() === result.code.toLowerCase());
+				console.log('DeviceCountry 🚨', countryName);
+				setCountry(countryName[0]?.name);
 			} catch (error) {
-				console.error('Error detecting country:', error);
+				console.log(error);
 			}
 		};
 
-		getCountry();
+		getDeviceCountryCode();
 	}, []);
 	const handleSignUp = async (): Promise<void> => {
 		console.log(age, gender, country);
