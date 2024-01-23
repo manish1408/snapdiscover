@@ -34,3 +34,6 @@ export { default as reply } from './reply.png';
 export { default as SuccessIcon } from './success-icon.png';
 export { default as DangerIcon } from './danger-icon.png';
 export { default as WarningIcon } from './warning-icon.png';
+export { default as Globe } from './globe.png';
+export { default as Lock } from './lock.png';
+export { default as Envelope } from './envelope.png';

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
 import Typography from '@/shared/components/typography';
 import Input from '@/shared/components/input';
-import { Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from '@/shared/components/buttons';
 import { styles } from './styles';
 import TitleAuth from '@/shared/components/titleAuth';
@@ -10,14 +10,19 @@ import Icon from '@/shared/components/icon';
 import { lock, mail, user } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '@/shared/routes/stack';
-import { isValidEmail } from '@/shared/helpers';
+import { isValidEmail, normalize } from '@/shared/helpers';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { eyeOff, eye } from '@/shared/assets/icons-8';
+import { eyeOff, eye, Globe, userFIlled, Envelope, Lock } from '@/shared/assets/icons-8';
 import ShowHidePassword from '@/shared/components/showHidePassword';
 import { useUser } from '@/shared/hooks/userContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteDocument } from '@/shared/helpers/firebaseHelper';
+import ScrollPicker from 'react-native-wheel-scrollview-picker';
+import { semantic } from '@/shared/constants/colors';
+import RNPickerSelect from 'react-native-picker-select';
+import * as RNLocalize from 'react-native-localize';
+const dataSource = Array.from({ length: 43 }, (_, i) => (i + 18).toString());
 export default function CreateAccount() {
 	const { navigate } = useNavigation<NavigationProps>();
 
@@ -27,8 +32,26 @@ export default function CreateAccount() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [errorMsg, setErrorMsg] = useState<string>(' ');
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+	const [country, setCountry] = useState('');
+	const [gender, setGender] = useState('');
+	const [age, setAge] = useState(18);
 	const { updateUser } = useUser();
+
+	useEffect(() => {
+		const getCountry = async () => {
+			try {
+				const localeCountry = RNLocalize.getCountry();
+				console.log('localeCountry', localeCountry);
+				setCountry(localeCountry);
+			} catch (error) {
+				console.error('Error detecting country:', error);
+			}
+		};
+
+		getCountry();
+	}, []);
 	const handleSignUp = async (): Promise<void> => {
+		console.log(age, gender, country);
 		if (fullName.trim() === '') {
 			setErrorMsg('Full name is required');
 			setIsLoading(false);
@@ -55,13 +78,16 @@ export default function CreateAccount() {
 		try {
 			const userCredentials = await auth().createUserWithEmailAndPassword(email, password);
 
-			const fcmtoken = await AsyncStorage.getItem("fcmtoken") ?? '';
+			const fcmtoken = (await AsyncStorage.getItem('fcmtoken')) ?? '';
 
 			const userData = {
 				uid: userCredentials.user.uid,
 				email: userCredentials.user.email,
 				fullName,
-				notificationKey:fcmtoken,
+				age,
+				gender,
+				country,
+				notificationKey: fcmtoken,
 			};
 			const userDocRef = firestore().collection('users').doc(userCredentials.user.uid);
 			await userDocRef.set(userData);
@@ -71,8 +97,8 @@ export default function CreateAccount() {
 			setPassword('');
 			setErrorMsg(' ');
 			setIsLoading(false);
-			const resp = await deleteDocument("unregisteredUsers",fcmtoken);
-		} catch (err:any) {
+			const resp = await deleteDocument('unregisteredUsers', fcmtoken);
+		} catch (err: any) {
 			setIsLoading(false);
 			let cleanedErrorMessage = err.message.replace(/\[.*?\]/g, '').trim();
 			setErrorMsg(cleanedErrorMessage);
@@ -82,6 +108,7 @@ export default function CreateAccount() {
 	const togglePassword = () => {
 		setIsPasswordVisible(!isPasswordVisible);
 	};
+	const ref = useRef();
 
 	return (
 		<Wrapper loading={isLoading}>
@@ -91,7 +118,7 @@ export default function CreateAccount() {
 				<View style={styles.form}>
 					<View style={styles.formControl}>
 						<Input
-							leftIcon={<Icon icon={user} />}
+							leftIcon={<Icon icon={userFIlled} />}
 							label="general.full_name"
 							placeholder=""
 							value={fullName}
@@ -99,17 +126,11 @@ export default function CreateAccount() {
 						/>
 					</View>
 					<View style={styles.formControl}>
-						<Input
-							leftIcon={<Icon icon={mail} />}
-							label="general.email"
-							placeholder=""
-							value={email}
-							onChangeText={(text) => setEmail(text)}
-						/>
+						<Input leftIcon={<Icon icon={Envelope} />} label="general.email" placeholder="" value={email} onChangeText={(text) => setEmail(text)} />
 					</View>
 					<View style={styles.formControl}>
 						<Input
-							leftIcon={<Icon icon={lock} />}
+							leftIcon={<Icon icon={Lock} />}
 							rightIcon={<ShowHidePassword icon={isPasswordVisible ? eye : eyeOff} onIconPress={togglePassword} />}
 							secureTextEntry={!isPasswordVisible}
 							label="general.password"
@@ -117,6 +138,61 @@ export default function CreateAccount() {
 							value={password}
 							onChangeText={(text) => setPassword(text)}
 						/>
+					</View>
+					<View style={styles.formControl}>
+						<Text
+							style={{
+								fontSize: normalize(16),
+								fontWeight: '300',
+								color: semantic.text.black,
+								marginBottom: normalize(8),
+							}}
+						>
+							Age
+						</Text>
+						<ScrollPicker
+							ref={ref}
+							dataSource={dataSource}
+							selectedIndex={age}
+							wrapperHeight={120}
+							wrapperBackground={semantic.fill.f04}
+							itemHeight={40}
+							highlightColor={semantic.fill.f03}
+							highlightBorderWidth={1}
+							onValueChange={(value, index) => setAge(value)}
+						/>
+					</View>
+					<View style={styles.formControl}>
+						<Text
+							style={{
+								fontSize: normalize(16),
+								fontWeight: '300',
+								color: semantic.text.black,
+								marginBottom: normalize(8),
+							}}
+						>
+							Gender
+						</Text>
+						<RNPickerSelect
+							onValueChange={(value) => setGender(value)}
+							placeholder={{
+								label: 'Select your gender',
+								value: null,
+								color: '#9EA0A4',
+							}}
+							items={[
+								{ label: 'Male', value: 'male' },
+								{ label: 'Female', value: 'female' },
+								{ label: 'Wish not to respond', value: 'wishNotToRespond' },
+							]}
+							style={{
+								viewContainer: { backgroundColor: semantic.fill.f04, borderRadius: normalize(8) },
+							}}
+							darkTheme={true}
+						/>
+					</View>
+					<View style={styles.formControl}>
+						<Input leftIcon={<Icon icon={Globe} />} label="Country" placeholder="" value={country} editable={false} />
 					</View>
 				</View>
 				<Text style={styles.error}>{errorMsg}</Text>

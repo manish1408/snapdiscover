@@ -25,12 +25,18 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 // @react-native-google-signin/google-signin
 import com.reactnativegooglesignin.RNGoogleSigninPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
+// react-native-localize
+import com.zoontek.rnlocalize.RNLocalizePackage;
 // react-native-permissions
 import com.zoontek.rnpermissions.RNPermissionsPackage;
+// react-native-reanimated
+import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-restart
 import com.reactnativerestart.RestartPackage;
 // react-native-safe-area-context
@@ -95,9 +101,12 @@ public class PackageList {
       new ReactNativeFirebaseMessagingPackage(),
       new ReactNativeFirebaseStoragePackage(),
       new RNGoogleSigninPackage(),
+      new RNCPickerPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
+      new RNLocalizePackage(),
       new RNPermissionsPackage(),
+      new ReanimatedPackage(),
       new RestartPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
