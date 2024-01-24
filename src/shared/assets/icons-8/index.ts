@@ -37,3 +37,4 @@ export { default as WarningIcon } from './warning-icon.png';
 export { default as Globe } from './globe.png';
 export { default as Lock } from './lock.png';
 export { default as Envelope } from './envelope.png';
+export { default as AgeTimeline } from './age-timeline.png';

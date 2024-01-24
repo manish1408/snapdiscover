@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from '@/shared/components/wrapper';
 import Typography from '@/shared/components/typography';
 import Input from '@/shared/components/input';
-import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from '@/shared/components/buttons';
 import { styles } from './styles';
 import TitleAuth from '@/shared/components/titleAuth';
 import Icon from '@/shared/components/icon';
-import { lock, mail, user } from '@/shared/assets/icons';
+import { arrowBack, lock, mail, user } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '@/shared/routes/stack';
 import { isValidEmail, normalize } from '@/shared/helpers';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { eyeOff, eye, Globe, userFIlled, Envelope, Lock } from '@/shared/assets/icons-8';
+import { eyeOff, eye, Globe, userFIlled, Envelope, Lock, AgeTimeline } from '@/shared/assets/icons-8';
 import ShowHidePassword from '@/shared/components/showHidePassword';
 import { useUser } from '@/shared/hooks/userContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,6 +25,8 @@ import * as RNLocalize from 'react-native-localize';
 const dataSource = Array.from({ length: 43 }, (_, i) => (i + 18).toString());
 import DeviceCountry from 'react-native-device-country';
 import COUNTRIES from '@/shared/helpers/countries';
+import ButtonSheet from '@/shared/components/buttonSheet';
+import { OptionCardOptions } from '@/shared/components/ListOptionCard';
 export default function CreateAccount() {
 	const { navigate } = useNavigation<NavigationProps>();
 
@@ -36,7 +38,7 @@ export default function CreateAccount() {
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 	const [country, setCountry] = useState('');
 	const [gender, setGender] = useState('');
-	const [age, setAge] = useState(18);
+	const [age, setAge] = useState('');
 	const { updateUser } = useUser();
 
 	useEffect(() => {
@@ -113,6 +115,16 @@ export default function CreateAccount() {
 	};
 	const ref = useRef();
 
+	// New Age BottomSheet
+
+	const [openModal, setOpenModal] = useState(false);
+
+	function toggleModal() {
+		setOpenModal(!openModal);
+	}
+
+	const ages = Array.from({ length: 43 }, (_, i) => (i + 18).toString());
+
 	return (
 		<Wrapper loading={isLoading}>
 			<View style={styles.container}>
@@ -142,7 +154,7 @@ export default function CreateAccount() {
 							onChangeText={(text) => setPassword(text)}
 						/>
 					</View>
-					<View style={styles.formControl}>
+					{/* <View style={styles.formControl}>
 						<Text
 							style={{
 								fontSize: normalize(16),
@@ -164,7 +176,59 @@ export default function CreateAccount() {
 							highlightBorderWidth={1}
 							onValueChange={(value, index) => setAge(value)}
 						/>
+					</View> */}
+
+					{/* Button Sheet Age*/}
+					<View style={styles.formControl}>
+						<Text
+							style={{
+								fontSize: normalize(16),
+								fontWeight: '300',
+								color: semantic.text.black,
+								marginBottom: normalize(8),
+							}}
+						>
+							Age
+						</Text>
+						<TouchableOpacity onPress={() => toggleModal()}>
+							<Input leftIcon={<Icon icon={AgeTimeline} />} placeholder="" value={age} editable={false} />
+						</TouchableOpacity>
 					</View>
+
+					<ButtonSheet dispatch={openModal}>
+						<View style={{ padding: normalize(24) }}>
+							<TouchableOpacity onPress={toggleModal} style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Icon
+									customStyles={{
+										tintColor: semantic.text.grey,
+									}}
+									icon={arrowBack}
+								/>
+								<Typography style={{ fontWeight: '700', fontSize: normalize(24), marginLeft: normalize(10) }}>Select Age</Typography>
+							</TouchableOpacity>
+							<View style={styles.ageContainer}>
+								<ScrollView>
+									{ages.map((age) => (
+										<TouchableOpacity
+											key={age}
+											onPress={() => {
+												setAge(age.toString());
+												toggleModal();
+											}}
+										>
+											<View style={styles.ageWrapper}>
+												<Typography translate={false} style={styles.ageItem}>
+													{age}
+												</Typography>
+											</View>
+										</TouchableOpacity>
+									))}
+								</ScrollView>
+							</View>
+						</View>
+					</ButtonSheet>
+
+					{/*Bottom Sheet Age End*/}
 					<View style={styles.formControl}>
 						<Text
 							style={{

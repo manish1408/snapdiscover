@@ -32,4 +32,32 @@ export const styles = StyleSheet.create({
 		marginBottom: 10,
 		color: semantic.text.red,
 	},
+	// Age
+	selectedAge: {
+		fontSize: 18,
+		padding: 10,
+		borderWidth: 1,
+		borderColor: '#ccc',
+		borderRadius: 5,
+	},
+	modal: {
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	ageContainer: {
+		height: 200,
+		textAlign: 'center',
+		borderRadius: 10,
+		backgroundColor: 'white',
+	},
+	scrollViewContent: {
+		flexGrow: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	ageWrapper: { alignItems: 'center', borderBottomWidth: 1, borderBottomColor: semantic.fill.f04 },
+	ageItem: {
+		fontSize: normalize(16),
+		padding: normalize(10),
+	},
 });
