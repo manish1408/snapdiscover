@@ -24,108 +24,75 @@ import {
 } from "react-native-vision-camera";
 import Icon from "@/shared/components/icon";
 import { GrantPermission } from "@/shared/components/grantPermission";
-import RNFS from "react-native-fs";
+import storage from "@react-native-firebase/storage";
+import functions from "@react-native-firebase/functions";
 
 export default function CameraScreen() {
   const [openModal, setOpenModal] = useState(false);
   const [found, setFound] = useState(false);
   const [upload, setUpload] = useState(false);
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [photoBase64, setBase64Photo] = useState<string>("");
+  const [photo, setPhoto] = useState<any>("");
+  const [photoBase64, setBase64Photo] = useState<any>("");
   const camera = useRef<Camera>(null);
   const device = useCameraDevice("back") || null;
   useEffect(() => {
     // getPermission();
     requestCameraPermission();
-    setPhoto(null);
   }, []);
-  // async function getPermission() {
-  // 	const cameraPermission = await Camera.requestCameraPermission();
-  // 	const microphonePermission = await Camera.requestCameraPermission();
-  // 	console.log(cameraPermission);
-  // }
+
   async function takePicture() {
     const img = await camera?.current?.takePhoto({ enableShutterSound: false });
-	const uriPath  = img?.path || '';
-	console.log(uriPath);
+    const uriPath = img?.path;
+    console.log(uriPath);
     setPhoto(uriPath);
-    RNFS.readFile(uriPath, "base64").then((res) => {
-	  setBase64Photo(res);
-
-      console.log("------------");
-
-    });
-
-    // fetchImage(`file://${img.name}`);
   }
   function toggleModal() {
     setOpenModal(!openModal);
   }
 
-//   const fetchImage = async (uri: string) => {
-//     const imageResponse = await fetch(uri);
-//     console.log("11111");
-//     console.log(imageResponse);
-//     const imageBlob = await imageResponse.blob();
-//     const base64Data = await blobToBase64(imageBlob);
-//     setBase64Photo(base64Data);
-//   };
+  const uploadImageToBucket = async () => {
+    const timestamp = Date.now();
+    const randomSuffix = Math.floor(Math.random() * 10000);
+    const randomFilename = `image_${timestamp}_${randomSuffix}.jpg`;
 
-//   const blobToBase64 = (blob: any): Promise<string> => {
-//     return new Promise((resolve, reject) => {
-//       const reader = new FileReader();
-//       reader.onerror = reject;
-//       reader.onload = () => {
-//         resolve(String(reader.result));
-//       };
-//       reader.readAsDataURL(blob);
-//     });
-//   };
-
-  async function uploadPhoto() {
-
-    const formData = new FormData();
-
-
-	const pathArr = photo?.split('/') || '';
-
-  	const fileName = pathArr[pathArr.length - 1];
-
-  
-	const filePayload = `data:image/jpeg;name=${fileName};base64,${photoBase64}`;
-	
-	console.log('@@@@@@@@@@@@@@@@@@@@@@@@');
-	console.log(filePayload);
-
-    formData.append("file", filePayload);
-    formData.append("providers", "google");
-
-    const response = await fetch("https://api.edenai.run/v2/ocr/ocr", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjQ2YjkyMzctYTRlNy00YjI0LTkzMzEtZDFmYzllYWY4ZmI1IiwidHlwZSI6ImFwaV90b2tlbiJ9.juwh59zTrzcpEaJzAyleZ8gfXIcEXDW3sokxAiPbHBI",
-      },
-      body: formData,
+    const referencePath = `ocr/${randomFilename}`;
+    const reference = storage().ref(referencePath);
+    const task = reference.putFile(photo);
+    task.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      // console.log(`Upload is ${progress}% done`);
     });
 
-    const data = await response.json();
-    console.log(data);
-    Alert.alert(JSON.stringify(data));
+    setUpload(true);
+    task.then(async () => {
+      // console.log('Image uploaded to the bucket!');
+    });
 
-    // setOpenModal(true);
-    // setUpload(true);
-    // setTimeout(() => {
-    // 	setUpload(false);
-    // 	let isFound = true;
-    // 	if (isFound) {
-    // 		setFound(isFound);
-    // 		navigateTo();
-    // 	}
-    // }, 2000);
-  }
+    await task;
+    setUpload(false);
+
+    const imageUrl = await reference.getDownloadURL();
+    Alert.alert(imageUrl);
+    processOCR(imageUrl);
+  };
+
+  const processOCR = async (imageUrl: any) => {
+    functions()
+      .httpsCallable("addnumbers")({ firstNumber: imageUrl })
+      .then((response: any) => {
+        Alert.alert(JSON.stringify(response.data));
+        // setOpenModal(true);
+        // setUpload(true);
+        // setTimeout(() => {
+        // 	setUpload(false);
+        // 	let isFound = true;
+        // 	if (isFound) {
+        // 		setFound(isFound);
+        // 		navigateTo();
+        // 	}
+        // }, 2000);
+      });
+  };
 
   const navigation = useNavigation<NavigationProps>();
 
@@ -134,6 +101,7 @@ export default function CameraScreen() {
     console.log(product);
     navigation.navigate("detailProduct", { ...product });
   }
+
   const [cameraPermissionStatus, setCameraPermissionStatus] =
     useState<CameraPermissionStatus>("not-determined");
   const [display, setDisplay] = useState<boolean | null>(null);
@@ -166,7 +134,7 @@ export default function CameraScreen() {
           <View style={styles.imgBtnWrapper}>
             <TouchableOpacity
               style={styles.imgBtn}
-              onPress={() => uploadPhoto()}
+              onPress={() => uploadImageToBucket()}
             >
               <Text style={{ color: "#000000" }}>Confirm</Text>
             </TouchableOpacity>
