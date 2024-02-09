@@ -16,7 +16,6 @@ import Typography from "@/shared/components/typography";
 import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "@/shared/routes/stack";
-import { MOCKUP_PRODUCTS } from "@/db/index";
 import {
   Camera,
   CameraPermissionStatus,
@@ -25,20 +24,24 @@ import {
 import Icon from "@/shared/components/icon";
 import { GrantPermission } from "@/shared/components/grantPermission";
 import storage from "@react-native-firebase/storage";
-import functions from "@react-native-firebase/functions";
+import useFetchCollections from "@/shared/hooks/useFetchCollections";
+import firestore from "@react-native-firebase/firestore";
 
 export default function CameraScreen() {
   const [openModal, setOpenModal] = useState(false);
   const [found, setFound] = useState(false);
-  const [upload, setUpload] = useState(false);
+  const [ocrInProgress, setOCRInProgress] = useState(false);
+
   const [photo, setPhoto] = useState<any>("");
-  const [photoBase64, setBase64Photo] = useState<any>("");
   const camera = useRef<Camera>(null);
   const device = useCameraDevice("back") || null;
   useEffect(() => {
     // getPermission();
     requestCameraPermission();
   }, []);
+
+  // Firebase
+  const { data: keywords, loading } = useFetchCollections("searchKeywords");
 
   async function takePicture() {
     const img = await camera?.current?.takePhoto({ enableShutterSound: false });
@@ -60,46 +63,108 @@ export default function CameraScreen() {
     const task = reference.putFile(photo);
     task.on("state_changed", (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      // console.log(`Upload is ${progress}% done`);
     });
 
-    setUpload(true);
+    setOpenModal(true);
+    setOCRInProgress(true);
     task.then(async () => {
-      // console.log('Image uploaded to the bucket!');
+      console.log("Image uploaded to the bucket!");
     });
 
     await task;
-    setUpload(false);
 
     const imageUrl = await reference.getDownloadURL();
-    Alert.alert(imageUrl);
+
     processOCR(imageUrl);
   };
 
   const processOCR = async (imageUrl: any) => {
-    functions()
-      .httpsCallable("addnumbers")({ firstNumber: imageUrl })
-      .then((response: any) => {
-        Alert.alert(JSON.stringify(response.data));
-        // setOpenModal(true);
-        // setUpload(true);
-        // setTimeout(() => {
-        // 	setUpload(false);
-        // 	let isFound = true;
-        // 	if (isFound) {
-        // 		setFound(isFound);
-        // 		navigateTo();
-        // 	}
-        // }, 2000);
+    console.log(imageUrl);
+    fetch("https://api.edenai.run/v2/ocr/ocr", {
+      method: "POST",
+      mode: "same-origin",
+      body: JSON.stringify({
+        providers: "google",
+        file_url: imageUrl,
+      }),
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjQ2YjkyMzctYTRlNy00YjI0LTkzMzEtZDFmYzllYWY4ZmI1IiwidHlwZSI6ImFwaV90b2tlbiJ9.juwh59zTrzcpEaJzAyleZ8gfXIcEXDW3sokxAiPbHBI",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((ocrResult) => {
+        if (ocrResult && ocrResult.google) {
+          searchForProducts(ocrResult.google.text);
+        } else {
+          setFound(false);
+        }
       });
+  };
+
+  const getData = async (item: any) => {
+    try {
+      console.log(item);
+      let searchQuery = item.toLowerCase();
+      const result = await firestore()
+        .collection("products")
+        .where("keyword1", "==", searchQuery)
+        .get();
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  };
+  const searchForProducts = async (inputFromOCR: string) => {
+
+    console.log("searching for products" , inputFromOCR);
+    const qualifiedKeywords: any[] = [];
+    keywords.forEach((element) => {
+      if (inputFromOCR.toLowerCase().includes(element.key.toLowerCase())) {
+        qualifiedKeywords.push(element.key);
+      }
+    });
+
+    console.log("qualifiedKeywords" , qualifiedKeywords);
+
+    const outputList: any[] = [];
+    const promises = [];
+
+    for (var i = 0; i < qualifiedKeywords.length; i++) {
+      const element = qualifiedKeywords[i];
+      promises.push(getData(element));
+    }
+
+    const result = await Promise.all(promises);
+    result.forEach((r) => {
+      if (r.empty) {
+        console.log("No matching documents.");
+        setOCRInProgress(false);
+        setFound(false);
+      } else {
+        r.forEach((doc) => {
+          outputList.push(doc.data());
+        });
+
+        setOCRInProgress(false);
+        setFound(true);
+        setOpenModal(false);
+        navigateTo(outputList);
+      }
+    });
+
+   
   };
 
   const navigation = useNavigation<NavigationProps>();
 
-  function navigateTo() {
-    const product = MOCKUP_PRODUCTS[0];
-    console.log(product);
-    navigation.navigate("detailProduct", { ...product });
+  function navigateTo(foundProducts: any) {
+    console.log("foundProducts", foundProducts);
+    const product = foundProducts[0];
+    console.log("product.id", product.id);
+    navigation.navigate('detailProduct', { id: product.id });
   }
 
   const [cameraPermissionStatus, setCameraPermissionStatus] =
@@ -138,6 +203,7 @@ export default function CameraScreen() {
             >
               <Text style={{ color: "#000000" }}>Confirm</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.imgBtn}
               onPress={() => {
@@ -165,7 +231,51 @@ export default function CameraScreen() {
                 </Typography>
               </TouchableOpacity>
 
-              {upload && (
+              {!found && !ocrInProgress && (
+                <View
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                    gap: 20,
+                  }}
+                >
+                  <Typography
+                    style={{
+                      fontWeight: "700",
+                      fontSize: 16,
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    We were not able to identify it. Ensure that the corners of
+                    the product is in the picture and keep and eye on the
+                    lightning.
+                  </Typography>
+
+                  <TouchableOpacity
+                    style={styles.imgBtn}
+                    onPress={() => uploadImageToBucket()}
+                  >
+                    <Text style={{ color: "#000000" }}>Upload Photo</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.imgBtn}
+                    onPress={() => {
+                      toggleModal();
+                      setPhoto(null);
+                    }}
+                  >
+                    <Text style={{ color: "#000000" }}>Retake Photo</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {ocrInProgress && (
                 <>
                   <View
                     style={{
@@ -198,79 +308,6 @@ export default function CameraScreen() {
                   </View>
                   <ActivityIndicator />
                 </>
-              )}
-              {!found && !upload && (
-                <View
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignSelf: "center",
-                    gap: 20,
-                  }}
-                >
-                  <Typography
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 16,
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    We were not able to identify it. Ensure that the corners of
-                    the product is in the picture and keep and eye on the
-                    lightning.
-                  </Typography>
-
-                  <TouchableOpacity
-                    style={styles.imgBtn}
-                    onPress={() => uploadPhoto()}
-                  >
-                    <Text style={{ color: "#000000" }}>Upload Photo</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.imgBtn}
-                    onPress={() => {
-                      toggleModal();
-                      setPhoto(null);
-                    }}
-                  >
-                    <Text style={{ color: "#000000" }}>Retake Photo</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-              {found && !upload && (
-                <View
-                  style={{
-                    height: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  <Typography
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 24,
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    Bingo.
-                  </Typography>
-                  <Typography
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 16,
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    We found a match redirecting you for the insights.
-                  </Typography>
-                </View>
               )}
             </View>
           </ButtonSheet>
