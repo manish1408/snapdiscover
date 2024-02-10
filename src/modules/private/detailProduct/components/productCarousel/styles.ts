@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { normalize } from '@/shared/helpers';
 import { semantic } from '@/shared/constants/colors';
+import { Dimensions } from "react-native";
 
 export const _styles = (isDarkMode: boolean) =>
 	StyleSheet.create({
@@ -12,7 +13,7 @@ export const _styles = (isDarkMode: boolean) =>
 		imgWrapper: { display: 'flex', flexDirection: 'column', alignItems: 'center' },
 		image: {
 			height: normalize(325),
-			width: normalize(100),
+			width: Dimensions.get('window').width,
 			borderRadius: normalize(12),
 		},
 		paginationContainer: {

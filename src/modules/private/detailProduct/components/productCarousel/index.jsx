@@ -12,7 +12,7 @@ import useDarkMode from "@/shared/hooks/useDarkMode";
 import { semantic } from "@/shared/constants/colors";
 import Typography from "@/shared/components/typography";
 import { normalize } from "@/shared/helpers";
-import Carousel from 'react-native-reanimated-carousel';
+import Carousel from "react-native-reanimated-carousel";
 
 // export const ProductCarousel = ({ images }) => {
 //   const { isDarkMode } = useDarkMode();
@@ -63,16 +63,15 @@ import Carousel from 'react-native-reanimated-carousel';
 //   );
 // };
 
-
-export const ProductCarousel = ({images}) => {
+export const ProductCarousel = ({ images }) => {
   const styles = _styles(false);
-    const isCarousel = useRef(null);
-      const sliderWidth = Dimensions.get("window").width + 80;
+  const isCarousel = useRef(null);
+  const sliderWidth = Dimensions.get("window").width + 80;
   const itemWidth = Math.round(sliderWidth * 0.7);
 
-      const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(0);
+  const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(0);
 
-    const renderItem = ({ item, index }) => {
+  const renderItem = ({ item, index }) => {
     return (
       <View style={styles.imgWrapper}>
         <Image style={styles.image} source={{ uri: item }} />
@@ -80,12 +79,12 @@ export const ProductCarousel = ({images}) => {
     );
   };
   return (
-        <View style={styles.wrapper}>
+    <View style={styles.wrapper}>
       {images && (
         <View style={styles.imgWrapper}>
-        <Image style={styles.image} source={{ uri: images[0] }} />
-      </View>
+          <Image style={styles.image} source={{ uri: images[0] }} />
+        </View>
       )}
     </View>
-  )
-}
+  );
+};

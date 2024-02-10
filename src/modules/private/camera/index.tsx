@@ -26,11 +26,18 @@ import { GrantPermission } from "@/shared/components/grantPermission";
 import storage from "@react-native-firebase/storage";
 import useFetchCollections from "@/shared/hooks/useFetchCollections";
 import firestore from "@react-native-firebase/firestore";
+import {
+  createDocument,
+  updateDocument,
+} from "@/shared/helpers/firebaseHelper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUser } from "@/shared/hooks/userContext";
 
 export default function CameraScreen() {
   const [openModal, setOpenModal] = useState(false);
   const [found, setFound] = useState(false);
   const [ocrInProgress, setOCRInProgress] = useState(false);
+  const { user, updateUser } = useUser();
 
   const [photo, setPhoto] = useState<any>("");
   const camera = useRef<Camera>(null);
@@ -95,9 +102,9 @@ export default function CameraScreen() {
       },
     })
       .then((response) => response.json())
-      .then((ocrResult) => {
+      .then((ocrResult: any) => {
         if (ocrResult && ocrResult.google) {
-          searchForProducts(ocrResult.google.text);
+          searchForProducts(ocrResult.google.text, imageUrl);
         } else {
           setFound(false);
         }
@@ -117,17 +124,18 @@ export default function CameraScreen() {
       throw err;
     }
   };
-  const searchForProducts = async (inputFromOCR: string) => {
-
-    console.log("searching for products" , inputFromOCR);
+  const searchForProducts = async (inputFromOCR: string, imageUrl: string) => {
+    console.log("searching for products", inputFromOCR);
     const qualifiedKeywords: any[] = [];
     keywords.forEach((element) => {
       if (inputFromOCR.toLowerCase().includes(element.key.toLowerCase())) {
-        qualifiedKeywords.push(element.key);
+        if (element.key !== "" && element.key.length > 1) {
+          qualifiedKeywords.push(element.key);
+        }
       }
     });
 
-    console.log("qualifiedKeywords" , qualifiedKeywords);
+    console.log("qualifiedKeywords", qualifiedKeywords);
 
     const outputList: any[] = [];
     const promises = [];
@@ -140,31 +148,80 @@ export default function CameraScreen() {
     const result = await Promise.all(promises);
     result.forEach((r) => {
       if (r.empty) {
-        console.log("No matching documents.");
-        setOCRInProgress(false);
         setFound(false);
       } else {
         r.forEach((doc) => {
           outputList.push(doc.data());
         });
+        if (outputList.length > 0) {
+          setFound(true);
+          setOCRInProgress(false);
+          setOpenModal(false);
 
-        setOCRInProgress(false);
-        setFound(true);
-        setOpenModal(false);
-        navigateTo(outputList);
+          console.log("Product us matched ", outputList);
+          navigateTo(outputList);
+
+          // delete the already found file
+          const reference = storage().refFromURL(imageUrl);
+          reference.delete();
+        } else {
+          setFound(false);
+        }
       }
     });
 
-   
+    console.log("Found value is ", found);
+
+    if (!found) {
+      setOCRInProgress(false);
+      setOpenModal(true);
+      insertNotFoundtoDB(inputFromOCR, imageUrl);
+    }
+  };
+
+  const insertNotFoundtoDB = async (
+    inputFromOCR: string,
+    cameraImage: string
+  ) => {
+    const data = {
+      inputFromOCR: inputFromOCR,
+      cameraImage: cameraImage,
+      isReviewed: false,
+    };
+    await createDocument("unidentifiedScans", data);
   };
 
   const navigation = useNavigation<NavigationProps>();
 
-  function navigateTo(foundProducts: any) {
+  async function navigateTo(foundProducts: any) {
     console.log("foundProducts", foundProducts);
     const product = foundProducts[0];
-    console.log("product.id", product.id);
-    navigation.navigate('detailProduct', { id: product.id });
+
+    setPhoto(null);
+    navigation.navigate("detailProduct", { id: product.id });
+
+    // push the result to users scan list
+    const userString = (await AsyncStorage.getItem("user")) ?? "";
+    const user = JSON.parse(userString);
+
+    const userRef = firestore().collection("users").doc(user.uid);
+    const userDoc = await userRef.get();
+    if (userDoc.exists) {
+      const currentScans = userDoc?.data().userScans || [];
+
+      const isProductInScans = currentScans.includes(product.id);
+      if (isProductInScans) {
+        const updatedScans = currentScans.filter((id) => id !== product.id);
+        await userRef.update({ userScans: updatedScans });
+        updateUser({ ...userDoc.data(), userScans: updatedScans });
+      } else {
+        const updatedScans = [...currentScans, product.id];
+        await userRef.update({ userScans: updatedScans });
+        updateUser({ ...userDoc.data(), userScans: updatedScans });
+      }
+    } else {
+      console.error("User document not found");
+    }
   }
 
   const [cameraPermissionStatus, setCameraPermissionStatus] =
@@ -216,10 +273,8 @@ export default function CameraScreen() {
           <ButtonSheet dispatch={openModal}>
             <View style={{ padding: normalize(24), height: "70%" }}>
               <TouchableOpacity
-                onPress={toggleModal}
                 style={{ flexDirection: "row", alignItems: "center" }}
               >
-                <Icon icon={arrowBack} />
                 <Typography
                   style={{
                     fontWeight: "700",
@@ -227,7 +282,7 @@ export default function CameraScreen() {
                     marginLeft: normalize(10),
                   }}
                 >
-                  Upload Photo
+                  Scan result
                 </Typography>
               </TouchableOpacity>
 
@@ -251,17 +306,10 @@ export default function CameraScreen() {
                       textAlign: "center",
                     }}
                   >
-                    We were not able to identify it. Ensure that the corners of
-                    the product is in the picture and keep and eye on the
-                    lightning.
+                    We were not able to identify the product. Ensure that the
+                    corners of the product is in the picture and keep and eye on
+                    the lightning.
                   </Typography>
-
-                  <TouchableOpacity
-                    style={styles.imgBtn}
-                    onPress={() => uploadImageToBucket()}
-                  >
-                    <Text style={{ color: "#000000" }}>Upload Photo</Text>
-                  </TouchableOpacity>
 
                   <TouchableOpacity
                     style={styles.imgBtn}
