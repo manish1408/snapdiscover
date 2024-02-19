@@ -19,6 +19,8 @@ import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 // @react-native-firebase/firestore
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
+// @react-native-firebase/functions
+import io.invertase.firebase.functions.ReactNativeFirebaseFunctionsPackage;
 // @react-native-firebase/messaging
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 // @react-native-firebase/storage
@@ -29,6 +31,8 @@ import com.reactnativegooglesignin.RNGoogleSigninPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-device-country
 import com.reactnativedevicecountry.DeviceCountryPackage;
+// react-native-fs
+import com.rnfs.RNFSPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-image-picker
@@ -100,11 +104,13 @@ public class PackageList {
       new ReactNativeFirebaseAppPackage(),
       new ReactNativeFirebaseAuthPackage(),
       new ReactNativeFirebaseFirestorePackage(),
+      new ReactNativeFirebaseFunctionsPackage(),
       new ReactNativeFirebaseMessagingPackage(),
       new ReactNativeFirebaseStoragePackage(),
       new RNGoogleSigninPackage(),
       new RNCPickerPackage(),
       new DeviceCountryPackage(),
+      new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
       new RNLocalizePackage(),
