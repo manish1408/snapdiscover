@@ -10,6 +10,7 @@
 		00E356F31AD99517003FC87E /* plantifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* plantifyTests.m */; };
 		05878026602F46C191B442B3 /* Urbanist-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2ED113A906004F65BF2FE194 /* Urbanist-Italic.ttf */; };
 		13A302312B4A7E8500740F50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13A302302B4A7E8500740F50 /* GoogleService-Info.plist */; };
+		13A35A412B7DB15000C0865D /* Discove logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A35A402B7DB15000C0865D /* Discove logo.png */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -52,6 +53,7 @@
 		00E356F21AD99517003FC87E /* plantifyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = plantifyTests.m; sourceTree = "<group>"; };
 		0C4F6016D792472083BB5B08 /* Urbanist-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Urbanist-SemiBoldItalic.ttf"; path = "../src/shared/assets/fonts/Urbanist-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		13A302302B4A7E8500740F50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		13A35A402B7DB15000C0865D /* Discove logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Discove logo.png"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* plantify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plantify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = plantify/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = plantify/AppDelegate.mm; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* plantify */ = {
 			isa = PBXGroup;
 			children = (
+				13A35A402B7DB15000C0865D /* Discove logo.png */,
 				A80611AF2B57B87A008BA75E /* plantify.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -315,6 +318,7 @@
 				5C4DCA342B114A05A4FB900B /* Urbanist-Black.ttf in Resources */,
 				5C1C7CA64CA14FF795E40DF9 /* Urbanist-BlackItalic.ttf in Resources */,
 				8EF0E19D65734DB790A6251E /* Urbanist-Bold.ttf in Resources */,
+				13A35A412B7DB15000C0865D /* Discove logo.png in Resources */,
 				994A1FA87E004FD58FCB822E /* Urbanist-BoldItalic.ttf in Resources */,
 				EE05484D28B44A328415F9E5 /* Urbanist-ExtraBold.ttf in Resources */,
 				FD299823F9D1451CA365B039 /* Urbanist-ExtraBoldItalic.ttf in Resources */,
@@ -584,6 +588,7 @@
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-plantify.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = plantify/plantify.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -614,6 +619,7 @@
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-plantify.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = plantify/plantify.entitlements;
 				CURRENT_PROJECT_VERSION = 1;

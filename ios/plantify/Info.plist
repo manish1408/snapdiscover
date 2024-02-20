@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Snapz</string>
+	<string>Discove</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,10 +41,10 @@
 	<string>$(PRODUCT_NAME) needs access to your Location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	 <key>NSPhotoLibraryUsageDescription</key>
-  <string>$(PRODUCT_NAME) needs access to your Files.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Files.</string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to send you notifications.</string>
 	<key>UIAppFonts</key>
@@ -74,7 +74,7 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
